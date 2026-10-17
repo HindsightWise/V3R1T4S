@@ -2,7 +2,6 @@
 
 - `context`: subagent (fresh invocation)
 - `target_id`: `ihtp-ihtc2024-hidden-m-instances-upper-bounds`
-- `package`: `2026-10-17-zerbytheboss-1084ec80`
 - `audit_utc`: `2026-10-17T17:00:10Z`
 
 ## Literal Success Criterion Audit
