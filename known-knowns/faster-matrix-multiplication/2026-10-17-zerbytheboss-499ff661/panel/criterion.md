@@ -2,7 +2,6 @@
 
 - `context`: subagent (fresh invocation)
 - `target_id`: `fmm-ternary-integer-ring-upgrade`
-- `package`: `2026-10-17-zerbytheboss-499ff661`
 - `audit_utc`: `2026-10-17T17:00:10Z`
 
 ## Literal Success Criterion Audit

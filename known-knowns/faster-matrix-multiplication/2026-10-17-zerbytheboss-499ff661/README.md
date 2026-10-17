@@ -26,6 +26,7 @@ In the same campaign, our coupled factor-block signed Hensel lifting and ternary
 
 ## Not Claimed
 - We do not claim a new rational (`Q`) or unrestricted integer (`Z`) rank below 645 or 654 for `6x12x14`; rather, we prove that rank **654** is achievable strictly within the restricted ternary coefficient set `ZT = {-1, 0, 1}` (with zero `+/-2` coefficients), reducing the best known `ZT` rank from `666` to `654` (`-12`) and closing `12 / 21 = 57.14% >= 50%` of the `ZT-to-Q` rank gap and `100%` of the `ZT-to-Z` gap.
+- **Block-composition disclosure**: Rank `654 = 2 x 327` for `6x12x14` over `ZT` is constructed via the direct Kronecker block product of Perminov's published `3x12x14_m327_ZT.json` (`m = 327`) with the `2x1x1` (`m = 2`) identity block (and similarly `14x15x15: 1895 = 1516 + 379` via `14x15x12 + 14x15x3`, `10x15x15: 1389 = 2x556 + 277`, `10x15x16: 1484 = 2x742`, `9x10x13: 767 = 590 + 177`, `9x10x16: 922 = 2x461`), closing unpropagated block-product gaps in Perminov's live `schemes/results/ZT/` table where `schemes/results/Z/` had already been updated.
 
 ## Credits
 - **Contributor**: `Zerbytheboss` (GitHub account `HindsightWise` is operated by `Zerbytheboss`).
