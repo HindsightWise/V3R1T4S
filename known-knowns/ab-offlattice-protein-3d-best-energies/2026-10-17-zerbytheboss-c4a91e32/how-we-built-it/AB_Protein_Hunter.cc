@@ -1,11 +1,14 @@
 // ============================================================================
-// AB_Protein_Hunter.cc — v3 with Tri-Class Rigid-Core Polymer Moves:
-//   - Class I:   N-Terminal Tail Re-Docking (k = 1..8, leaves core 100% rigid)
-//   - Class II:  C-Terminal Tail Re-Docking (k = 1..8, leaves core 100% rigid)
-//   - Class III: Exact Sum-Preserving Internal Loop Bridges (3-bond S^2 x S^1
-//                bridge, 4-bond quad bridge, crankshafts, bond swaps, reversals,
-//                and reptation — leaves both prefix and suffix 100% rigid)
-//   + Soft-Core L-BFGS & Damped Newton-Raphson Polisher (||grad||_2 < 1e-13)
+// AB_Protein_Hunter.cc — v4 Deep Multi-Minute Hunter for 2EWH, F89, 1PCH
+//   1. Exact C^2-Smooth Quadratic Taylor Soft-Core Homotopy Continuation
+//      (u_c = 0.85 -> 0.55 -> 0.0) so L-BFGS line searches never stall on
+//      steric clashes and chains can tunnel smoothly through barriers.
+//   2. Per-Residue Frustration Profiler: identifies the weakest-bound A
+//      residues and most repulsively frustrated B residues, focusing
+//      single-vertex crankshafts, 2-bond flips, and 3/4-bond S^2 x S^1
+//      spherical bridges directly on frustrated hotspots.
+//   3. Extended N-Terminal & C-Terminal Subchain Hinge/Crankshaft Re-Docking
+//      (k = 1..20) + Multi-Temperature Basin Hopping + Newton-Raphson Polisher.
 // ============================================================================
 #include <iostream>
 #include <fstream>
@@ -19,7 +22,7 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
-#include "json.hpp"
+#include "/tmp/ihtp_hunt/json.hpp"
 
 using json = nlohmann::json;
 
@@ -61,6 +64,7 @@ inline void u_to_angles(int L, const double* ux, const double* uy, const double*
     }
 }
 
+// Exact C^2-smooth soft-core energy & gradient when u_cut > 0
 inline double eval_energy_and_grad(
     const Instance& inst,
     const double* __restrict x,
@@ -75,7 +79,7 @@ inline double eval_energy_and_grad(
     double* __restrict gx,
     double* __restrict gy,
     double* __restrict gz,
-    double r2_floor = 1e-12
+    double u_cut = 0.0
 ) {
     const int L = inst.L;
     const int n_th = L - 2;
@@ -113,29 +117,76 @@ inline double eval_energy_and_grad(
 
     double E_lj = 0.0;
     const double* c_mat = inst.c_mat.data();
-    for (int i = 0; i < L - 2; ++i) {
-        const double pxi = px[i], pyi = py[i], pzi = pz[i];
-        double gxi = 0.0, gyi = 0.0, gzi = 0.0;
-        const double* c_row = c_mat + i * L;
-        for (int j = i + 2; j < L; ++j) {
-            const double dx = pxi - px[j];
-            const double dy = pyi - py[j];
-            const double dz = pzi - pz[j];
-            const double raw_r2 = dx * dx + dy * dy + dz * dz;
-            const double r2 = (raw_r2 < r2_floor) ? r2_floor : raw_r2;
-            const double inv_r2 = 1.0 / r2;
-            const double inv_r6 = inv_r2 * inv_r2 * inv_r2;
-            const double inv_r12 = inv_r6 * inv_r6;
-            const double cij = c_row[j];
-            E_lj += 4.0 * (inv_r12 - cij * inv_r6);
-            const double coef = 48.0 * inv_r2 * inv_r6 * (0.5 * cij - inv_r6);
-            const double fx = coef * dx;
-            const double fy = coef * dy;
-            const double fz = coef * dz;
-            gxi += fx; gyi += fy; gzi += fz;
-            gx[j] -= fx; gy[j] -= fy; gz[j] -= fz;
+
+    if (u_cut <= 1e-12) {
+        for (int i = 0; i < L - 2; ++i) {
+            const double pxi = px[i], pyi = py[i], pzi = pz[i];
+            double gxi = 0.0, gyi = 0.0, gzi = 0.0;
+            const double* c_row = c_mat + i * L;
+            for (int j = i + 2; j < L; ++j) {
+                const double dx = pxi - px[j];
+                const double dy = pyi - py[j];
+                const double dz = pzi - pz[j];
+                const double r2 = std::max(1e-12, dx * dx + dy * dy + dz * dz);
+                const double inv_r2 = 1.0 / r2;
+                const double inv_r6 = inv_r2 * inv_r2 * inv_r2;
+                const double inv_r12 = inv_r6 * inv_r6;
+                const double cij = c_row[j];
+                E_lj += 4.0 * (inv_r12 - cij * inv_r6);
+                const double coef = 48.0 * inv_r2 * inv_r6 * (0.5 * cij - inv_r6);
+                const double fx = coef * dx;
+                const double fy = coef * dy;
+                const double fz = coef * dz;
+                gxi += fx; gyi += fy; gzi += fz;
+                gx[j] -= fx; gy[j] -= fy; gz[j] -= fz;
+            }
+            gx[i] += gxi; gy[i] += gyi; gz[i] += gzi;
         }
-        gx[i] += gxi; gy[i] += gyi; gz[i] += gzi;
+    } else {
+        const double inv_uc = 1.0 / u_cut;
+        const double inv_uc3 = inv_uc * inv_uc * inv_uc;
+        const double inv_uc4 = inv_uc3 * inv_uc;
+        const double inv_uc5 = inv_uc4 * inv_uc;
+        const double inv_uc6 = inv_uc3 * inv_uc3;
+        const double inv_uc7 = inv_uc6 * inv_uc;
+        const double inv_uc8 = inv_uc4 * inv_uc4;
+
+        for (int i = 0; i < L - 2; ++i) {
+            const double pxi = px[i], pyi = py[i], pzi = pz[i];
+            double gxi = 0.0, gyi = 0.0, gzi = 0.0;
+            const double* c_row = c_mat + i * L;
+            for (int j = i + 2; j < L; ++j) {
+                const double dx = pxi - px[j];
+                const double dy = pyi - py[j];
+                const double dz = pzi - pz[j];
+                const double u = dx * dx + dy * dy + dz * dz;
+                const double cij = c_row[j];
+                double v, dv_du;
+                if (u >= u_cut) {
+                    const double inv_u = 1.0 / u;
+                    const double inv_u3 = inv_u * inv_u * inv_u;
+                    const double inv_u6 = inv_u3 * inv_u3;
+                    v = 4.0 * (inv_u6 - cij * inv_u3);
+                    dv_du = 24.0 * inv_u * inv_u3 * (0.5 * cij - inv_u3);
+                } else {
+                    // Exact C^2 quadratic Taylor polynomial in u = r^2 below u_cut
+                    const double v0 = 4.0 * (inv_uc6 - cij * inv_uc3);
+                    const double vp0 = 4.0 * (-6.0 * inv_uc7 + 3.0 * cij * inv_uc4);
+                    const double vpp0 = 24.0 * (7.0 * inv_uc8 - 2.0 * cij * inv_uc5);
+                    const double du = u - u_cut;
+                    v = v0 + vp0 * du + 0.5 * vpp0 * du * du;
+                    dv_du = vp0 + vpp0 * du;
+                }
+                E_lj += v;
+                const double coef = 2.0 * dv_du;
+                const double fx = coef * dx;
+                const double fy = coef * dy;
+                const double fz = coef * dz;
+                gxi += fx; gyi += fy; gzi += fz;
+                gx[j] -= fx; gy[j] -= fy; gz[j] -= fz;
+            }
+            gx[i] += gxi; gy[i] += gyi; gz[i] += gzi;
+        }
     }
 
     double sx = 0.0, sy = 0.0, sz = 0.0;
@@ -194,22 +245,58 @@ struct Workspace {
     std::vector<std::vector<double>> s_hist, y_hist;
     std::vector<double> rho_hist;
     std::vector<double> ux, uy, uz;
+    std::vector<double> res_e;
 
     Workspace(int L_, int D_) : L(L_), D(D_),
         px(L_), py(L_), pz(L_), ct(L_), st(L_), cb(L_), sb(L_), gx(L_), gy(L_), gz(L_),
         g(D_), g_prev(D_), x_new(D_), g_new(D_), d(D_), q(D_), alpha(M),
         s_hist(M, std::vector<double>(D_)), y_hist(M, std::vector<double>(D_)), rho_hist(M),
-        ux(L_ - 2), uy(L_ - 2), uz(L_ - 2) {}
+        ux(L_ - 2), uy(L_ - 2), uz(L_ - 2), res_e(L_) {}
 
-    double eval(const Instance& inst, const double* x, double* grad_out, double r2_floor = 1e-12) {
+    double eval(const Instance& inst, const double* x, double* grad_out, double u_cut = 0.0) {
         return eval_energy_and_grad(inst, x, grad_out,
             px.data(), py.data(), pz.data(),
             ct.data(), st.data(), cb.data(), sb.data(),
-            gx.data(), gy.data(), gz.data(), r2_floor);
+            gx.data(), gy.data(), gz.data(), u_cut);
     }
 
-    double lbfgs(const Instance& inst, std::vector<double>& x, int max_iter = 500, double gtol = 1e-11, double r2_floor = 1e-12) {
-        double f = eval(inst, x.data(), g.data(), r2_floor);
+    // Compute per-residue LJ energy to find frustrated hotspots
+    void compute_hotspots(const Instance& inst, const double* x, std::vector<int>& hotspots) {
+        eval(inst, x, g.data(), 0.0);
+        std::fill(res_e.begin(), res_e.end(), 0.0);
+        const double* c_mat = inst.c_mat.data();
+        for (int i = 0; i < L - 2; ++i) {
+            const double pxi = px[i], pyi = py[i], pzi = pz[i];
+            const double* c_row = c_mat + i * L;
+            for (int j = i + 2; j < L; ++j) {
+                const double dx = pxi - px[j];
+                const double dy = pyi - py[j];
+                const double dz = pzi - pz[j];
+                const double r2 = std::max(1e-12, dx * dx + dy * dy + dz * dz);
+                const double inv_r2 = 1.0 / r2;
+                const double inv_r6 = inv_r2 * inv_r2 * inv_r2;
+                const double e = 4.0 * (inv_r6 * inv_r6 - c_row[j] * inv_r6);
+                res_e[i] += 0.5 * e;
+                res_e[j] += 0.5 * e;
+            }
+        }
+        // Score frustration: for A, expected is ~ -4.0; for B, expected is ~ -0.5
+        std::vector<std::pair<double, int>> frust;
+        for (int i = 0; i < L; ++i) {
+            double target = (inst.seq[i] == 'A') ? -4.2 : -0.5;
+            frust.push_back({res_e[i] - target, i});
+        }
+        std::sort(frust.begin(), frust.end(), [](const auto& a, const auto& b) {
+            return a.first > b.first;
+        });
+        hotspots.clear();
+        for (int k = 0; k < std::min(16, L); ++k) {
+            hotspots.push_back(frust[k].second);
+        }
+    }
+
+    double lbfgs(const Instance& inst, std::vector<double>& x, int max_iter = 500, double gtol = 1e-11, double u_cut = 0.0) {
+        double f = eval(inst, x.data(), g.data(), u_cut);
         int hist_len = 0;
         int hist_head = 0;
 
@@ -261,12 +348,12 @@ struct Workspace {
                 hist_len = 0; hist_head = 0;
             }
 
-            double step = (dnorm > 0.25) ? (0.25 / dnorm) : 1.0;
+            double step = (dnorm > 0.30) ? (0.30 / dnorm) : 1.0;
             bool accepted = false;
             double f_new = f;
-            for (int ls = 0; ls < 35; ++ls) {
+            for (int ls = 0; ls < 30; ++ls) {
                 for (int i = 0; i < D; ++i) x_new[i] = x[i] + step * d[i];
-                f_new = eval(inst, x_new.data(), g_new.data(), r2_floor);
+                f_new = eval(inst, x_new.data(), g_new.data(), u_cut);
                 if (std::isfinite(f_new) && f_new <= f + 1e-4 * step * dg) {
                     accepted = true;
                     break;
@@ -303,12 +390,12 @@ struct Workspace {
     }
 
     double newton_polish(const Instance& inst, std::vector<double>& x) {
-        double f = lbfgs(inst, x, 2000, 1e-12, 1e-12);
+        double f = lbfgs(inst, x, 2000, 1e-12, 0.0);
         std::vector<double> H(D * D), H_work(D * D), gp(D), gm(D), dx(D), xt(D);
         double lambda = 1e-9;
 
         for (int n_step = 0; n_step < 10; ++n_step) {
-            f = eval(inst, x.data(), g.data());
+            f = eval(inst, x.data(), g.data(), 0.0);
             double gmax = 0.0;
             for (int i = 0; i < D; ++i) gmax = std::max(gmax, std::abs(g[i]));
             if (gmax < 1e-13) break;
@@ -318,9 +405,9 @@ struct Workspace {
             for (int j = 0; j < D; ++j) {
                 double orig = xt[j];
                 xt[j] = orig + eps;
-                eval(inst, xt.data(), gp.data());
+                eval(inst, xt.data(), gp.data(), 0.0);
                 xt[j] = orig - eps;
-                eval(inst, xt.data(), gm.data());
+                eval(inst, xt.data(), gm.data(), 0.0);
                 xt[j] = orig;
                 double inv2e = 0.5 / eps;
                 for (int i = 0; i < D; ++i) {
@@ -343,7 +430,7 @@ struct Workspace {
                     double step = 1.0;
                     for (int ls = 0; ls < 15; ++ls) {
                         for (int i = 0; i < D; ++i) x_new[i] = x[i] + step * dx[i];
-                        double fn = eval(inst, x_new.data(), g_new.data());
+                        double fn = eval(inst, x_new.data(), g_new.data(), 0.0);
                         double gn_max = 0.0;
                         for (int i = 0; i < D; ++i) gn_max = std::max(gn_max, std::abs(g_new[i]));
                         if (fn <= f + 1e-12 && (gn_max < gmax || fn < f)) {
@@ -362,7 +449,31 @@ struct Workspace {
             }
             if (!step_ok) break;
         }
-        return eval(inst, x.data(), g.data());
+        return eval(inst, x.data(), g.data(), 0.0);
+    }
+
+    static inline void rotate_subchain_crankshaft(
+        double* ux, double* uy, double* uz,
+        int m1, int m2, double phi
+    ) {
+        double wx = 0.0, wy = 0.0, wz = 0.0;
+        for (int m = m1; m <= m2; ++m) {
+            wx += ux[m]; wy += uy[m]; wz += uz[m];
+        }
+        double wnorm = std::sqrt(wx * wx + wy * wy + wz * wz);
+        if (wnorm < 1e-6) return;
+        wx /= wnorm; wy /= wnorm; wz /= wnorm;
+        double c = std::cos(phi), s = std::sin(phi);
+        for (int m = m1; m <= m2; ++m) {
+            double vx = ux[m], vy = uy[m], vz = uz[m];
+            double dot = wx * vx + wy * vy + wz * vz;
+            double cx = wy * vz - wz * vy;
+            double cy = wz * vx - wx * vz;
+            double cz = wx * vy - wy * vx;
+            ux[m] = vx * c + cx * s + wx * dot * (1.0 - c);
+            uy[m] = vy * c + cy * s + wy * dot * (1.0 - c);
+            uz[m] = vz * c + cz * s + wz * dot * (1.0 - c);
+        }
     }
 
     static inline void rotate_pair_crankshaft(
@@ -418,7 +529,13 @@ struct Workspace {
         return true;
     }
 
-    void propose_move(const Instance& inst, const std::vector<double>& x_cur, std::vector<double>& x_cand, std::mt19937_64& rng) {
+    void propose_move(
+        const Instance& inst,
+        const std::vector<double>& x_cur,
+        const std::vector<int>& hotspots,
+        std::vector<double>& x_cand,
+        std::mt19937_64& rng
+    ) {
         x_cand = x_cur;
         angles_to_u(L, x_cand.data(), ux.data(), uy.data(), uz.data());
         int n_u = L - 2;
@@ -426,23 +543,100 @@ struct Workspace {
         std::normal_distribution<double> N01(0.0, 1.0);
         double r = U01(rng);
 
-        if (r < 0.22) {
-            // CLASS I: Pure N-Terminal Tail Re-Docking (m = 0..k-1, k = 1..9)
-            // Leaves p[k+1..L-1] 100% mutually rigid!
-            int k = 1 + (rng() % std::min(9, n_u));
+        if (r < 0.30 && !hotspots.empty()) {
+            // CLASS 0: Hotspot-Targeted Single-Vertex & Local Loop Re-Docking!
+            // Picks 1 or 2 frustrated residues (e.g. repulsive B or exposed A)
+            // and swings ONLY that vertex (via adjacent pair u[i-2], u[i-1]) or a 3-bond bridge around it!
+            int n_targets = 1 + (rng() % 2);
+            for (int t = 0; t < n_targets; ++t) {
+                int res_idx = hotspots[rng() % hotspots.size()];
+                if (res_idx <= 2) {
+                    // Near N-terminus
+                    int k = std::min(n_u, 2 + (int)(rng() % 5));
+                    for (int m = 0; m < k; ++m) {
+                        x_cand[m] += N01(rng) * 0.65;
+                        if (m >= 1) x_cand[n_u + m - 1] += N01(rng) * 0.65;
+                    }
+                    return;
+                } else if (res_idx >= L - 3) {
+                    // Near C-terminus
+                    int k = std::min(n_u, 2 + (int)(rng() % 5));
+                    for (int m = n_u - k; m < n_u; ++m) {
+                        x_cand[m] += N01(rng) * 0.65;
+                        if (m >= 1) x_cand[n_u + m - 1] += N01(rng) * 0.65;
+                    }
+                    return;
+                } else {
+                    // Internal residue res_idx is framed by u[m1] and u[m2] where m1 = res_idx - 2, m2 = res_idx - 1
+                    int m1 = std::clamp(res_idx - 2, 1, n_u - 2);
+                    int sub_mode = rng() % 3;
+                    if (sub_mode == 0) {
+                        // Exact adjacent-bond crankshaft (moves ONLY vertex res_idx on a circle!)
+                        double phi = (U01(rng) < 0.5) ? (N01(rng) * 0.9) : ((U01(rng) * 2.0 - 1.0) * M_PI);
+                        rotate_pair_crankshaft(ux[m1], uy[m1], uz[m1], ux[m1 + 1], uy[m1 + 1], uz[m1 + 1], phi);
+                    } else if (sub_mode == 1) {
+                        // Swap adjacent bonds u[m1] <-> u[m1+1] + small crankshaft
+                        std::swap(ux[m1], ux[m1 + 1]);
+                        std::swap(uy[m1], uy[m1 + 1]);
+                        std::swap(uz[m1], uz[m1 + 1]);
+                        rotate_pair_crankshaft(ux[m1], uy[m1], uz[m1], ux[m1 + 1], uy[m1 + 1], uz[m1 + 1], N01(rng) * 0.35);
+                    } else if (m1 + 2 < n_u) {
+                        // 3-bond bridge on (m1, m1+1, m1+2) moving only 2 adjacent vertices!
+                        double sx = ux[m1] + ux[m1 + 1] + ux[m1 + 2];
+                        double sy = uy[m1] + uy[m1 + 1] + uy[m1 + 2];
+                        double sz = uz[m1] + uz[m1 + 1] + uz[m1 + 2];
+                        double vx = ux[m1] + N01(rng) * 0.85;
+                        double vy = uy[m1] + N01(rng) * 0.85;
+                        double vz = uz[m1] + N01(rng) * 0.85;
+                        double vn = std::sqrt(vx * vx + vy * vy + vz * vz);
+                        if (vn > 1e-8) {
+                            vx /= vn; vy /= vn; vz /= vn;
+                            double psi = (U01(rng) * 2.0 - 1.0) * M_PI;
+                            if (solve_two_unit_vectors_for_sum(sx - vx, sy - vy, sz - vz, psi,
+                                ux[m1 + 1], uy[m1 + 1], uz[m1 + 1], ux[m1 + 2], uy[m1 + 2], uz[m1 + 2])) {
+                                ux[m1] = vx; uy[m1] = vy; uz[m1] = vz;
+                            }
+                        }
+                    }
+                }
+            }
+            u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
+        } else if (r < 0.50) {
+            // CLASS I: Pure N-Terminal Subchain Re-Docking (k = 1..18)
+            int k = 1 + (rng() % std::min(18, n_u));
             int mode = rng() % 4;
             if (mode == 0) {
-                // Focused angular kick on N-terminal tail (theta[0..k-1], beta[0..k-2])
-                double sigma = (U01(rng) < 0.5) ? 0.45 : 1.35;
+                double sigma = (U01(rng) < 0.5) ? 0.35 : 1.15;
                 for (int m = 0; m < k; ++m) {
-                    if (U01(rng) < 0.75) x_cand[m] += N01(rng) * sigma;
-                    if (m >= 1 && U01(rng) < 0.75) x_cand[n_u + m - 1] += N01(rng) * sigma;
+                    if (U01(rng) < 0.65) x_cand[m] += N01(rng) * sigma;
+                    if (m >= 1 && U01(rng) < 0.65) x_cand[n_u + m - 1] += N01(rng) * sigma;
                 }
-            } else if (mode == 1) {
-                // N-terminal 3-bond bridge starting right at m=0 (with u[0] in xy-plane!)
+            } else if (mode == 1 && k >= 2) {
+                // Rigid 3D rotation of the entire N-terminal prefix u[1..k-1] around a random axis!
+                double ax = N01(rng), ay = N01(rng), az = N01(rng);
+                double an = std::sqrt(ax * ax + ay * ay + az * az);
+                if (an > 1e-8) {
+                    ax /= an; ay /= an; az /= an;
+                    double phi = N01(rng) * 0.75;
+                    double c = std::cos(phi), s = std::sin(phi);
+                    for (int m = 1; m < k; ++m) {
+                        double vx = ux[m], vy = uy[m], vz = uz[m];
+                        double dot = ax * vx + ay * vy + az * vz;
+                        double cx = ay * vz - az * vy;
+                        double cy = az * vx - ax * vz;
+                        double cz = ax * vy - ay * vx;
+                        ux[m] = vx * c + cx * s + ax * dot * (1.0 - c);
+                        uy[m] = vy * c + cy * s + ay * dot * (1.0 - c);
+                        uz[m] = vz * c + cz * s + az * dot * (1.0 - c);
+                    }
+                    double th0 = x_cand[0] + N01(rng) * 0.5;
+                    ux[0] = std::cos(th0); uy[0] = std::sin(th0); uz[0] = 0.0;
+                    u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
+                }
+            } else if (mode == 2) {
                 for (int attempt = 0; attempt < 15; ++attempt) {
-                    int m2 = 1 + (rng() % std::min(4, n_u - 2));
-                    int m3 = m2 + 1 + (rng() % std::min(4, n_u - 1 - m2));
+                    int m2 = 1 + (rng() % std::min(5, n_u - 2));
+                    int m3 = m2 + 1 + (rng() % std::min(5, n_u - 1 - m2));
                     double sx = ux[0] + ux[m2] + ux[m3];
                     double sy = uy[0] + uy[m2] + uy[m3];
                     double sz = uz[0] + uz[m2] + uz[m3];
@@ -456,48 +650,44 @@ struct Workspace {
                         break;
                     }
                 }
-            } else if (mode == 2) {
-                // N-terminal crankshaft + tail twist
-                if (k >= 3) {
-                    int m1 = 1 + (rng() % (k - 1));
-                    int m2 = m1 + 1 + (rng() % std::min(3, n_u - 1 - m1));
-                    rotate_pair_crankshaft(ux[m1], uy[m1], uz[m1], ux[m2], uy[m2], uz[m2], N01(rng) * 1.1);
-                }
-                double th0 = x_cand[0] + N01(rng) * 0.8;
-                ux[0] = std::cos(th0); uy[0] = std::sin(th0); uz[0] = 0.0;
-                u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
             } else {
-                // N-terminal reflection/inversion of u[0..k-1]
                 for (int m = 0; m < k; ++m) {
                     if (m >= 1 && U01(rng) < 0.6) uz[m] = -uz[m];
                     if (U01(rng) < 0.6) uy[m] = -uy[m];
                 }
                 u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
             }
-        } else if (r < 0.44) {
-            // CLASS II: Pure C-Terminal Tail Re-Docking (m = n_u-k .. n_u-1, k = 1..9)
-            // Leaves p[0..L-1-k] 100% mutually rigid!
-            int k = 1 + (rng() % std::min(9, n_u));
+        } else if (r < 0.70) {
+            // CLASS II: Pure C-Terminal Subchain Re-Docking (k = 1..18)
+            int k = 1 + (rng() % std::min(18, n_u));
             int start_m = n_u - k;
             int mode = rng() % 3;
             if (mode == 0) {
-                double sigma = (U01(rng) < 0.5) ? 0.45 : 1.35;
+                double sigma = (U01(rng) < 0.5) ? 0.35 : 1.15;
                 for (int m = start_m; m < n_u; ++m) {
-                    if (U01(rng) < 0.75) x_cand[m] += N01(rng) * sigma;
-                    if (m >= 1 && U01(rng) < 0.75) x_cand[n_u + m - 1] += N01(rng) * sigma;
+                    if (U01(rng) < 0.65) x_cand[m] += N01(rng) * sigma;
+                    if (m >= 1 && U01(rng) < 0.65) x_cand[n_u + m - 1] += N01(rng) * sigma;
                 }
-            } else if (mode == 1 && k >= 2) {
-                std::reverse(ux.begin() + start_m, ux.end());
-                std::reverse(uy.begin() + start_m, uy.end());
-                std::reverse(uz.begin() + start_m, uz.end());
-                for (int m = start_m; m < n_u; ++m) {
-                    ux[m] += N01(rng) * 0.25;
-                    uy[m] += N01(rng) * 0.25;
-                    uz[m] += N01(rng) * 0.25;
-                    double n = std::sqrt(ux[m]*ux[m] + uy[m]*uy[m] + uz[m]*uz[m]);
-                    if (n > 1e-8) { ux[m] /= n; uy[m] /= n; uz[m] /= n; }
+            } else if (mode == 1) {
+                // Rigid 3D rotation of the entire C-terminal subchain u[start_m..n_u-1] around a random axis!
+                double ax = N01(rng), ay = N01(rng), az = N01(rng);
+                double an = std::sqrt(ax * ax + ay * ay + az * az);
+                if (an > 1e-8) {
+                    ax /= an; ay /= an; az /= an;
+                    double phi = N01(rng) * 0.75;
+                    double c = std::cos(phi), s = std::sin(phi);
+                    for (int m = std::max(1, start_m); m < n_u; ++m) {
+                        double vx = ux[m], vy = uy[m], vz = uz[m];
+                        double dot = ax * vx + ay * vy + az * vz;
+                        double cx = ay * vz - az * vy;
+                        double cy = az * vx - ax * vz;
+                        double cz = ax * vy - ay * vx;
+                        ux[m] = vx * c + cx * s + ax * dot * (1.0 - c);
+                        uy[m] = vy * c + cy * s + ay * dot * (1.0 - c);
+                        uz[m] = vz * c + cz * s + az * dot * (1.0 - c);
+                    }
+                    u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
                 }
-                u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
             } else {
                 for (int m = start_m; m < n_u; ++m) {
                     if (m >= 1 && U01(rng) < 0.6) uz[m] = -uz[m];
@@ -505,14 +695,13 @@ struct Workspace {
                 }
                 u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
             }
-        } else if (r < 0.68) {
-            // CLASS III-A: Exact 3-Bond & 4-Bond Spherical Loop Bridge (S^2 x S^1)
-            // Strictly preserves u[m1]+u[m2]+u[m3] (or 4 bonds), leaving BOTH prefix & suffix 100% rigid!
-            int n_bridges = (U01(rng) < 0.7) ? 1 : 2;
+        } else if (r < 0.88) {
+            // CLASS III-A: Exact 3-Bond Spherical Bridges & Multi-Crankshafts
+            int n_bridges = 1 + (rng() % 2);
             for (int b = 0; b < n_bridges; ++b) {
                 for (int attempt = 0; attempt < 15; ++attempt) {
-                    int span1 = 1 + (rng() % 4);
-                    int span2 = 1 + (rng() % 4);
+                    int span1 = 1 + (rng() % 5);
+                    int span2 = 1 + (rng() % 5);
                     if (1 + span1 + span2 >= n_u) continue;
                     int m1 = 1 + (rng() % (n_u - 1 - span1 - span2));
                     int m2 = m1 + span1;
@@ -520,7 +709,7 @@ struct Workspace {
                     double sx = ux[m1] + ux[m2] + ux[m3];
                     double sy = uy[m1] + uy[m2] + uy[m3];
                     double sz = uz[m1] + uz[m2] + uz[m3];
-                    double scale = (U01(rng) < 0.5) ? 0.5 : 1.4;
+                    double scale = (U01(rng) < 0.5) ? 0.45 : 1.35;
                     double vx = ux[m1] + N01(rng) * scale;
                     double vy = uy[m1] + N01(rng) * scale;
                     double vz = uz[m1] + N01(rng) * scale;
@@ -536,20 +725,23 @@ struct Workspace {
                 }
             }
             u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
-        } else if (r < 0.86) {
-            // CLASS III-B: Multi-Pair Invariant-Sum Crankshaft Rotations (1 to 3 pairs)
-            int n_pairs = 1 + (rng() % 3);
-            for (int p = 0; p < n_pairs; ++p) {
-                int span = 1 + (rng() % std::min(8, n_u - 2));
-                int m1 = 1 + (rng() % (n_u - 1 - span));
+        } else if (r < 0.95) {
+            // CLASS III-B: Exact Contiguous Subchain Crankshaft & Double-Hinge Fold (span = 2..28)
+            // Rotates an entire contiguous subchain u[m1..m2] as a rigid 3D body around its chord sum W,
+            // preserving all internal distances within [m1..m2] AND keeping [0..m1] and [m2+1..L-1] 100% fixed!
+            int n_hinges = (U01(rng) < 0.6) ? 1 : 2;
+            for (int h = 0; h < n_hinges; ++h) {
+                int max_span = std::min(28, n_u - 2);
+                int span = 2 + (rng() % std::max(1, max_span - 1));
+                int m1 = 1 + (rng() % std::max(1, n_u - 1 - span));
                 int m2 = m1 + span;
-                double phi = (U01(rng) < 0.5) ? (N01(rng) * 0.6) : ((U01(rng) * 2.0 - 1.0) * M_PI);
-                rotate_pair_crankshaft(ux[m1], uy[m1], uz[m1], ux[m2], uy[m2], uz[m2], phi);
+                double phi = (U01(rng) < 0.6) ? (N01(rng) * 0.65) : ((U01(rng) * 2.0 - 1.0) * M_PI);
+                rotate_subchain_crankshaft(ux.data(), uy.data(), uz.data(), m1, m2, phi);
             }
             u_to_angles(L, ux.data(), uy.data(), uz.data(), x_cand.data());
         } else {
             // CLASS III-C: Exact Sum-Preserving Permutations (Swap / Reversal / Reptation)
-            int span = 1 + (rng() % std::min(7, n_u - 2));
+            int span = 1 + (rng() % std::min(10, n_u - 2));
             int m1 = 1 + (rng() % (n_u - 1 - span));
             int m2 = m1 + span;
             double sub_r = U01(rng);
@@ -577,7 +769,7 @@ std::mutex io_mtx;
 
 void save_solution(const Instance& inst, const std::vector<double>& x_rad, Workspace& ws) {
     const double rad2deg = 180.0 / M_PI;
-    double f = ws.eval(inst, x_rad.data(), ws.g.data());
+    double f = ws.eval(inst, x_rad.data(), ws.g.data(), 0.0);
     double negE = -f;
     double gmax = 0.0, g2 = 0.0;
     for (double v : ws.g) {
@@ -603,7 +795,7 @@ void save_solution(const Instance& inst, const std::vector<double>& x_rad, Works
     }
     j_out["angles_rad"] = rad;
     j_out["angles_deg"] = deg;
-    std::ofstream ofs("best_" + inst.label + ".json");
+    std::ofstream ofs("/tmp/ab_protein/best_" + inst.label + ".json");
     ofs << j_out.dump(2) << "\n";
 }
 
@@ -611,7 +803,7 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
     const double deg2rad = M_PI / 180.0;
     std::vector<double> global_best_x(inst.D);
 
-    std::string saved_path = "best_" + inst.label + ".json";
+    std::string saved_path = "/tmp/ab_protein/best_" + inst.label + ".json";
     std::ifstream ifs(saved_path);
     if (ifs.good()) {
         json js = json::parse(ifs);
@@ -623,9 +815,9 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
     Workspace init_ws(inst.L, inst.D);
     double init_E = init_ws.newton_polish(inst, global_best_x);
     double global_best_negE = -init_E;
-    if (global_best_negE > inst.table10_negE + 1e-3) {
-        save_solution(inst, global_best_x, init_ws);
-    }
+    std::vector<int> shared_hotspots;
+    init_ws.compute_hotspots(inst, global_best_x.data(), shared_hotspots);
+    save_solution(inst, global_best_x, init_ws);
 
     auto t_start = std::chrono::steady_clock::now();
     std::atomic<long long> total_hops{0};
@@ -634,41 +826,49 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
         std::mt19937_64 rng(987654321ULL + tid * 104729ULL + inst.L * 997ULL + std::chrono::steady_clock::now().time_since_epoch().count());
         Workspace ws(inst.L, inst.D);
         std::vector<double> cur_x, cand_x;
+        std::vector<int> local_hotspots;
         double cur_negE;
         {
             std::lock_guard<std::mutex> lk(io_mtx);
             cur_x = global_best_x;
             cur_negE = global_best_negE;
+            local_hotspots = shared_hotspots;
         }
+        // Multi-temperature replica ladder across threads
+        const double temp = 0.15 + 0.12 * (tid % 6);
         int stag = 0;
         while (true) {
             double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - t_start).count();
             if (el >= seconds_budget) break;
 
-            ws.propose_move(inst, cur_x, cand_x, rng);
+            ws.propose_move(inst, cur_x, local_hotspots, cand_x, rng);
+            // 3-Stage C^2-Smooth Soft-Core Homotopy Continuation: u_cut = 0.85 -> 0.55 -> 0.0
+            ws.lbfgs(inst, cand_x, 45, 1e-4, 0.85);
             ws.lbfgs(inst, cand_x, 55, 1e-5, 0.55);
-            double f_cand = ws.lbfgs(inst, cand_x, 350, 1e-9, 1e-12);
+            double f_cand = ws.lbfgs(inst, cand_x, 380, 1e-9, 0.0);
             double cand_negE = -f_cand;
-            total_hops++;
+            long long h_now = ++total_hops;
 
             if (cand_negE > cur_negE + 1e-5) {
                 f_cand = ws.newton_polish(inst, cand_x);
                 cand_negE = -f_cand;
                 cur_x = cand_x;
                 cur_negE = cand_negE;
+                ws.compute_hotspots(inst, cur_x.data(), local_hotspots);
                 stag = 0;
 
                 std::lock_guard<std::mutex> lk(io_mtx);
                 if (cand_negE > global_best_negE + 1e-6) {
                     global_best_negE = cand_negE;
                     global_best_x = cand_x;
+                    shared_hotspots = local_hotspots;
                     double g2 = 0.0;
-                    ws.eval(inst, cand_x.data(), ws.g.data());
+                    ws.eval(inst, cand_x.data(), ws.g.data(), 0.0);
                     for (double v : ws.g) g2 += v * v;
                     g2 = std::sqrt(g2);
                     double gain = global_best_negE - inst.table10_negE;
                     std::cout << "  *** [WIN " << inst.label << " L=" << inst.L << "] t=" << std::fixed << std::setprecision(1) << el
-                              << "s hops=" << total_hops.load()
+                              << "s hops=" << h_now
                               << " | -E* = " << std::setprecision(6) << global_best_negE
                               << " (Tab10=" << std::setprecision(4) << inst.table10_negE
                               << ", gain=" << std::showpos << std::setprecision(6) << gain << std::noshowpos
@@ -678,15 +878,17 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
             } else {
                 std::uniform_real_distribution<double> U01(0.0, 1.0);
                 double diff = cand_negE - cur_negE;
-                if (diff > -1.5 && U01(rng) < std::exp(diff / 0.30)) {
+                if (diff > -2.5 && U01(rng) < std::exp(diff / temp)) {
                     cur_x = cand_x;
                     cur_negE = cand_negE;
+                    ws.compute_hotspots(inst, cur_x.data(), local_hotspots);
                 }
                 stag++;
-                if (stag > 50) {
+                if (stag > 45) {
                     std::lock_guard<std::mutex> lk(io_mtx);
                     cur_x = global_best_x;
                     cur_negE = global_best_negE;
+                    local_hotspots = shared_hotspots;
                     stag = 0;
                 }
             }
@@ -698,7 +900,7 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
     for (auto& th : threads) th.join();
 
     double g2 = 0.0;
-    init_ws.eval(inst, global_best_x.data(), init_ws.g.data());
+    init_ws.eval(inst, global_best_x.data(), init_ws.g.data(), 0.0);
     for (double v : init_ws.g) g2 += v * v;
     g2 = std::sqrt(g2);
     double gain = global_best_negE - inst.table10_negE;
@@ -710,10 +912,10 @@ void hunt_instance(const Instance& inst, double seconds_budget, int num_threads)
 }
 
 int main(int argc, char** argv) {
-    double secs_per_inst = (argc > 1) ? std::stod(argv[1]) : 3.5;
-    std::string filter = (argc > 2) ? argv[2] : "ALL";
+    double secs_per_inst = (argc > 1) ? std::stod(argv[1]) : 60.0;
+    std::string filter = (argc > 2) ? argv[2] : "LONG3";
 
-    std::ifstream f("benchmarks.json");
+    std::ifstream f("/tmp/ab_protein/benchmarks.json");
     json j = json::parse(f);
     std::vector<Instance> insts;
     for (auto& item : j) {
@@ -740,8 +942,11 @@ int main(int argc, char** argv) {
     });
 
     for (auto& inst : insts) {
-        if (filter != "ALL" && inst.label != filter) continue;
-        if (inst.L < 29 && filter == "ALL") continue;
+        if (filter == "LONG3") {
+            if (inst.label != "2EWH" && inst.label != "F89" && inst.label != "1PCH") continue;
+        } else if (filter != "ALL" && inst.label != filter) {
+            continue;
+        }
         hunt_instance(inst, secs_per_inst, 6);
     }
     return 0;

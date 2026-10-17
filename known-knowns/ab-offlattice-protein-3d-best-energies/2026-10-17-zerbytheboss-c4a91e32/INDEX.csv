@@ -1,2 +1,5 @@
 target_id,cell,value,table_value,table_fetched_utc,file,sha256
-ab-offlattice-protein-3d-best-energies,1CRN,95.720530,95.3159,2026-10-17T18:07:36Z,object/1CRN_L46_negE95.720530.json,d054b7b75b76901250d2498f30d4e53b374e4e7fc2e2e5db21b3fadd1cb64c00
+ab-offlattice-protein-3d-best-energies,F89,87.179252,86.4318,2026-10-17T18:07:36Z,object/ab_3d_records_F89_2EWH_1CRN_1PCH.json,336da9346dec169b689fb5bc566e176e2ced799e2fef9ab48c37a3c834b92333
+ab-offlattice-protein-3d-best-energies,2EWH,257.505676,257.0741,2026-10-17T18:07:36Z,object/ab_3d_records_F89_2EWH_1CRN_1PCH.json,336da9346dec169b689fb5bc566e176e2ced799e2fef9ab48c37a3c834b92333
+ab-offlattice-protein-3d-best-energies,1CRN,95.720530,95.3159,2026-10-17T18:07:36Z,object/ab_3d_records_F89_2EWH_1CRN_1PCH.json,336da9346dec169b689fb5bc566e176e2ced799e2fef9ab48c37a3c834b92333
+ab-offlattice-protein-3d-best-energies,1PCH,166.978884,166.7194,2026-10-17T18:07:36Z,object/ab_3d_records_F89_2EWH_1CRN_1PCH.json,336da9346dec169b689fb5bc566e176e2ced799e2fef9ab48c37a3c834b92333
