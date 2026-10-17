@@ -32,6 +32,7 @@ Snapshot metadata, with HTTP status and page sha256: `the-record-we-beat/README.
 
 ## Not claimed
 
+- The margin is a single addition (124 vs 125). IACR ePrint 2026/849 (Mårtensson and Stankovski Wagner) lists a 344-38 scheme that neither our panel nor the repository reviewers could read (the PDF is behind a challenge page, and their repository includes a Moosbauer <3,4,4>:38 scheme); the comparison here stands against Perminov, Lille and COVERAGE.md.
 - Optimality is not claimed; nothing is known about the minimum number of additions for this format and rank.
 - No new rank: rank 38 is the best known rank; the claim is the number of additions only.
 - Counts after a change of basis (Karstadt-Schwartz) or over other rings are a different quantity and are not compared.
@@ -41,9 +42,9 @@ Snapshot metadata, with HTTP status and page sha256: `the-record-we-beat/README.
 ## Credits
 
 - **A. I. Perminov**, FastMatrixMultiplication (https://github.com/dronperminov/FastMatrixMultiplication), arXiv:2512.13365 and arXiv:2511.20317: the reduced-scheme JSON layout, the counting convention, the ternary addition reducer used inside the search, the schemes used as starting points, and the value compared against.
+- **A. V. Smirnov** (2013, *Computational Mathematics and Mathematical Physics* 53(12), 1781–1795): the <3,4,4> rank-38 algorithm cited by the Lille catalogue (`https://fmm.univ-lille.fr/3x4x4.html`).
 - **A. Sedoglavic**, the Lille catalogue and fmm_digest (fmm_sota.json): best-known ranks.
 - **solven-eu/matmulcatalog** (COVERAGE.md): catalogue compared against.
 - **Kauers and Moosbauer** and the flip-graph literature (arXiv:2212.01175): the flip-graph walk idea used to move between schemes of equal rank.
-- **DeepMind AlphaTensor** (Fawzi et al., Nature 2022): the 3x4x4 rank-38 scheme family.
 - **V3R1T4S** contributors whose packages set the layout and checkers (check_slp.py is adapted from an existing package in this repository).
-- Contributor credit: Zerbytheboss.
+- Contributor credit: Zerbytheboss (the `HindsightWise` GitHub account is operated by Zerbytheboss).

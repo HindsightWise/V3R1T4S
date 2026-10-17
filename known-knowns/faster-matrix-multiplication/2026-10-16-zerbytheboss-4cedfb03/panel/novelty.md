@@ -24,13 +24,15 @@ Fetches (one plain request each, User-Agent naming V3R1T4S, no retries, all HTTP
    Not comparable to a reduced SLP, but none is at or below 124 on any measure.
 5. V3R1T4S pull requests, open plus closed via the GitHub API (235 PRs scanned, 6 pages each state).
    Title and body search for 3x4x4, 4x4x3, 4x3x4, <3,4,4>: no PR claims this format. The only mention is
-   #173 (<6,8,8> rank 266, closed), which cites 3x4x4:38 as a Kronecker factor in the Lille entry. Open PR #222 is
+   #173 (<6,8,8> rank 266, merged), which cites 3x4x4:38 as a Kronecker factor in the Lille entry. Open PR #222 is
    <4,5,5>. Repository search "3x4x4" returns only #173. TROPHY_CASE.md has no <3,4,4> row.
 6. Literature (web search, last 24 months): Perminov arXiv:2512.13365, 2512.21980, 2511.20317, 2603.02398,
    2606.02480; the 3x3 rank-23 addition papers (2607.28676, 2609.06588); matmulcatalog theory notes.
    None reports a reduced addition count for <3,4,4> or its permutations at rank 38, and 2606.02480 states that
-   no systematic additive-complexity study across formats exists. Search results are not exhaustive; this
-   is a best-effort search, not a proof of absence.
+   no systematic additive-complexity study across formats exists. IACR ePrint 2026/849 (Mårtensson and Stankovski
+   Wagner) lists a 344-38 scheme whose PDF is behind a challenge page (and their repository includes a Moosbauer
+   <3,4,4>:38 scheme); the comparison stands against Perminov, Lille and COVERAGE.md. Search results are not
+   exhaustive; this is a best-effort search, not a proof of absence.
 
 Verdict: no known <3,4,4> rank-38 scheme (any permutation) with 124 or fewer additions was found in any
 source. The best live reduced value is 125 (Perminov), so 124 strictly beats it by 1. This is not a tie.
