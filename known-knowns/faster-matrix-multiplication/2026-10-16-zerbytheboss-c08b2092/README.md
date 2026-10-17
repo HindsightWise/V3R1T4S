@@ -40,7 +40,7 @@ Needs only `python3` (standard library). It checks the file's SHA-256 against `I
 
 - **Contributor**: `Zerbytheboss` (GitHub account `HindsightWise` is operated by `Zerbytheboss`; submitted via the V3R1T4S contribution kit).
 - **Prior work on the target and tools**:
-  - **D. Perminov**, [`FastMatrixMultiplication`](https://github.com/dronperminov/FastMatrixMultiplication) (the `2x5x6_m47_cr181_fv63_cn332_ZT_reduced.json` baseline scheme and JSON format) and [`ternary_addition_reducer`](https://github.com/dronperminov/ternary_addition_reducer).
+  - **A. I. Perminov** (Andrew I. Perminov, [arXiv:2512.13365](https://arxiv.org/abs/2512.13365)), [`FastMatrixMultiplication`](https://github.com/dronperminov/FastMatrixMultiplication) (the `2x5x6_m47_cr181_fv63_cn332_ZT_reduced.json` baseline scheme and JSON format) and [`ternary_addition_reducer`](https://github.com/dronperminov/ternary_addition_reducer).
   - **A. Sedoglavic**, [`fmm_digest`](https://github.com/sedoglavic/fmm_digest) and the [Lille FMM table](https://fmm.univ-lille.fr/2x5x6.html).
   - **Solven / `matmulcatalog`**, [`COVERAGE.md`](https://github.com/solven-eu/matmulcatalog).
   - **M. Kauers and J. Moosbauer** (flip-graph method for matrix multiplication schemes, ISSAC 2023), **Boyar and Peralta** (cancellation-guided linear program search), **Bshouty / Kaminski / Kirkpatrick** (transposition principle for linear straight-line programs), and **A. Novikov et al. / AlphaEvolve** (Google DeepMind, May 2025, [arXiv:2506.13131](https://arxiv.org/abs/2506.13131), whom the Lille catalogue cites for the `<2,5,6>` rank-47 bilinear scheme).
