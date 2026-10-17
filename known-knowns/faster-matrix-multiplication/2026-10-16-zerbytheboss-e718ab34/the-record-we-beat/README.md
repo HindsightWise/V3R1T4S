@@ -12,7 +12,7 @@ Each row is one honest GET (Python `urllib.request`, User-Agent naming V3R1T4S, 
 | COVERAGE.md | https://raw.githubusercontent.com/solven-eu/matmulcatalog/master/generated/COVERAGE.md | 2026-10-17T05:18:53Z | 200 | c2a9bd929b477acb44d4f92aa8055a0c26eab3c33121c0734be650c5c86254b7 | 2x4x7: best 45, adds +308 (naive count, not comparable) |
 | fmm_sota.json | https://raw.githubusercontent.com/sedoglavic/fmm_digest/master/fmm_sota.json | 2026-10-17T05:18:53Z | 200 | d0da2c364dcf4d13c0721ea8b7c3dcd7fae4f6f3c843d22a714a1ccb9bd244c1 | [2, 4, 7]: rank 45 |
 
-Compared cell: 2x4x7 at rank 45, reduced additions. Reference (minimum over Perminov's files for this format and rank): 174 (and open V3R1T4S PR #229 at 169). This object: 166.
+Compared cell: 2x4x7 at rank 45, reduced additions. Reference (minimum over Perminov's files for this format and rank): 174 (and open V3R1T4S PR #229 at 169). This object: 161.
 
 ## Reference scheme file (not shipped: third-party data)
 
@@ -20,4 +20,4 @@ https://raw.githubusercontent.com/dronperminov/FastMatrixMultiplication/master/s
 
 ## V3R1T4S pull requests
 
-Searched all open and closed pull requests of elder-plinius/V3R1T4S on 2026-10-17: open PR #229 claims `<2,4,7>` rank 45 with 169 additions; this package achieves 166 additions (3 fewer than #229 and 8 fewer than the live table's 174) and was invited as its own package by the maintainer on PR #241.
+Searched all open and closed pull requests of elder-plinius/V3R1T4S on 2026-10-17: open PR #229 claims `<2,4,7>` rank 45 with 169 additions; this package achieves 161 additions (8 fewer than #229 and 13 fewer than the live table's 174) and was invited as its own package by the maintainer on PR #241.
