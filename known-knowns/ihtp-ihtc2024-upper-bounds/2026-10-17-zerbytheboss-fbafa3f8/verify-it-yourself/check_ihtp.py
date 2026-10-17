@@ -403,8 +403,8 @@ def verify_pkg(pkg_root):
     if res["total_violations"] != 0:
         print(f"FAIL: total_violations={res['total_violations']}")
         return False
-    if res["total_cost"] != 50192 or int(row["value"]) != 50192:
-        print(f"FAIL: total_cost={res['total_cost']} != 50192")
+    if res["total_cost"] != 50125 or int(row["value"]) != 50125:
+        print(f"FAIL: total_cost={res['total_cost']} != 50125")
         return False
     if not (res["total_cost"] < 50976):
         print("FAIL: does not beat BKS")
@@ -412,7 +412,7 @@ def verify_pkg(pkg_root):
 
     print(
         f"VERIFIED: instance=i27 total_violations={res['total_violations']} "
-        f"total_cost={res['total_cost']} bks=50976 delta=-784 "
+        f"total_cost={res['total_cost']} bks=50976 delta=-851 "
         f"weighted_costs={json.dumps(res['weighted_costs'], sort_keys=True)}"
     )
     print("PASS")
