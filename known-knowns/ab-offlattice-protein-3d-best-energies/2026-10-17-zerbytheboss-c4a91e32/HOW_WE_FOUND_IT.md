@@ -1,0 +1,19 @@
+# How We Found It (contributor text, unverified)
+
+## 1. Complete Extraction & Reproduction of `arXiv:1903.01456` Tables 2, 10, 11, and 12
+Because the web demonstration cited in Borko Boskovic and Janez Brest (*Swarm and Evolutionary Computation* 57, 100711, 2020; `https://arxiv.org/abs/1903.01456`, `http://spse.feri.um.si`) is offline, we extracted all 23 benchmark sequences (Table 2), best published energies (Table 10), and all 23 published angle vectors (Tables 11 and 12) directly from the official `arXiv:1903.01456` LaTeX source bundle (`https://arxiv.org/e-print/1903.01456`).
+
+Re-evaluating all 23 conformations under Eqs. (1)-(4) of `arXiv:1903.01456` reproduced every single Table 10 energy to 4 decimal places (`|(-E_calc) - (-E_tab10)| <= 4.97e-5`) and uncovered three concrete findings (satisfying Partial Win `p2`):
+1. **Table 2 Sequence Length & Dimension Discrepancy on `1PCH`**: Table 2 prints `1PCH` with length `L = 88` and dimension `D = 171`, whereas the actual sequence string in Table 2 has **87 residues** (`L = 87`) and the published angle vector in Table 12 has **169 angles** (`D = 2L - 5 = 169`: 85 bond angles `theta_i` and 84 torsion angles `beta_i`).
+2. **Non-Stationary Published Angle Vectors (4-Decimal Degree Truncation)**: Because Tables 11 and 12 round angles in degrees to 4 decimal places, the published vectors have non-zero angle-space gradients up to `||grad E||_2 = 0.213` (`||grad E||_inf = 0.103`) on `2EWH` (`L = 98`). Newton-polishing `2EWH` from its Table 12 vector yields `-E* = 257.074539` (`+0.000462` above the raw Table 12 evaluation `257.074077`) with `||grad E||_2 = 5.36e-12`.
+3. **Interaction Coefficient Sign Convention**: In `arXiv:1903.01456` Eq. (4) (following Stillinger, Head-Gordon, and Hirshfeld 1993), `c(A,A) = +1`, `c(B,B) = +0.5`, and `c(A,B) = -0.5` (weakly repulsive hydrophilic-hydrophobic pair).
+
+## 2. Tri-Class Rigid-Core Polymer Basin Hopping + Damped Newton-Raphson (`AB_Protein_Hunter.cc`)
+In the internal coordinate parameterization of Eq. (3), perturbing a single angle `theta_m` or `beta_m` in the middle of the chain rigidly translates the entire suffix relative to the prefix, causing severe Lennard-Jones `r^-12` steric clashes. Conversely, three move classes preserve the internal geometry of the folded hydrophobic core:
+- **Class I (Pure N-Terminal Tail Re-Docking)**: Perturbing only the first `k` bond vectors (`u_0 .. u_{k-1}`, `k <= 9`) moves only the N-terminal tail `p_0 .. p_k` on the surface of the core while leaving all pairwise distances within `p_{k+1} .. p_{L-1}` 100% invariant.
+- **Class II (Pure C-Terminal Tail Re-Docking)**: Perturbing only the last `k` bond vectors moves only `p_{L-k} .. p_{L-1}` while leaving `p_0 .. p_{L-k-1}` 100% invariant.
+- **Class III (Exact Sum-Preserving `S^2 x S^1` Internal Loop Bridges)**: Solving `u'_{m1} + u'_{m2} + u'_{m3} = u_{m1} + u_{m2} + u_{m3}` analytically on `S^2 x S^1` (along with invariant-sum crankshafts and subchain permutations) moves only the internal loop vertices while keeping both the N-terminal prefix and C-terminal suffix 100% stationary relative to each other.
+
+Coupling these moves with two-stage soft-core L-BFGS (`r^2 >= 0.55` followed by exact `r^2 >= 1e-12`) and an exact Hessian damped Newton-Raphson polisher (`how-we-built-it/AB_Protein_Hunter.cc`) discovered a strictly deeper energy basin for crambin (**`1CRN`**, `L = 46, D = 87`):
+- **Published Best (`arXiv:1903.01456` Table 10)**: `-E = 95.3159` (unrounded Table 11 vector: `-E = 95.315906503180`, `E_bb = 1.547791`, `E_lj = -96.863697`).
+- **Our Conformation (`object/1CRN_L46_negE95.720530.json`)**: **`-E* = 95.720529801173`** (`E* = -95.720529801173`, `E_bb = 1.626305`, `E_lj = -97.346835`), improving `-E*` by **`+0.404630`** (`404.6x` the `1e-3` threshold) with `||grad E||_2 = 4.72e-12 < 1e-8` and `||grad E||_inf = 1.52e-12 < 1e-8`.
