@@ -2,7 +2,6 @@
 
 - `context`: subagent (fresh invocation)
 - `target_id`: `fmm-additive-complexity-records`
-- `package`: `2026-10-17-zerbytheboss-9398b32c`
 - `audit_utc`: `2026-10-17T17:00:10Z`
 
 ## Literal Success Criterion Audit
