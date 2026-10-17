@@ -13,7 +13,7 @@ verdict: PASS
 2. `https://raw.githubusercontent.com/sedoglavic/fmm_digest/master/fmm_sota.json` — HTTP 200, sha256 `d0da2c364dcf4d13c0721ea8b7c3dcd7fae4f6f3c843d22a714a1ccb9bd244c1`. Entry `[2, 4, 7]`: `"rank": 45`.
 3. `https://fmm.univ-lille.fr/2x4x7.html` — HTTP 200, sha256 `3d668f206f15825f65def9e7cfe3c4982ddc524817e2f702eb6fd485bbb059d3`. Lists `(2x4x7 : 45)` citing AlphaEvolve (Novikov et al., May 2025, `arXiv:2506.13131`), with no operation-count variant.
 4. `https://raw.githubusercontent.com/solven-eu/matmulcatalog/master/generated/COVERAGE.md` — HTTP 200, sha256 `c2a9bd929b477acb44d4f92aa8055a0c26eab3c33121c0734be650c5c86254b7`. Row `2x4x7 | 56 | 45 (-20%) | - | +308`. The `+308` is the naive count.
-5. `TROPHY_CASE.md` and `https://api.github.com/repos/elder-plinius/V3R1T4S/pulls?state=all&per_page=100` — HTTP 200. Open PR `#229` claims `<2,4,7>` rank 45 with **169** reduced additions. In PR `#241`, the maintainer noted that our `<2,4,7>` result is below `#229` and invited us to file it as its own package. Our claimed object has **161** reduced additions (`U 35 + V 58 + W 68 = 161`), which is strictly below both Perminov's live `174` (by 13 additions) and open PR `#229`'s `169` (by 8 additions).
+5. `TROPHY_CASE.md` and `https://api.github.com/repos/elder-plinius/V3R1T4S/pulls?state=all&per_page=100` — HTTP 200. Open PR `#229` claims `<2,4,7>` rank 45 with **169** reduced additions, and withdrawn PR `#11` (verified valid by maintainers) reports **164** reduced additions. In PR `#241`, the maintainer noted that our `<2,4,7>` result is below `#229` and invited us to file it as its own package. Our claimed object has **161** reduced additions (`U 35 + V 58 + W 68 = 161`), which is strictly below Perminov's live `174` (by 13 additions), open PR `#229`'s `169` (by 8 additions), and withdrawn PR `#11`'s `164` (by 3 additions).
 
 ## Literature check (last 24 months)
 
@@ -21,6 +21,6 @@ Checked AlphaEvolve (Novikov et al., `arXiv:2506.13131`, May 2025), Dumas, Perne
 
 ## Comparison
 
-Claimed: `161` reduced additions (`35 + 58 + 68`) for `<2,4,7>` at rank `45` over `Z` (`object/2x4x7_m45_cr161_ZT_reduced.json`). Live minimum across Perminov (`174`), Lille (none), `COVERAGE.md` (`308` naive), and open PR `#229` (`169`): `161 < 169 < 174` strictly.
+Claimed: `161` reduced additions (`35 + 58 + 68`) for `<2,4,7>` at rank `45` over `Z` (`object/2x4x7_m45_cr161_ZT_reduced.json`). Live minimum across Perminov (`174`), Lille (none), `COVERAGE.md` (`308` naive), open PR `#229` (`169`), and withdrawn PR `#11` (`164`): `161 < 164 < 169 < 174` strictly.
 
 pass: true
