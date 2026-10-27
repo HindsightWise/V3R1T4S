@@ -54,8 +54,7 @@ Using Python `urllib.request.urlopen` (single request per URL, zero retries) at 
    - No publication in the last 24 months (or any prior work) reports energies below the live Cambridge Cluster Database tables for any of the 20 claimed cluster sizes (`mDzugutov` `N = 74, 134, 177, 241`; `Z1` `N = 38, 42, 44, 54, 65, 67, 68, 74, 75, 76`; `Z2` `N = 35, 43, 56, 59, 69, 80`).
 
 2. **Repository `TROPHY_CASE.md`**:
-   - Inspected all 53 rows of `TROPHY_CASE.md` across the existing result families (`degree-diameter`, `constant-weight-codes`, `lehmer`, `fast-matrix-multiplication`, `sealed-envelopes/bouchaudy-cipher-machines`, `vnncomp-2026`, `robustbench-cifar100`).
-   - Confirmed `0` existing entries for `ccd-dzugutov-zetterling-polytetrahedral-clusters` or Dzugutov/Zetterling clusters.
+   - Inspected `TROPHY_CASE.md`: confirmed zero existing entries for `ccd-dzugutov-zetterling-polytetrahedral-clusters`.
 
 3. **Open and Merged Pull Requests on `elder-plinius/V3R1T4S`**:
    - Queried `https://api.github.com/repos/elder-plinius/V3R1T4S/pulls?state=all&per_page=100` across pages 1 to 3 (300 total open/closed/merged PRs).
