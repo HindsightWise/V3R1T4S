@@ -24,7 +24,7 @@ def load_instance_json(instance_name):
             with open(p, "r", encoding="utf-8") as f:
                 return json.load(f)
 
-    is_comp = instance_name.startswith("m")
+    is_comp = instance_name.startswith("i")
     zip_url = (
         "https://ihtc2024.github.io/assets/files/ihtc2024_competition_instances.zip"
         if is_comp

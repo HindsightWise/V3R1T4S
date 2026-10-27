@@ -18,7 +18,7 @@ The total objective is the weighted sum of the 8 soft constraint penalties:
 $$\text{Total cost} = \text{RoomAgeMix} + \text{RoomSkillLevel} + \text{ContinuityOfCare} + \text{ExcessiveNurseWorkload} + \text{OpenOperatingTheater} + \text{SurgeonTransfer} + \text{PatientDelay} + \text{ElectiveUnscheduledPatients}.$$
 
 ## 2. Independent Verification Against Official `IHTP_Validator` and `INDEX.csv`
-Before inspecting `verify-it-yourself/` or `how-we-built-it/`, `object/sol_m26_68496.json` was verified directly against `INDEX.csv` and the official C++ `IHTP_Validator` compiled from the IHTC-2024 specification:
+Before inspecting `verify-it-yourself/` or `how-we-built-it/`, `object/sol_m26_68496.json` was verified directly against `INDEX.csv` and both the official C++ `IHTP_Validator` compiled from the IHTC-2024 specification and its standalone Python port (`verify-it-yourself/check_ihtp.py`):
 1. **File Integrity (`INDEX.csv`)**: Verified `object/sol_m26_68496.json` has SHA-256 `1084ec80f011bba03680556ecb38881cda80ea415228860a3757359fb4709e9a`, matching `INDEX.csv` (`target_id = ihtp-ihtc2024-hidden-m-instances-upper-bounds`, `cell = m26`, `value = 68496`, `table_value = 69730`).
 2. **Official C++ `IHTP_Validator` Output**:
    - `RoomGenderMix = 0`, `PatientRoomCompatibility = 0`, `SurgeonOvertime = 0`, `OperatingTheaterOvertime = 0`, `MandatoryUnscheduledPatients = 0`, `AdmissionDay = 0`, `RoomCapacity = 0`, `NursePresence = 0`, `UncoveredRoom = 0` : **`Total violations = 0`**.
