@@ -45,8 +45,7 @@ Using Python `urllib.request.urlopen` (single request per URL, zero retries) at 
    - No publication in the last 24 months (or any prior work) reports Finnis-Sinclair `Mo_N` or `Fe_N` energies for `N = 3..100` below the live CCD values for `Mo_75`, `Mo_90`, `Fe_86`, `Fe_87`, `Fe_90`, `Fe_91`, `Fe_92`, `Fe_96`, `Fe_97`, `Fe_98`, or `Fe_100`.
 
 2. **Repository `TROPHY_CASE.md`**:
-   - Inspected all 53 rows of `TROPHY_CASE.md` across the existing result families (`degree-diameter`, `constant-weight-codes`, `lehmer`, `fast-matrix-multiplication`, `sealed-envelopes/bouchaudy-cipher-machines`, `vnncomp-2026`, `robustbench-cifar100`).
-   - Confirmed `0` existing entries for `ccd-finnis-sinclair-mo-fe-clusters` or Finnis-Sinclair `Mo`/`Fe` nanoclusters.
+   - Inspected `TROPHY_CASE.md`: confirmed zero existing entries for `ccd-finnis-sinclair-mo-fe-clusters`.
 
 3. **Open and Merged Pull Requests on `elder-plinius/V3R1T4S`**:
    - Queried `https://api.github.com/repos/elder-plinius/V3R1T4S/pulls?state=all&per_page=100` across pages 1 to 3 (300 total open/closed/merged PRs).
