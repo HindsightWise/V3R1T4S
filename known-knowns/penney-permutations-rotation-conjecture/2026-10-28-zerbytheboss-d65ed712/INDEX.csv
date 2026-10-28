@@ -1,0 +1,2 @@
+target_id,cell,value,table_value,table_fetched_utc,file,sha256
+penney-permutations-rotation-conjecture,p1_S4_conjecture,"p1 certified for all 24 permutations in S_4 with exact integer horizon certificates (A+R)/H! < 1/2 in object/s4_certificates.json",open,2026-10-28T18:16:00Z,object/s4_certificates.json,d65ed712fff9187ef1fe3b4af2c0a7b58f1fad32723671f2f0e55c07c9d43bf1
