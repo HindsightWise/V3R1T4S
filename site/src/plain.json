@@ -41,6 +41,12 @@
     "drug-discovery": "Predicting how molecules behave and stick to their targets, scored on public drug-discovery leaderboards.",
     "biology": "Protein, DNA and evolution puzzles with public scorecards, from designing RNA to reading individual cells.",
     "physics": "Exact counts, tight limits and precise constants in physics, from magnets and lattices to quantum info.",
-    "earth-and-sky": "Missed quakes, meteors and solar flares hiding in open science archives, checked against official catalogs."
+    "earth-and-sky": "Missed quakes, meteors and solar flares hiding in open science archives, checked against official catalogs.",
+    "machine-learning": "Small AI leaderboards and efficiency records a laptop can top, using open models run on your own machine.",
+    "crypto-math": "Public challenges built to be attacked, and the maths behind the building blocks of encryption.",
+    "compression-and-golf": "Squeezing files smaller than anyone has, and writing the shortest possible programs for public tables.",
+    "recreational-math": "Puzzle records: magic squares, dissections, number sequences and other curiosities with public tables.",
+    "formal-proofs": "Statements waiting for a computer-checked proof, where the Lean proof checker is the referee.",
+    "wildcard": "Open problems a computer can check, from fields none of the other categories cover."
   }
 }

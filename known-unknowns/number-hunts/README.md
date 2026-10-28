@@ -2,15 +2,25 @@
 
 Certified bounds, exact searches and explicit solutions in number theory and computability.
 
-**19 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**30 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
+| ★★★★☆ | [Conjectures 'R Us: eliminate a remaining k from a Riesel or Sierpinski base conjecture](crus-riesel-sierpinski-k-elimination.md) | harvest | laptop-hours |
+| ★★★★☆ | [Generalized Cullen and Woodall primes: first prime for a base with none known](nplb-generalized-cullen-woodall-first-prime.md) | harvest | laptop-hours |
+| ★★★☆☆ | [Curves over finite fields with many points: raise a lower bound on manYPoints](manypoints-curves-finite-fields-lower-bounds.md) | harvest | laptop-hours |
+| ★★★☆☆ | [High-rank elliptic curves with prescribed torsion over quadratic fields: beat or certify…](dujella-torsion-rank-records-quadratic-fields.md) | harvest | laptop-hours |
+| ★★★☆☆ | [Multiply perfect numbers: find a new 9-, 10- or 11-perfect number](multiperfect-new-k-perfect.md) | harvest | laptop-hours |
+| ★★★☆☆ | [Sociable numbers: find an aliquot cycle not on Moews' list](moews-aliquot-cycles-new.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Decide official BB(6) holdout machines with independently checkable certificates](bb6-holdout-certificates.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [A fifth primitive solution to a^5 + b^5 + c^5 + d^5 = e^5 (or a third all-positive one)](fifth-powers-5-1-4-new-primitive.md) | harvest | needs cluster |
+| ★★☆☆☆ | [Amicable pairs: beat the smallest known ratio m/n](amicable-pair-smallest-ratio.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [BB(3,3) non-Bigfoot holdouts and BB(2,5) non-Hydra holdouts](bb33-bb25-cryptid-adjacent.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Computationally decidable open number-theory Erdős problems (erdosproblems.com)](erdos-problems-computational-nt.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [Cunningham chains: beat a largest-known record for some length, or find a chain of length…](cunningham-chain-records.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [Giuga numbers: find one not yet known](giuga-numbers-new.md) | standard | laptop-hours |
 | ★★☆☆☆ | [Hall's conjecture: new good examples beyond 10^29 or beat Elkies' ratio 46.6](hall-conjecture-good-examples.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [High-rank elliptic curves over Q with prescribed torsion: beat a cell of Dujella's table](dujella-torsion-rank-records-q.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Ideal Prouhet-Tarry-Escott solution of size 11 or 13](pte-ideal-size-11-13.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Improve the Erdős-Moser equation lower bound (beyond the 2026 claim m > 8.213e1,800,000,0…](erdos-moser-bound.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Improve the upper bound on Taxicab(7) (and higher taxicab bounds)](taxicab-7-upper-bound.md) | harvest | laptop-hours |
@@ -21,6 +31,7 @@ Certified bounds, exact searches and explicit solutions in number theory and com
 | ★☆☆☆☆ | [Antihydra (BB(6) Cryptid): prove non-halting (Collatz-like / Mahler 3/2 problem)](antihydra-collatz-cryptid.md) | moonshot | pure thought |
 | ★☆☆☆☆ | [Equal sums of sixth powers: 6.1.5 / 6.1.6 (Euler conjecture k=6) and 6.2.2](sixth-powers-equal-sums.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Lehmer's totient problem: composite n with phi(n) \| n - 1](lehmer-totient.md) | moonshot | pure thought |
+| ★☆☆☆☆ | [MOONSHOT - a rational Diophantine septuple](rational-diophantine-septuple.md) | moonshot | laptop-hours |
 | ★☆☆☆☆ | [Perfect cuboid (perfect Euler brick)](perfect-cuboid.md) | moonshot | pure thought |
 | ★☆☆☆☆ | [Perfect triangle: integer sides, rational medians, integer area](perfect-triangle.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Rational distance problem for the unit square (four-distance problem)](rational-distance-unit-square.md) | standard | laptop-hours |

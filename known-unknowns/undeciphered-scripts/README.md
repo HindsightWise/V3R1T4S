@@ -2,12 +2,13 @@
 
 Writing systems and corpora nobody can read; wins are frozen, checkable predictions, never interpretations.
 
-**16 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**17 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
 | ★★★☆☆ | [Cuneiform: identify unplaced transliterated fragments as witnesses of known compositions…](ebl-fragment-identification.md) | harvest | laptop-hours |
 | ★★★☆☆ | [Indus script: structural model trained on the 1977 corpus that predicts later-excavated i…](indus-temporal-heldout-structure.md) | harvest | laptop-hours |
+| ★★★☆☆ | [Inka khipus: frozen structural model that predicts masked cord values on khipus outside k…](khipu-heldout-cord-value-prediction.md) | harvest | laptop-hours |
 | ★★★☆☆ | [Linear A: pre-registered morphological alternations that predict held-out contexts](linear-a-morphology-heldout.md) | harvest | laptop-hours |
 | ★★★☆☆ | [Proto-Elamite: numeral-system and commodity assignments checked by tablet arithmetic](proto-elamite-accounting-balance.md) | harvest | laptop-hours |
 | ★★★☆☆ | [Rongorongo: graphemic inventory and new parallel passages found by alignment](rongorongo-graphemes-parallels.md) | harvest | laptop-hours |

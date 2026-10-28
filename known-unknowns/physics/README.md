@@ -2,7 +2,7 @@
 
 Statistical mechanics, lattice models, quantum information and materials: exact counts, certified bounds, constants to record precision and public leaderboards.
 
-**27 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**28 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
@@ -23,6 +23,7 @@ Statistical mechanics, lattice models, quantum information and materials: exact 
 | ★★☆☆☆ | [Hard-square lattice gas: more digits of the critical activity z_c = 3.7962551739... (Guo-…](hard-square-critical-activity-digits.md) | standard | laptop-days |
 | ★★☆☆☆ | [Lattice animals in 4 to 9 dimensions: the next exact count of fixed polycubes beyond Luth…](lattice-animals-hypercubic-d4-plus-exact-counts.md) | harvest | laptop-days |
 | ★★☆☆☆ | [Matbench v0.1 medium tasks (phonons, dielectric, expt_is_metal, log_gvrh, log_kvrh, perov…](matbench-medium-structure-tasks-cpu.md) | harvest | laptop-days |
+| ★★☆☆☆ | [Matbench v0.1: beat the per-task leaderboard on a small-data task (steels, jdft2d, expt_g…](matbench-small-data-tasks.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Self-avoiding walks: an exact count c_n beyond the published record on the 4D/5D hypercub…](saw-hypercubic-exact-enumeration.md) | harvest | laptop-days |
 | ★★☆☆☆ | [Absolutely maximally entangled states: settle an open AME(n,D) cell of the Huber-Wyderka…](ame-states-open-cells-huber-table.md) | standard | laptop-days |
 | ★★☆☆☆ | [Growth constants of lattice animals: a certified bound beating lambda_2 in [4.00253, 4.52…](lattice-animal-growth-constant-certified-bounds.md) | standard | laptop-days |

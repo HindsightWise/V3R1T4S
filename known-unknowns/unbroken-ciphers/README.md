@@ -2,10 +2,11 @@
 
 Historical and challenge ciphers nobody has read yet.
 
-**17 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**20 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
+| ★★★☆☆ | [Chaocipher: break a single ciphertext-only message, and known-plaintext attack on the Ext…](chaocipher-single-message-and-extended-kpa.md) | harvest | laptop-hours |
 | ★★★☆☆ | [MysteryTwister 'The Hutton Cipher – Part 5' (4,250-letter ciphertext-only, 0 solvers sinc…](mtc3-hutton-cipher-part-5.md) | harvest | laptop-hours |
 | ★★★☆☆ | [Remaining unbroken 1941 German Army Enigma messages (CryptoCellar list)](cryptocellar-enigma-1941-remaining.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Beale ciphers #1 (location) and #3 (names): book-cipher key-text search](beale-1-and-3.md) | standard | laptop-hours |
@@ -17,11 +18,13 @@ Historical and challenge ciphers nobody has read yet.
 | ★★☆☆☆ | [Somerton Man (Tamam Shud) code: exact initialism source search](tamam-shud-initialism.md) | standard | laptop-hours |
 | ★★☆☆☆ | [The last 7 unbroken German Army Truppenschlüssel (TS) hand-cipher messages, 1941 (CryptoC…](cryptocellar-truppenschluessel-1941.md) | standard | laptop-hours |
 | ★★☆☆☆ | [The nine still-open 1918 ADFGVX radiograms (Childs collection, Lasry/Schmeh 2017 challeng…](adfgvx-1918-nine-open.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [WWII British censorship manual steganograms: locate the Morse code in the fashion drawing…](censorship-manual-steganograms.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Chinese gold bar cryptograms (Shanghai, 1933)](chinese-gold-bars.md) | standard | laptop-minutes |
 | ★☆☆☆☆ | [Cicada 3301 Liber Primus: unsolved runic pages](liber-primus-lp2.md) | moonshot | laptop-hours |
 | ★☆☆☆☆ | [CryptoCellar 'Ultimate Enigma Challenge' (5 Sept 1941 messages, possibly non-standard mac…](ultimate-enigma-challenge.md) | moonshot | laptop-hours |
 | ★☆☆☆☆ | [Dorabella cipher (Elgar, 1897)](dorabella-1897.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Henry Debosnys cryptograms (1882-83)](debosnys-1883.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Kryptos K4: recover the encryption METHOD (plaintext known only to Sanborn and archive ow…](kryptos-k4-method.md) | moonshot | laptop-hours |
+| ★☆☆☆☆ | [Moustier altar inscriptions (two 19th-century coded inscriptions, St Martin's Church, Bel…](moustier-altar-inscriptions.md) | standard | laptop-hours |
 
 ← [All categories](../README.md)

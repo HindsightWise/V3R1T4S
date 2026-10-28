@@ -19,6 +19,8 @@ ICONS = {
     "number-hunts": "🔢", "erdos-and-proofs": "✏️", "record-tables": "📊", "graphs-games-automata": "🕸️",
     "packings-physics": "⚪", "algorithms": "⚡", "optimization-benchmarks": "🚚", "sky-archives": "🔭",
     "ml-robustness": "🛡️", "disease-research": "🧬", "drug-discovery": "💊", "biology": "🦠", "physics": "⚛️", "earth-and-sky": "🌍",
+    "machine-learning": "🤖", "crypto-math": "🗝️", "compression-and-golf": "🗜️", "recreational-math": "🎲",
+    "formal-proofs": "✅", "wildcard": "🃏",
 }
 KIND = {"harvest": "harvest (many cells or partial wins within reach)", "standard": "standard",
         "moonshot": "moonshot (famous, long odds)"}

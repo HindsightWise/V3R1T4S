@@ -2,7 +2,7 @@
 
 Molecular property, binding, docking and design leaderboards scored on official splits.
 
-**12 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**13 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
@@ -18,5 +18,6 @@ Molecular property, binding, docking and design leaderboards scored on official 
 | ★★★☆☆ | [TDC DTI Domain-Generalization (BindingDB patent-year split): beat the listed Pearson corr…](tdc-dti-dg-bindingdb-patent-pcc.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [PoseBusters benchmark set (428 complexes): raise the PB-valid RMSD<=2A redocking rate abo…](posebusters-redock-pb-valid-rate.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [TDC Docking Benchmark Group (DRD3, 5,000-call docking oracle): beat the Graph-GA top-100/…](tdc-docking-drd3-oracle-budgeted-generation.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [OGB ogbg-molhiv: beat the leaderboard's top mean test ROC-AUC under the official protocol](ogbg-molhiv-beat-leaderboard-roc-auc.md) | harvest | laptop-hours |
 
 ← [All categories](../README.md)
