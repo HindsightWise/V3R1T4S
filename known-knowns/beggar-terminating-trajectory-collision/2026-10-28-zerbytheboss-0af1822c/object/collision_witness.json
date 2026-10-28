@@ -1,0 +1,49 @@
+{
+  "target_id": "beggar-terminating-trajectory-collision",
+  "deck_setting": {
+    "N": 16,
+    "special_ranks": 2,
+    "special_copies_per_rank": 4,
+    "ordinary_cards": 8,
+    "cards_per_player": 8
+  },
+  "initial_deals": {
+    "deal1": {
+      "deck_a": [0, 0, 2, 1, 0, 2, 1, 2],
+      "deck_b": [1, 0, 1, 2, 0, 0, 0, 0],
+      "leader": "A"
+    },
+    "deal2": {
+      "deck_a": [0, 0, 0, 2, 1, 0, 2, 1],
+      "deck_b": [1, 2, 1, 2, 0, 0, 0, 0],
+      "leader": "A"
+    }
+  },
+  "predecessors": {
+    "state_x": {
+      "deck_a": [2, 1, 0, 2, 1, 2],
+      "deck_b": [0, 1, 2, 0, 0, 0, 0, 0, 1, 0],
+      "leader": "B"
+    },
+    "state_y": {
+      "deck_a": [0, 2, 1, 0, 2, 1],
+      "deck_b": [2, 1, 2, 0, 0, 0, 0, 0, 1, 0],
+      "leader": "B"
+    }
+  },
+  "collision_state_z": {
+    "deck_a": [1, 2, 0, 2, 1, 1, 2, 0, 2, 0, 0],
+    "deck_b": [0, 0, 0, 1, 0],
+    "leader": "A"
+  },
+  "continuation_to_termination": {
+    "tricks_to_termination": 3,
+    "total_match_tricks": 5,
+    "winner": "A",
+    "final_state": {
+      "deck_a": [1, 1, 2, 0, 2, 0, 0, 1, 0, 2, 0, 0, 0, 1, 2, 0],
+      "deck_b": [],
+      "leader": "A"
+    }
+  }
+}

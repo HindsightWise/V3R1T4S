@@ -1,0 +1,2 @@
+target_id,cell,value,table_value,table_fetched_utc,file,sha256
+beggar-terminating-trajectory-collision,(16,2)_terminating_collision,confirmed_terminating_collision,open,2026-10-28T18:12:00Z,object/collision_witness.json,0af1822c831178b686d4cd3e549ebf29b51a22f3835d10f3996c5df4305c6908
