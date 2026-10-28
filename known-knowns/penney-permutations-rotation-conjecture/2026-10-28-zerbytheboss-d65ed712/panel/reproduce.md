@@ -36,4 +36,10 @@ review_utc: 2026-10-28T18:50:00Z
      - 2 permutations ($2341, 3214$) certify at $H = 36$.
    - Bit-for-bit exact agreement between compiled Rust engine and pure Python solver.
 
+4. **Reproduction of $S_5$ Exact Rational Intervals at $H=16$**:
+   - Evaluated all 120 permutations across 60 complement-symmetry classes in $S_5$.
+   - Exact counts $A(16) + B(16) + R(16) == 16! == 20,922,789,888,000$.
+   - Verified exact complement symmetry: $\sigma$ and $\sigma^c$ produce bit-for-bit identical $(A, B, R)$.
+   - For all 120 permutations, Bob's right rotation beats Alice conditionally: $B / (A + B) > 54.78\%$, confirming zero counterexamples in $S_5$.
+
 pass: true
