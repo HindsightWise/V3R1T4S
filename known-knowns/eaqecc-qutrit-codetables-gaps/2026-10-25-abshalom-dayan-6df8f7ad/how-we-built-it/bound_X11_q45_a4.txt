@@ -1,0 +1,82 @@
+Sat Oct 24 20:33:53 UTC 2026
+tail ranks achievable: 1 2 3
+bound 0 rho1 6 rho0 3 eps ++++++++++++++++++++++++++++
+bound 1 rho1 6 rho0 4 eps +-++++++++++++++++++++++++++
+bound 2 rho1 6 rho0 5 eps +--+++++++++++++++++++++++++
+bound 2 rho1 6 rho0 5 eps ++--++++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +---++++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-+--+++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +----+++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps ++---+++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +--+-+++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-++--++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps ++-+--++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps ++----++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-----++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-+---++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +++---++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-+-+-++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps ++--+-++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +--++-++++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-+++--+++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +--++--+++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps ++-++--+++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +---+--+++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +-+-+--+++++++++++++++++++++
+bound 3 rho1 6 rho0 6 eps +++-+--+++++++++++++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+-+-+++-+-++++++++++++++
+bound 4 rho1 5 rho0 5 eps +++--++-+---+-++++++++++++++
+bound 4 rho1 5 rho0 5 eps ++--+++-+--+---+++++++++++++
+bound 4 rho1 5 rho0 5 eps +-+-+-+-+-+-++-+++++++++++++
+bound 4 rho1 5 rho0 5 eps +-+++-+-+-+-++-+++++++++++++
+bound 4 rho1 5 rho0 5 eps +-+-+++--++-+---++++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+---+++++-+-++++++++++++
+bound 4 rho1 5 rho0 5 eps ++--+---+++++-+-++++++++++++
+bound 4 rho1 5 rho0 5 eps ++--+----++++-+-++++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+----++++-+-++++++++++++
+bound 4 rho1 5 rho0 5 eps +++--++--++---+-++++++++++++
+bound 4 rho1 5 rho0 5 eps +--++--+---+-++--+++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+-+++++---+--+++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+++++++---+--+++++++++++
+bound 4 rho1 5 rho0 5 eps +++-+-+++++-+-+--+++++++++++
+bound 4 rho1 5 rho0 5 eps +-----+++++++----+++++++++++
+bound 4 rho1 5 rho0 5 eps +-----+-+-+++----+++++++++++
+bound 4 rho1 5 rho0 5 eps ++-+-+--+-+++----+++++++++++
+bound 4 rho1 5 rho0 5 eps +-----+++-+++----+++++++++++
+bound 4 rho1 5 rho0 5 eps +-+++++--++-+----+++++++++++
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps ++------++-------+--+-----++
+bound 5 rho1 4 rho0 4 eps ++------++-------+--+-----++
+bound 5 rho1 4 rho0 4 eps +--++++----+++++---+-++++--+
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +--+-+-++++-++---+--++++-+-+
+bound 5 rho1 4 rho0 4 eps +--+-+-++++-++---+--++++-+-+
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +-++++++--+++++++-++-+++++-+
+bound 5 rho1 4 rho0 4 eps +-++++++--+++++++-++-+++++-+
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +-++++++--+++++++-++++++++--
+bound 5 rho1 4 rho0 4 eps +-++++++--+++++++-++++++++--
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +-++++++--+++++++-+--+++++--
+bound 5 rho1 4 rho0 4 eps +-++++++--+++++++-+--+++++--
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +-++++++--+++++++--+-+++++--
+bound 5 rho1 4 rho0 4 eps +-++++++--+++++++--+-+++++--
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps +-++++++-++++++++-++-+++++--
+bound 5 rho1 4 rho0 4 eps +-++++++-++++++++-++-+++++--
+exact 5 bound 5 rho1 4 rho0 4 s 3 eps ++++++++--+++++++-++-+++++--
+bound 5 rho1 4 rho0 4 eps ++++++++--+++++++-++-+++++--
+exact 6 bound 6 rho1 3 rho0 3 s 3 eps +-++++++--+++++++-++-+++++--
+bound 6 rho1 3 rho0 3 eps +-++++++--+++++++-++-+++++--
+patterns 134217728
+histogram (rho1 rho0 count bound):
+  3 3 1 6
+  4 4 36 5
+  5 2 30 1
+  5 3 808 2
+  5 4 20083 3
+  5 5 54170 4
+  6 3 6063 0
+  6 4 1352159 1
+  6 5 36151354 2
+  6 6 96633024 3
+max bound over all head sign patterns: 6
+exact max hull (over all tails) among patterns with bound >= 5, histogram: 4:2 5:34 6:1
+exact max hull over all X codes of this pair: 6 (patterns with bound <= 4 have hull <= 4)
+exit=0
+Sat Oct 24 20:34:43 UTC 2026
