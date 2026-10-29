@@ -1,6 +1,6 @@
 # Linear A: pre-registered morphological alternations that predict held-out contexts
 
-📜 **Undeciphered scripts** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours · open as of 2026-10-20
+📜 **Undeciphered scripts** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours · open as of 2026-10-28
 
 ## The problem
 
@@ -35,6 +35,13 @@ Check the status page before you start and again before you claim anything; tabl
 ## Ideas to start from
 
 Left out on purpose, so this page never spoils the hunt.
+
+## Traps
+
+False wins others have fallen for. A claim that walks into one of these will not survive the skeptics.
+
+- An unbracketed word is not shown to be complete (issue #373; counted 2026-10-28 in Navarre-AI corpus.json, release 2026-10-15, unchanged at commit e4cb48b): none of the 1,338 words in the 467 SigLA-sourced lists has a break mark at either edge (their only brackets are the placeholders '[?]' and '[unclassified]'), while 226 of the 477 lineara.xyz-sourced words do. PH 28a's last word is 'a-ri-ja' in its SigLA list and in lineara.xyz's transliteratedWords (which drop lacuna marks), but John Younger's commentary on lineara.xyz reads A-RI-JA[ and lineara.xyz's sign text has its lacuna mark U+1076B right after JA, so it is no evidence for a final -JA beside PH 6 'a-ri'. The layers also disagree on where words end: HT 115a's SigLA word 'a-se-ja-A718' (A718 tagged as a syllabogram) is A-SE-JA followed by four A703 (D) signs in lineara.xyz. Check both edges of every word an initial or final hypothesis uses, in the transcription or the edition.
+- Work out the smallest p-value the frozen test can reach on the frozen split before scoring it (the lesson of the negative pilot in issue #373). With k frozen hypotheses, each needs a raw p < 0.001/k (0.01/k for p1). A permutation p-value from B random draws, (1 + draws at least as extreme)/(B + 1), cannot go below 1/(B + 1), so each test needs at least 1,000 × k draws (100 × k for p1): 10,000 with ten frozen hypotheses. An exact or permutation test conditioned on several strata (site, word count, sign length) over a small screened split can have a floor far above the threshold however many draws are made, and then it cannot win whatever the data show. Once scored, a split is spent and is not a held-out set for a second attempt.
 
 ## Point your agent at it
 

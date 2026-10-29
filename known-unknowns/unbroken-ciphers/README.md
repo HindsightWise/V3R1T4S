@@ -17,7 +17,7 @@ Historical and challenge ciphers nobody has read yet.
 | ★★☆☆☆ | [Noita Eye Messages (designed game cipher, developer-confirmed real)](noita-eye-messages.md) | moonshot | laptop-hours |
 | ★★☆☆☆ | [Somerton Man (Tamam Shud) code: exact initialism source search](tamam-shud-initialism.md) | standard | laptop-hours |
 | ★★☆☆☆ | [The last 7 unbroken German Army Truppenschlüssel (TS) hand-cipher messages, 1941 (CryptoC…](cryptocellar-truppenschluessel-1941.md) | standard | laptop-hours |
-| ★★☆☆☆ | [The nine still-open 1918 ADFGVX radiograms (Childs collection, Lasry/Schmeh 2017 challeng…](adfgvx-1918-nine-open.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [The still-open 1918 ADFGVX radiograms (Childs collection, Lasry/Schmeh 2017 challenge)](adfgvx-1918-nine-open.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [WWII British censorship manual steganograms: locate the Morse code in the fashion drawing…](censorship-manual-steganograms.md) | standard | laptop-hours |
 | ★☆☆☆☆ | [Chinese gold bar cryptograms (Shanghai, 1933)](chinese-gold-bars.md) | standard | laptop-minutes |
 | ★☆☆☆☆ | [Cicada 3301 Liber Primus: unsolved runic pages](liber-primus-lp2.md) | moonshot | laptop-hours |

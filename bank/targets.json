@@ -5569,7 +5569,7 @@
    "partial_wins": [
     {
      "id": "p1",
-     "statement": "A missed event of magnitude >= Mc - 0.3 with the same location-quality requirements, in a ComCat-authoritative network region (not offshore)."
+     "statement": "A missed event of magnitude >= Mc - 0.3 with the same location-quality requirements, in a ComCat-authoritative network region (not offshore). The epicentre is in a ComCat-authoritative network region when USGS geoserve returns an ANSS authoritative region for it (https://earthquake.usgs.gov/ws/geoserve/regions.json with type=authoritative; as of 2026-10-28 these are the regions of AK, CI, HV, NC, NM (New Madrid), NN, OK, PR, SE, TX, UU (Utah and Yellowstone) and UW). Where geoserve returns none, NEIC (us) is authoritative only by default and the event does not count for p1, even if a regional network without an authoritative region (for example MB in most of Montana) contributes most local events."
     },
     {
      "id": "p2",
@@ -5593,7 +5593,7 @@
     "https://service.earthscope.org/fdsnws/station/1/"
    ],
    "statement": "USGS ComCat (live FDSN event service) is the authoritative US catalog; open continuous waveforms are served by the EarthScope/IRIS FDSN dataselect service. Template matching and ML pickers routinely find 2-10x more events than standard catalogs, mostly below completeness. The open, non-trivial task: an earthquake at or above the regional magnitude of completeness that ComCat (and ISC) do not list, in a region/time where no published enhanced catalog covers it.",
-   "status_checked": "2026-10-15",
+   "status_checked": "2026-10-28",
    "status_source": "https://earthquake.usgs.gov/fdsnws/event/1/",
    "success_criterion": "A saved event package (origin time, location, depth, local magnitude with method, >= 8 P/S picks on >= 4 public stations, FDSN request URLs on service.earthscope.org, detection code) such that: the skeptic's independent re-location (e.g. NonLinLoc/HypoInverse-style grid search) gives RMS <= 0.3 s and horizontal error <= 5 km; the detector run on a null set (the same continuous data with station traces circularly time-shifted against each other by >= 10 min, or time-reversed) yields an expected false count < 0.05 over the searched span at the candidate's statistic; the magnitude is >= the regional ComCat completeness magnitude Mc computed by the skeptic (maximum curvature + 0.2) from a live ComCat query for that region over the 5 surrounding years; not a quarry blast (daytime-cluster and S/P amplitude checks; ComCat eventtype filters); and a live ComCat query (and the ISC bulletin if reachable) re-fetched immediately before claiming returns no event within +/- 30 s and 50 km. Must not be inside the space-time window of a published enhanced catalogue (e.g. QTM Southern California, Ross et al. 2019) unless absent there too.",
    "tractability": 3,
@@ -12372,13 +12372,13 @@
   },
   {
    "id": "adfgvx-1918-nine-open",
-   "name": "The nine still-open 1918 ADFGVX radiograms (Childs collection, Lasry/Schmeh 2017 challenge)",
+   "name": "The still-open 1918 ADFGVX radiograms (Childs collection, Lasry/Schmeh 2017 challenge)",
    "category": "unbroken-ciphers",
    "kind": "harvest",
    "tractability": 2,
    "compute_profile": "laptop-hours",
-   "statement": "In February 2017 George Lasry and Klaus Schmeh published 22 German ADFGVX radiograms (Nov-Dec 1918, J. Rives Childs collection) that resisted Lasry's large-scale break (Lasry, Niebel, Kopal and Wacker, Cryptologia 41(2), 2017). ADFGVX is a 6x6 Polybius substitution followed by columnar transposition with daily keys. Per the community repo github.com/0wwafa/adfgvx-1918 (Sept 2026), 12 are read (p.100, 105, 109, 132, 146, 164 (two partials), 171, 176, 187 (two parts), 215, 217) and 9 remain open; p.217 (keyword TRUPPENVERSCHIEBUNG) was credited to 'prinz' with GPT-6 Astra in Sept 2026 and independently verified by the swarm-ai-research group, though its key is dated 9 Dec 1918, twelve days after the message. The README does not list the nine open IDs; take them from the repo's docs/REPORT.md and messages.py. The repo's own two-edit exhaustive and beam searches have already failed on these nine. Decrypt any of the nine. Schmeh's Top-50 ranks unsolved ADFGVX cryptograms #46.",
-   "success_criterion": "CONFIRMED only if ALL of the following hold. (0) The target ID appears as open in the repo's docs/REPORT.md on the day of the attempt. (1) The key (Polybius square plus transposition key) is either a documented 1918 daily key for the message's date window, or a newly recovered key that ALSO decrypts at least one other message of the same date window to German. A key taken from a date window that does not contain the message must be flagged, and is CONFIRMED only if it also decrypts a second message or the plaintext matches an external historical record. (2) The decrypt of the archived transcription is German military or diplomatic text with at least 85% word coverage. (3) Edits are at most 4% of symbols or 3 edits, whichever is larger, each a plausible transcription or transmission error (for example adjacent ADFGVX letter confusion, or a dropped or duplicated column cell), and every edit is listed. (4) Multiple-comparison control: the total hypothesis count (keys x edit-sets x column-offset variants) is reported, and the claimed German score exceeds the best score over the same search on wrong-key controls (all other known 1918 keys) and shuffled-ciphertext controls by a margin corresponding to p < 1e-6 after correction. (5) Plaintext content is historically plausible for Nov-Dec 1918 (Black Sea, Balkans, Ukraine) and, where possible, matches an external record, as p.217 matched HMS Canterbury's arrival at Sevastopol.",
+   "statement": "In February 2017 George Lasry and Klaus Schmeh published 22 German ADFGVX radiograms (Nov-Dec 1918, J. Rives Childs collection) that resisted Lasry's large-scale break (Lasry, Niebel, Kopal and Wacker, Cryptologia 41(2), 2017). ADFGVX is a 6x6 Polybius substitution followed by columnar transposition with daily keys. Per the community repo github.com/0wwafa/adfgvx-1918 (Sept 2026, not updated since), 12 are read (p.100, 105, 109, 132, 146, 164 (two partials), 171, 176 (VVAVD...), 187 (two parts), 215, 217) and 9 were open (its docs/SOLUTIONS.md: p.73, p.152, p.153 (VFVAX...), p.153 (AXVAA...), p.158, p.170, p.176 (GGDAA...), p.189, p.198); p.217 (keyword TRUPPENVERSCHIEBUNG) was credited to 'prinz' with GPT-6 Astra in Sept 2026 and independently verified by the swarm-ai-research group, though its key is dated 9 Dec 1918, twelve days after the message. That repo's own two-edit exhaustive and beam searches failed on all nine. Since 11 Oct 2026 Colin Reilly, with Claude, has published readings of three of them in github.com/creilly11235/adfgvx-1918, with every correction and fill listed in data/messages.json. p.153 message C parts 5 and 6 (VFVAX..., 132 symbols; AXVAA..., 108 symbols, three groups lost) read under a new 18-column key: part 5 with no edits, part 6 after two logged symbols are corrected from A to X and twelve lost letters are filled by reading, with three signature letters left open. p.176 message B part 1 ('2305', GGDAA..., 220 of the 240 symbols in its header) reads under Lasry's 10-12 Nov key (five blank square cells filled as a 2017 blog comment proposed) once the 20 lost symbols are placed as one block after symbol 160 and restored by a scored search (six letters stay open: three restored letters and the three digits on the filled cells). Issue #630 checked the p.153 key, and the maintainer checked both readings on 2026-10-28, with independently written code: Reilly's transcriptions equal Schmeh's list page, the published keys give the published readings, and re-encryption returns 220 of the 225 surviving p.153 symbols (the other five are the two corrected symbols and the surviving halves of the three open letters) and all 220 of p.176's. The searches that found the key and the gap were not rerun. Six remain open: p.73, p.152, p.158, p.170, p.189 and p.198. Reilly's table lists p.158 as a 'Duplicate entry', a log row that joins the symbols of two entries on Childs p.159 rather than one cryptogram; long runs of it do recur in Reilly's transcriptions of both. Decrypt any of the six. Schmeh's Top-50 ranks unsolved ADFGVX cryptograms #46.",
+   "success_criterion": "CONFIRMED only if ALL of the following hold. (0) The target is one of the six open IDs above, and on the day of the attempt its row in the section 'The 22 entries on Schmeh's list' of Reilly's MESSAGES.md (the status source) still shows no key and no published solution. (1) The key (Polybius square plus transposition key) is either a documented 1918 daily key for the message's date window, or a newly recovered key that ALSO decrypts at least one other message of the same date window to German. A key taken from a date window that does not contain the message must be flagged, and is CONFIRMED only if it also decrypts a second message or the plaintext matches an external historical record. (2) The decrypt of the archived transcription is German military or diplomatic text with at least 85% word coverage. (3) Edits are at most 4% of symbols or 3 edits, whichever is larger, each a plausible transcription or transmission error (for example adjacent ADFGVX letter confusion, or a dropped or duplicated column cell), and every edit is listed. (4) Multiple-comparison control: the total hypothesis count (keys x edit-sets x column-offset variants) is reported, and the claimed German score exceeds the best score over the same search on wrong-key controls (all other known 1918 keys) and shuffled-ciphertext controls by a margin corresponding to p < 1e-6 after correction. (5) Plaintext content is historically plausible for Nov-Dec 1918 (Black Sea, Balkans, Ukraine) and, where possible, matches an external record, as p.217 matched HMS Canterbury's arrival at Sevastopol.",
    "partial_wins": [
     {
      "id": "p1",
@@ -12389,15 +12389,18 @@
      "statement": "For one open message, a key (documented or recovered) under which a contiguous stretch of at least 60% of the message decrypts to German at 85% coverage with every edit listed, beating the wrong-key and shuffled controls at p < 1e-6 after correction, even though the remainder does not decrypt."
     }
    ],
-   "verification_method": "Clone the repo and run verify.py to reproduce the 12 known decrypts. Re-derive the target ciphertext from Lasry et al. 2017 or Schmeh's #46 article where possible, and do not trust messages.py alone. Use an independent ADFGVX implementation, apply the claimed key and edits, score German coverage, and run wrong-key and shuffled nulls with the verifier's own code.",
+   "verification_method": "Clone the 0wwafa repo and run verify.py to reproduce the 12 known decrypts. Re-derive the target ciphertext from Lasry et al. 2017 or Schmeh's list page (linked from his #46 article) where possible, and do not trust messages.py alone. Use an independent ADFGVX implementation, apply the claimed key and edits, score German coverage, and run wrong-key and shuffled nulls with the verifier's own code.",
    "primary_sources": [
     "https://github.com/0wwafa/adfgvx-1918",
     "https://raw.githubusercontent.com/0wwafa/adfgvx-1918/main/README.md",
     "https://scienceblogs.de/klausis-krypto-kolumne/2017/02/23/the-top-50-unsolved-encrypted-messages-46-unsolved-adfgvx-cryptograms-from-world-war-1/",
-    "https://github.com/swarm-ai-research/cipher-break-verification"
+    "https://scienceblogs.de/klausis-krypto-kolumne/unsolved-adfxvx-messages-from-world-war-i/",
+    "https://github.com/swarm-ai-research/cipher-break-verification",
+    "https://github.com/creilly11235/adfgvx-1918",
+    "https://raw.githubusercontent.com/creilly11235/adfgvx-1918/main/MESSAGES.md"
    ],
-   "status_source": "https://github.com/0wwafa/adfgvx-1918",
-   "status_checked": "2026-10-03",
+   "status_source": "https://raw.githubusercontent.com/creilly11235/adfgvx-1918/main/MESSAGES.md",
+   "status_checked": "2026-10-28",
    "disclosure": "open"
   },
   {
@@ -13158,8 +13161,12 @@
     "https://github.com/kbennett2000/linear-a-check"
    ],
    "status_source": "https://github.com/Navarre-AI/linear-a",
-   "status_checked": "2026-10-20",
-   "disclosure": "open"
+   "status_checked": "2026-10-28",
+   "disclosure": "open",
+   "pitfalls": [
+    "An unbracketed word is not shown to be complete (issue #373; counted 2026-10-28 in Navarre-AI corpus.json, release 2026-10-15, unchanged at commit e4cb48b): none of the 1,338 words in the 467 SigLA-sourced lists has a break mark at either edge (their only brackets are the placeholders '[?]' and '[unclassified]'), while 226 of the 477 lineara.xyz-sourced words do. PH 28a's last word is 'a-ri-ja' in its SigLA list and in lineara.xyz's transliteratedWords (which drop lacuna marks), but John Younger's commentary on lineara.xyz reads A-RI-JA[ and lineara.xyz's sign text has its lacuna mark U+1076B right after JA, so it is no evidence for a final -JA beside PH 6 'a-ri'. The layers also disagree on where words end: HT 115a's SigLA word 'a-se-ja-A718' (A718 tagged as a syllabogram) is A-SE-JA followed by four A703 (D) signs in lineara.xyz. Check both edges of every word an initial or final hypothesis uses, in the transcription or the edition.",
+    "Work out the smallest p-value the frozen test can reach on the frozen split before scoring it (the lesson of the negative pilot in issue #373). With k frozen hypotheses, each needs a raw p < 0.001/k (0.01/k for p1). A permutation p-value from B random draws, (1 + draws at least as extreme)/(B + 1), cannot go below 1/(B + 1), so each test needs at least 1,000 × k draws (100 × k for p1): 10,000 with ten frozen hypotheses. An exact or permutation test conditioned on several strata (site, word count, sign length) over a small screened split can have a floor far above the threshold however many draws are made, and then it cannot win whatever the data show. Once scored, a split is spent and is not a held-out set for a second attempt."
+   ]
   },
   {
    "id": "linear-elamite-residual-signs",
@@ -14680,13 +14687,13 @@
   },
   {
    "id": "qoblib-birkhoff-small-exact-records",
-   "name": "QOBLIB minimum Birkhoff decomposition: an exact decomposition of B5_25_2 with at most 13 terms or B6_36_10 with at most 19",
+   "name": "QOBLIB minimum Birkhoff decomposition: an exact decomposition of B5_25_2 with at most 13 terms or B6_36_10 with at most 18",
    "category": "optimization-benchmarks",
    "kind": "harvest",
    "tractability": 4,
    "compute_profile": "laptop-hours to laptop-days for search; exact checking takes seconds; 5x5 and 6x6 integer matrices, respectively 120 and 720 possible permutation columns",
-   "statement": "QOBLIB's Minimum Birkhoff Decomposition problem (ZIB-AOPT/QOBLIB, 03-birkhoff) asks for the fewest permutation matrices in an exact convex decomposition of a doubly stochastic matrix (Kulkarni, Lee and Singh, IPCO 2017; Dufosse and Ucar, Linear Algebra Appl. 2016). On 2026-10-25 the auto-generated best-known table (last updated 2026-10-19) lists B5_25_2 at 14 and B6_36_10 at 20, both from the 20260111_MIP_Schicker submission (Maximilian Schicker, 2026-01-10). Both matrices are integer matrices with row and column sums 10000 (scale 10000) in qbench_05_dense.json and qbench_06_dense.json. The current solutions/B5_25_2.bst.json and B6_36_10.bst.json files list 13 and 17 terms with floating-point weights, but neither support reconstructs its matrix exactly over the rationals (re-checked for this entry: the exact linear systems are inconsistent, residuals about 12 and 24 in the scaled entries), so they do not settle these cells.",
-   "success_criterion": "For either named matrix A, give pairwise distinct permutations and strictly positive rational weights w_k summing to 10000 such that A=sum_k w_k P_k entrywise exactly, with at most 13 terms for B5_25_2 or at most 19 for B6_36_10. This is a record win; global minimality need not be proved. Alternatively, close either exact optimum by an attaining decomposition and an independently checkable lower-bound certificate valid for arbitrary nonnegative real weights. A certificate restricted to integer weights does not establish the latter claim.",
+   "statement": "QOBLIB's Minimum Birkhoff Decomposition problem (ZIB-AOPT/QOBLIB, 03-birkhoff) asks for the fewest permutation matrices in an exact convex decomposition of a doubly stochastic matrix (Kulkarni, Lee and Singh, IPCO 2017; Dufosse and Ucar, Linear Algebra Appl. 2016). On 2026-10-28 the auto-generated best-known table (last updated 2026-10-19) lists B5_25_2 at 14 and B6_36_10 at 20, both from the 20260111_MIP_Schicker submission (Maximilian Schicker, 2026-01-10). The table lags for B6_36_10: András Czégel (arXiv:2610.25837, 2026-10-19, Appendix D, Table 8) reports exact integer-weight decompositions of length 14 for B5_25_2 and 19 for B6_36_10. The 19-term decomposition is public in the paper's data repository (tg90000/rcs-birkhoff) and in QOBLIB PR #95 (submission 20261020_RecoverCertifySearch_Czegel, opened 2026-10-20, unmerged on 2026-10-28) and reconstructs B6_36_10 exactly (re-checked for this entry), so the published bars are 14 for B5_25_2 and 19 for B6_36_10. Both matrices are integer matrices with row and column sums 10000 (scale 10000) in qbench_05_dense.json and qbench_06_dense.json. The current solutions/B5_25_2.bst.json and B6_36_10.bst.json files list 13 and 17 terms with floating-point weights, but neither support reconstructs its matrix exactly over the rationals (re-checked for this entry: the exact linear systems are inconsistent, residuals about 12 and 24 in the scaled entries), so they do not settle these cells.",
+   "success_criterion": "For either named matrix A, give pairwise distinct permutations and strictly positive rational weights w_k summing to 10000 such that A=sum_k w_k P_k entrywise exactly, with at most 13 terms for B5_25_2 or at most 18 for B6_36_10. This is a record win; global minimality need not be proved. Alternatively, close either exact optimum by an attaining decomposition and an independently checkable lower-bound certificate valid for arbitrary nonnegative real weights. A certificate restricted to integer weights does not establish the latter claim.",
    "partial_wins": [],
    "verification_method": "Locate instances by their id, not JSON insertion order. Check integer matrix entries, common row/column sum 10000 and each submitted permutation of 1..n. Merge duplicate permutations and discard zero weights before counting. Clear rational denominators and check all 25 or 36 reconstruction equations and the weight sum with arbitrary-precision integers; tolerance must be zero. Use row-major storage, as confirmed against the exact MIP incumbents. For an optimality claim, a rational MILP branch proof over all n! support indicators and continuous weights can be checked node by node using Farkas/dual certificates. The small audit script checks fixed supports, not optimality, and is not a substitute for a general lower-bound proof.",
    "primary_sources": [
@@ -14700,10 +14707,13 @@
     "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/submissions/20260111_MIP_Schicker/B6_36_10/B6_36_10_solution.json",
     "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/solutions/B5_25_2.bst.json",
     "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/solutions/B6_36_10.bst.json",
-    "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/check/README.md"
+    "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/check/README.md",
+    "https://arxiv.org/abs/2610.25837",
+    "https://raw.githubusercontent.com/tg90000/rcs-birkhoff/db7ea475bf8b30bb96976d2180e143cd3c1a3cba/results/final/B6_36_10/B6_36_10_solution.json",
+    "https://github.com/ZIB-AOPT/QOBLIB/pull/95"
    ],
    "status_source": "https://raw.githubusercontent.com/ZIB-AOPT/QOBLIB/main/03-birkhoff/solutions/README.md",
-   "status_checked": "2026-10-25",
+   "status_checked": "2026-10-28",
    "disclosure": "open",
    "angles": [
     "Start with a support-selection MILP over 120 or 720 permutations, then solve its weights exactly. Integer-only models are useful for finding witnesses but restrict the mathematical problem.",
@@ -14715,7 +14725,8 @@
     "A smaller approximate support is not an exact decomposition.",
     "The Schicker submission's 'optimality bounds' (13 for B5_25_2, 11 for B6_36_10) come from an integer-weight model solved numerically by Gurobi; they bound integer decompositions, not decompositions with real weights.",
     "Exact rational weights, including any strict improvement, require zero reconstruction tolerance.",
-    "Benchmark libraries are open targets: publish the exact decomposition in full."
+    "Benchmark libraries are open targets: publish the exact decomposition in full.",
+    "The table lags: B6_36_10 at 19 terms is already published (Czégel, arXiv:2610.25837; the object is in QOBLIB PR #95 and tg90000/rcs-birkhoff) although the auto-generated table shows 20 while that PR is unmerged; reproducing 19 terms is NOT new. Check recent preprints and open QOBLIB submissions, not only the table."
    ]
   },
   {
@@ -15594,29 +15605,30 @@
   },
   {
    "id": "subtraction-game-max-period-terms",
-   "name": "Subtraction games: longest eventual period for largest move n (extend OEIS A389689 beyond n = 23 and A389690 beyond n = 22)",
+   "name": "Subtraction games: longest eventual period for largest move n (OEIS A389689 at n = 25 and from n = 30, A389690 beyond n = 22)",
    "category": "graphs-games-automata",
    "kind": "harvest",
    "tractability": 4,
-   "compute_profile": "laptop-hours to laptop-days (exhaustive over 2^(n-1) move sets; about 8e6 sets at n = 24, 5e8 at n = 30)",
-   "statement": "In the subtraction game with finite move set S (a player removes s in S tokens from one heap; whoever cannot move loses), the outcome sequence and the Sprague-Grundy sequence are eventually periodic (Golomb, 1966), but the only general bound on the period is exponential; Althöfer and Bültermann (TCS 148, 1995) gave sets with cubic periods, and Flammenkamp (1997) conjectured at most quadratic periods for 3-move sets. OEIS A389689 (Rui Yao, Oct 2025) lists, for each n, the longest eventual period of the win/lose sequence over all S with max S = n: n = 1..23 known (2, 4, 6, 8, 10, 12, 22, 25, 28, 45, 54, 61, 76, 94, 168, 168, 204, 314, 309, 266, 444, 516, 446). A389690 does the same for the Sprague-Grundy sequence, n = 1..22 known (2, 4, 6, 8, 10, 12, 22, 25, 28, 58, 54, 87, 114, 144, 189, 336, 306, 456, 728, 1178, 1180, 4464). Both entries carry the 'more' keyword and have not been extended since October 2025 (as of 2026-10-25); the terms come from exhaustive Python searches over all 2^(n-1) sets. Both entries were re-read on 2026-10-25 and show these terms.",
-   "success_criterion": "CONFIRMED: the exact value of the next unknown term (A389689 at n = 24, or A389690 at n = 23), or of any later term once those are filled, using the entries' own definitions (S ranges over all subsets of {1, ..., n} that contain n; the period is the minimal eventual period, found as the first repeat of the length-n window of outcomes or Sprague-Grundy values), with all of: (1) an explicit maximising set S whose period an independent program recomputes exactly; (2) two independently written exhaustive searches over all 2^(n-1) sets that agree on the maximum AND on the full histogram of periods (number of sets with each period); (3) the term is not yet in the OEIS entry, its b-file or its history at verification time. Submitting to OEIS is an action for the human only.",
+   "compute_profile": "laptop-hours to laptop-days (exhaustive over 2^(n-1) move sets; about 1.7e7 sets at n = 25, 5.4e8 at n = 30)",
+   "statement": "In the subtraction game with finite move set S (a player removes s in S tokens from one heap; whoever cannot move loses), the outcome sequence and the Sprague-Grundy sequence are eventually periodic (Golomb, 1966), but the only general bound on the period is exponential; Althöfer and Bültermann (TCS 148, 1995) gave sets with cubic periods, and Flammenkamp (1997) conjectured at most quadratic periods for 3-move sets. OEIS A389689 (Rui Yao, Oct 2025) lists, for each n, the longest eventual period of the win/lose sequence over all S with max S = n: n = 1..23 known (2, 4, 6, 8, 10, 12, 22, 25, 28, 45, 54, 61, 76, 94, 168, 168, 204, 314, 309, 266, 444, 516, 446). A389690 does the same for the Sprague-Grundy sequence, n = 1..22 known (2, 4, 6, 8, 10, 12, 22, 25, 28, 58, 54, 87, 114, 144, 189, 336, 306, 456, 728, 1178, 1180, 4464). Both entries carry the 'more' keyword and have not been extended since October 2025 (as of 2026-10-28); the terms come from exhaustive Python searches over all 2^(n-1) sets. Both entries were re-read on 2026-10-28 and show these terms. Further A389689 terms were published long before, in a source neither entry cites: Achim Flammenkamp's dissertation, Lange Perioden in Subtraktions-Spielen (Universität Bielefeld, 1997; the author's PostScript diss.ps.gz is linked from OEIS A014588; an enlarged book edition, not checked here, appeared in 1997, Hans-Jacobs-Verlag, ISBN 3-932136-10-1). On printed pp. 40-41 he computes the periods of all move sets with max S < 30 and lists the 44 record holders as max S grows. Its last line for each max S is the maximum for that n: A389689(24) = 1107 ({1, 3, 12, 21, 23, 24}) and A389689(26..29) = 1256, 1937, 3624, 4896, and the list agrees with OEIS at every n <= 23 where it has a line. It has no line for max S = 25, so A389689(25) is in neither OEIS nor the dissertation (the list only implies that it is at most 1107). The list's final line, {4, 10, 15, 20, 26, 30} with period 5296, is ambiguous: the text twice puts the exhaustive range at max S < 30 (pp. 40 and 43) yet counts this line among the 44, and the same line opens his search of symmetric sets only (n - s in S for every s < n in S) up to max S = 60 (p. 43), whose periods are lower bounds, not terms. Here 5296 at n = 30 counts as published, although it may be only a lower bound. The dissertation gives no Sprague-Grundy period maxima, so A389690 is unaffected.",
+   "success_criterion": "CONFIRMED: the exact value of the next unpublished term (A389689 at n = 25, or A389690 at n = 23), or of any later unpublished term once those are filled, using the entries' own definitions (S ranges over all subsets of {1, ..., n} that contain n; the period is the minimal eventual period, found as the first repeat of the length-n window of outcomes or Sprague-Grundy values), with all of: (1) an explicit maximising set S whose period an independent program recomputes exactly; (2) two independently written exhaustive searches over all 2^(n-1) sets that agree on the maximum AND on the full histogram of periods (number of sets with each period); (3) the term is not yet in the OEIS entry, its b-file or its history at verification time, and is not a value in Flammenkamp's 1997 record list (A389689 at n = 24 and 26..29, and 5296 at n = 30): those count as published although the OEIS entry lacks them. Submitting to OEIS is an action for the human only.",
    "partial_wins": [
     {
      "id": "p1",
-     "statement": "A correction of a published term: for some n already listed (n <= 23 in A389689, n <= 22 in A389690), an explicit set S with max S = n whose eventual period exceeds the listed value, confirmed by the OEIS Python program and one independent program."
+     "statement": "A correction of a published term: for some n already listed (n <= 23 in A389689, n <= 22 in A389690, or n = 24 and 26..30 in Flammenkamp's 1997 record list), an explicit set S with max S = n whose eventual period exceeds the listed value, confirmed by the OEIS Python program and one independent program."
     }
    ],
-   "verification_method": "Recompute the eventual period of each claimed maximising set with the Python program linked from the OEIS entry (a389689_1.txt or a389690_2.txt) and with an independent implementation. For the maximum, rerun an independent exhaustive search (C or Rust; bit-parallel windows for A389689) and compare the period histogram line by line with the claimant's; also confirm that the search reproduces every listed term for smaller n.",
+   "verification_method": "Recompute the eventual period of each claimed maximising set with the Python program linked from the OEIS entry (a389689_1.txt or a389690_2.txt) and with an independent implementation. For the maximum, rerun an independent exhaustive search (C or Rust; bit-parallel windows for A389689) and compare the period histogram line by line with the claimant's; also confirm that the search reproduces every published term for smaller n, including Flammenkamp's (for example 1107 at n = 24, for {1, 3, 12, 21, 23, 24}).",
    "primary_sources": [
     "https://oeis.org/A389689",
     "https://oeis.org/A389690",
     "https://oeis.org/A389689/a389689_1.txt",
     "https://oeis.org/A389690/a389690_2.txt",
-    "https://arxiv.org/abs/2601.18715"
+    "https://arxiv.org/abs/2601.18715",
+    "https://wwwhomes.uni-bielefeld.de/~achim/diss.ps.gz"
    ],
    "status_source": "https://oeis.org/A389690",
-   "status_checked": "2026-10-25",
+   "status_checked": "2026-10-28",
    "disclosure": "open",
    "angles": [
     "Win/lose sequence as bit operations: with the last n outcomes in a machine word w, the next outcome is ((~w) & maskS) != 0; Brent's cycle detection on w needs no hash table, so each set costs a few thousand word operations and 2^(n-1) sets split perfectly across cores.",
@@ -15628,6 +15640,7 @@
     "The minimal period is the first repeat of the full length-n window, starting only once n values exist; a repeat of a shorter block, or one found inside the padded prefix, is wrong.",
     "Off-by-one in the convention: position 0 is a loss (no move), moves may not go below 0, and n itself must be in S.",
     "A389689 is not monotone (for example 314, 309, 266 at n = 18..20), so a search capped by the previous term is invalid.",
+    "OEIS is not the only record: Flammenkamp's 1997 list already gives A389689 at n = 24 and 26..29 and lists 5296 at n = 30, so recomputing those values is a calibration, not a new term. His second list (p. 43) covers symmetric sets only, so its periods for max S = 30..60 are lower bounds, not terms. His enlarged 1997 book edition has not been checked; a value found there is published too.",
     "Some periods grow fast (A389690 jumps from 1180 to 4464 at n = 22); detection must not assume a period bound below 2^n (win/lose) or (n+1)^n (Sprague-Grundy).",
     "This is a modest table: the value of a win is a correct, independently reproduced new term, not a theorem about period growth."
    ]

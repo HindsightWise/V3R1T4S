@@ -1,6 +1,6 @@
 # Missed local earthquakes in open EarthScope/IRIS waveforms, above the regional completeness magnitude, absent from USGS ComCat
 
-🌍 **Earth and sky** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours · open as of 2026-10-15
+🌍 **Earth and sky** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours · open as of 2026-10-28
 
 ## The problem
 
@@ -12,7 +12,7 @@ A saved event package (origin time, location, depth, local magnitude with method
 
 ## Partial wins
 
-- **p1:** A missed event of magnitude >= Mc - 0.3 with the same location-quality requirements, in a ComCat-authoritative network region (not offshore).
+- **p1:** A missed event of magnitude >= Mc - 0.3 with the same location-quality requirements, in a ComCat-authoritative network region (not offshore). The epicentre is in a ComCat-authoritative network region when USGS geoserve returns an ANSS authoritative region for it (https://earthquake.usgs.gov/ws/geoserve/regions.json with type=authoritative; as of 2026-10-28 these are the regions of AK, CI, HV, NC, NM (New Madrid), NN, OK, PR, SE, TX, UU (Utah and Yellowstone) and UW). Where geoserve returns none, NEIC (us) is authoritative only by default and the event does not count for p1, even if a regional network without an authoritative region (for example MB in most of Montana) contributes most local events.
 - **p2:** A template-matching catalogue for one sparse-network region and year that recovers >= 95% of ComCat events there and adds >= 3x more detections, each with CC >= 0.6 on >= 3 stations, saved and re-runnable.
 - **p3:** A ComCat event demonstrably mislocated by > 20 km (re-location with >= 8 picks and RMS <= 0.3 s), saved with picks.
 
