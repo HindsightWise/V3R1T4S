@@ -201,9 +201,60 @@ def verify_blj_pkg(pkg_root):
             print(f"FAIL: recomputed gradient norm exceeds 1e-10 at N={n_p3}: {recalc_gnorm}")
             return False
 
+    # 4. Verify transplanted minima
+    trans_summary_csv = os.path.join(pkg_root, "object", "transplanted_minima_summary.csv")
+    trans_count = 0
+    if os.path.isfile(trans_summary_csv):
+        with open(trans_summary_csv, "r", encoding="utf-8") as f:
+            trans_rows = list(csv.DictReader(f))
+        if len(trans_rows) != 7:
+            print(f"FAIL: expected 7 transplanted clusters in summary, found {len(trans_rows)}")
+            return False
+        for tr_r in trans_rows:
+            n_tr = int(tr_r["n"])
+            rat_tr = float(tr_r["ratio"])
+            e_tr = float(tr_r["energy_double"])
+            gnorm_tr = float(tr_r["gradient_norm"])
+            z_modes = int(tr_r["hessian_zero_modes"])
+            neg_modes = int(tr_r["hessian_negative_modes"])
+            margin_canon = float(tr_r["margin_over_canonical"])
+            cert = tr_r["certified"]
+
+            if z_modes != 6 or neg_modes != 0 or cert != "TRUE":
+                print(f"FAIL: uncertified transplanted cluster at N={n_tr}, ratio={rat_tr}")
+                return False
+            if gnorm_tr > 1e-10:
+                print(f"FAIL: gradient norm exceeds 1e-10 at N={n_tr}, ratio={rat_tr}: {gnorm_tr}")
+                return False
+            if margin_canon <= 1e-4:
+                print(f"FAIL: margin over canonical does not exceed 1e-4 at N={n_tr}, ratio={rat_tr}: {margin_canon}")
+                return False
+
+            xyz_file = os.path.join(pkg_root, "object", "transplanted_minima", f"BLJ_N{n_tr}_ratio{rat_tr:.2f}_transplant.xyz")
+            if not os.path.isfile(xyz_file):
+                print(f"FAIL: missing xyz file {xyz_file}")
+                return False
+            with open(xyz_file, 'r') as f:
+                lines = [l.strip() for l in f if l.strip()]
+            sp_xyz = []
+            c_xyz = []
+            for l in lines[2:2 + n_tr]:
+                toks = l.split()
+                sp_xyz.append(toks[0].replace('L', ''))
+                c_xyz.append([float(toks[1]), float(toks[2]), float(toks[3])])
+            recalc_e, recalc_gnorm = compute_blj_energy_and_grad(sp_xyz, c_xyz, rat_tr)
+            if abs(recalc_e - e_tr) > 1e-6:
+                print(f"FAIL: energy mismatch at N={n_tr}, ratio={rat_tr}: {recalc_e} != {e_tr}")
+                return False
+            if recalc_gnorm > 1e-10:
+                print(f"FAIL: recomputed gradient norm exceeds 1e-10 at N={n_tr}: {recalc_gnorm}")
+                return False
+            trans_count += 1
+
     print(
         f"VERIFIED: cells=600 files_audited=576 max_header_err={max_err:.2e} "
-        f"reproduce_within_1e5=100% hosted_beaten_gt_1e4=33 p3_certified_clusters=10"
+        f"reproduce_within_1e5=100% hosted_beaten_gt_1e4=33 p3_certified_clusters=10 "
+        f"transplanted_certified_minima={trans_count}"
     )
     print("PASS")
     return True

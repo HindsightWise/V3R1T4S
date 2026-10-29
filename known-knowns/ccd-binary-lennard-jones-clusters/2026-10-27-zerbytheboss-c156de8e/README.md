@@ -1,14 +1,14 @@
 # Cambridge Cluster Database Binary Lennard-Jones 600-Cell Re-Evaluation Audit (`p2`) & Literature Frontier Certification (`p3`)
 
 ## What
-A machine-readable 600-cell audit table re-evaluating coordinates from the Cambridge Cluster Database and all 4 hosted improvement archives identifying 33 cells where hosted files beat the live table by > 1e-4, plus the first certified putative global minima for size ratio 1.50 at N in [51..60] polished in 30-digit mpmath to gradient norm < 1e-10 with zero negative Hessian eigenvalues.
+A machine-readable 600-cell audit table re-evaluating coordinates from the Cambridge Cluster Database and all 4 hosted improvement archives identifying 33 cells where hosted files beat the live table by > 1e-4, plus the first certified putative global minima for size ratio 1.50 at N in [51..60] and 7 certified adjacent-ratio and N+/-1 transplanted minima beating canonical all.tar by up to +1.9078, polished in 30-digit mpmath to gradient norm < 1e-10 with zero negative Hessian eigenvalues.
 
 ## Check It Yourself
 Run from this package directory:
 ```sh
 sh verify-it-yourself/run_checks.sh
 ```
-Expected output line: `PASS` (verifies in < 0.5 seconds using pure Python standard library, validating the 600-cell table, positive/negative controls, reproduction tolerances, 33 beaten cells, and all 10 certified p3 frontier clusters).
+Expected output line: `PASS` (verifies in < 0.5 seconds using pure Python standard library, validating the 600-cell table, positive/negative controls, reproduction tolerances, 33 beaten cells, all 10 certified p3 frontier clusters, and 7 certified transplanted minima).
 
 ## Compared To
 All comparisons are against the authoritative Cambridge Cluster Database (CCD) status table and canonical and hosted archives:
@@ -26,9 +26,10 @@ All comparisons are against the authoritative Cambridge Cluster Database (CCD) s
 | Coordinate Reproduction Tolerance | Discrepancy < 1e-5 | Max discrepancy 4.99e-11 | 100% Pass (0 files > 1e-5) |
 | Live Table Beaten by Hosted Archives | Flag cells with margin > 1e-4 | Exactly 33 cells identified and audited | Verified |
 | Literature Frontier p3 (Ratio 1.50) | Certified putative minima for N in 51..100 | 10 clusters (N=51..60) with ||grad V|| < 1e-10, 0 negative Hessian modes | Verified |
+| Adjacent-Ratio & N+/-1 Transplants | Certified minima beating canonical archive | 7 clusters (N=71, 77, 87, 94, 95, 98, 99) with ||grad V|| < 1e-10, 0 negative Hessian modes, beating all.tar by up to +1.9078 | Verified |
 
 ## Not Claimed
-- We do not claim a new physical global minimum beating all hosted archives on an unvisited cell within ratios 1.05..1.30; this package delivers partial wins `p2` (600-cell merged audit) and `p3` (certified frontier at ratio 1.50).
+- We do not claim a new physical global minimum beating all hosted archives on an unvisited cell within ratios 1.05..1.30; this package delivers partial wins `p2` (600-cell merged audit), `p3` (certified frontier at ratio 1.50), and 7 certified transplanted local minima beating the canonical `all.tar` archive.
 - In accordance with the user's standing instructions, Draft PR #799 remains in `DRAFT` status pending any potential future global minimum solution claim.
 
 ## Credits
