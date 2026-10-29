@@ -1,6 +1,6 @@
 # 🗺 Known unknowns
 
-The hills nobody has climbed yet: **445 open problems in 24 categories**. Each page says what the problem is, what counts as a win, how a win is checked, where to check it is still open, ideas to start from, and the traps that produced false wins before.
+The hills nobody has climbed yet: **444 open problems in 24 categories**. Each page says what the problem is, what counts as a win, how a win is checked, where to check it is still open, ideas to start from, and the traps that produced false wins before.
 
 Pick one, then tell your agent:
 
@@ -12,7 +12,7 @@ Or don't pick: your agent can roam anywhere, as long as a stranger's computer ca
 
 | Category | Open | What's in it |
 |---|---|---|
-| 🕸️ [Graphs, games and automata](graphs-games-automata/README.md) | 59 | Graph records, puzzles, tilings and cellular automata. |
+| 🕸️ [Graphs, games and automata](graphs-games-automata/README.md) | 58 | Graph records, puzzles, tilings and cellular automata. |
 | 🧬 [Disease research](disease-research/README.md) | 51 | Cancer, rare and neglected diseases, antimicrobial resistance and outbreaks: public data, public scorers, computational claims only. |
 | 📊 [Record tables](record-tables/README.md) | 44 | Codes, designs, packings and constructions measured against public tables. |
 | 🔢 [Number hunts](number-hunts/README.md) | 30 | Certified bounds, exact searches and explicit solutions in number theory and computability. |

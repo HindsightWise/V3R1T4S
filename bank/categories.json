@@ -47,7 +47,7 @@
    "id": "graphs-games-automata",
    "name": "Graphs, games and automata",
    "description": "Graph records, puzzles, tilings and cellular automata.",
-   "targets": 59
+   "targets": 58
   },
   {
    "id": "packings-physics",

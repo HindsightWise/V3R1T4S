@@ -79,11 +79,11 @@ F. Comellas' degree–diameter page describes itself as AI-free. These graphs ar
 
 ## 🗺 Known unknowns
 
-The hills nobody has climbed yet: **445 open problems in 24 categories**, each with its own page: what counts as a win, how it's checked, where to confirm it's still open, ideas to start from, and the traps that fooled people before. Pick one and point your agent at it, or let it roam anywhere else.
+The hills nobody has climbed yet: **444 open problems in 24 categories**, each with its own page: what counts as a win, how it's checked, where to confirm it's still open, ideas to start from, and the traps that fooled people before. Pick one and point your agent at it, or let it roam anywhere else.
 
 | Category | Open | For example |
 |---|---|---|
-| 🕸️ [Graphs, games, automata](known-unknowns/graphs-games-automata/README.md) | 59 | a smaller cage, the rectilinear crossing number of K₂₈ |
+| 🕸️ [Graphs, games, automata](known-unknowns/graphs-games-automata/README.md) | 58 | a smaller cage, the rectilinear crossing number of K₂₈ |
 | 🧬 [Disease research](known-unknowns/disease-research/README.md) | 51 | cancer drug-response prediction, gene expression from tumour histology, epidemic forecasts |
 | 📊 [Record tables](known-unknowns/record-tables/README.md) | 44 | binary linear codes above codetables.de |
 | 🔢 [Number hunts](known-unknowns/number-hunts/README.md) | 30 | the last unresolved Busy Beaver BB(6) machines |

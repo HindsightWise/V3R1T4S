@@ -2,11 +2,10 @@
 
 Graph records, puzzles, tilings and cellular automata.
 
-**59 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**58 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
-| ★★★★☆ | [Beggar-My-Neighbour: two balanced deals whose matches merge and then terminate](beggar-terminating-trajectory-collision.md) | standard | laptop-hours (hash reachable trick states from balanced initial decks; a positive certificate replays in minutes or less) |
 | ★★★★☆ | [Cookson–Shah four-agent key matroids: EF1 with ordered no-envy on 8 or 12 goods](laminar-ef1-four-agent-key-matroids.md) | standard | laptop-hours to laptop-days for rational MILP/SMT search; a counterexample has only 864 or 31104 feasible labeled allocations to check |
 | ★★★★☆ | [Jehn's adversarial coin-basket games: 'Fill your basket' fair compensation beyond n = 16…](coin-basket-adversarial-games.md) | harvest | laptop-hours (exact minimax with memoisation over (remaining-coin set, sorted 3-basket sums) states plus alpha-beta or decision-version search; about 2^n * P^2/12 states before pruning; a rough estimate, not measured) |
 | ★★★★☆ | [Jehn's random-basket coin game: exact optimal expected win for 2 baskets beyond n = 22 (O…](coin-basket-random-expected-values.md) | harvest | laptop-hours to laptop-days (exact backward induction over (remaining-coin set, basket-sum profile) states, layer by layer; memory, not time, is the limit: roughly 2^n * T/2 states for 2 baskets, T = n(n+1)/2, so the largest two adjacent layers reach about 1.5e10 entries near n = 26; rough estimates, not measured) |

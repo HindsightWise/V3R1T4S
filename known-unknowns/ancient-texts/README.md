@@ -8,7 +8,7 @@ Unidentified papyri, tablet fragments, lacunae and sign detection, scored agains
 |---|---|---|---|
 | ★★★☆☆ | [Cuneiform: fragment-to-fragment overlaps among UNIDENTIFIED eBL fragments (new witnesses…](ebl-unidentified-fragment-overlaps.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Akkadian: restore masked/damaged signs in Oracc/eBL transliterations, beating the Lazar e…](akkadian-lacuna-restoration-heldout.md) | harvest | laptop-hours |
-| ★★☆☆☆ | [Cuneiform sign detection on the open MaiCuBeDa 3D-rendering benchmark: beat the published…](cuneiform-sign-detection-maicubeda.md) | harvest | laptop-hours |
+| ★★☆☆☆ | [Cuneiform sign detection on the open MaiCuBeDa 3D-rendering benchmark: beat a reproduced…](cuneiform-sign-detection-maicubeda.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [Greek literary papyri: identify DCLP 'unidentified' fragments as witnesses of known works…](dclp-unidentified-literary-papyri.md) | harvest | laptop-hours |
 
 ← [All categories](../README.md)
