@@ -25,7 +25,7 @@ print('PASS' if ok else 'FAIL')
 
 def w(path, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8", newline="") as f:  # the same bytes on every platform (#618)
         f.write(text)
 
 
@@ -292,6 +292,7 @@ class BadFixtures(Base):
         self.sums(P)
         self.assertFail("INDEX.csv missing", "--package", P)
 
+    @unittest.skipUnless(shutil.which("sh") or shutil.which("bash"), "no sh or bash on PATH; check_run only warns")
     def test_package_checker_fails(self):
         P = self.package(corrupt_checker=True)
         self.assertFail("did not pass from a clean copy", "--package", P)
@@ -448,6 +449,36 @@ class SourcePlaceholders(Base):
         w(os.path.join(P, "HOW_WE_FOUND_IT.md"), "Contributor text, unverified. Built by <credit_name>.\n")
         self.sums(P)
         self.assertFail("unfilled placeholder <credit_name>", self.W)
+
+
+class WindowsTextMode(GoodFixtures, WindowsPortability):
+    """Issue #618: on Windows, text-mode open() writes "\\r\\n" for "\\n" and, with Python <= 3.14, uses the locale
+    encoding (often cp1252). w() must still write the exact bytes that the checker hashes (data/status.html) and
+    runs (run_checks.sh), so the good fixtures and the Windows tests run again with open() behaving that way."""
+
+    def setUp(self):
+        real = builtins.open
+
+        def fake(file, mode="r", buffering=-1, encoding=None, errors=None, newline=None, *a, **k):
+            if "b" not in mode:
+                encoding = encoding or "cp1252"
+                if newline is None and "r" not in mode:
+                    newline = "\r\n"
+            return real(file, mode, buffering, encoding, errors, newline, *a, **k)
+        patcher = mock.patch("builtins.open", fake)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        super().setUp()
+
+    def test_w_writes_exact_bytes(self):
+        p = os.path.join(self.tmp, "probe.txt")
+        with open(p, "w") as f:
+            f.write("a\n")
+        self.assertEqual(b"a\r\n", check_run.rbytes(p))  # plain text mode now writes as on Windows
+        text = "controls: %s\n" % (chr(0xFF14) + chr(0xFF10) * 2)  # fullwidth 400, as NullControlCounts writes it
+        w(p, text)
+        self.assertEqual(text.encode("utf-8"), check_run.rbytes(p))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

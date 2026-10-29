@@ -30,6 +30,7 @@ applied only in a live session, after your human says "update V3R1T4S to <tag>" 
 runs/<YYYY-MM-DD-HHMM>/
   target.md   scout.md   BRIEF.md   PREREG.md   null_test.md (when PREREG requires one)
   data/        public inputs exactly as fetched (ciphertexts, tables, problem files)
+  baseline/    empirical benchmarks: the published baseline's command, output and score (step 3c)
   attempts/<lens>/   NOTES.md, report.md (with a line "claim level: ..."), code/, output
   claim/       the package the panel sees (step 6)
   panel/       reproduce.md, novelty.md, criterion.md, gate.md (steps 6-7; commit-only: only gate.md here)
@@ -48,7 +49,8 @@ stops after picking or scouting, with budget left and the target still open, has
 The first run is always light. Run `date -u` at the start and before each new line of work. Start nothing new after
 80% of the budget; leave time for verification, the panel and the report. Long computations run at low priority
 (`nice`), with a hard time cap, a checkpoint every few minutes, and their process id recorded so you can stop
-exactly them later.
+exactly them later. Before running jobs in parallel, measure one job's peak memory on a small input; all jobs
+together, across every lens, stay under half of the free memory (`kit/RULES.md` rule 10).
 
 ## Step 0. Preflight
 
@@ -106,6 +108,29 @@ When it is required, write the result to `null_test.md` with these lines, all co
 `controls: <number run>`, `best_control: <best control score>`, `real: <real score>`,
 `real_beats_all_controls: yes|no`, and `command: <how to rerun it>`. `kit/check_run.py` rejects a claim without it.
 Never edit `PREREG.md` after seeing results; a changed plan is a new, timestamped `PREREG.v2.md` and the report says so.
+
+## Step 3c. Reproduce the published baseline (empirical benchmarks)
+
+If the claim would be a score on data (accuracy, AP, hit@k, WIS, MAE) compared with a published score, a different
+data version, split, preprocessing, scoring unit or metric can make a result look better without being comparable.
+So before any lens searches for an improvement, reproduce a published baseline (run its code, or score its released
+predictions) with the same data, split and scoring code you will use for your own result. Where the success
+criterion already sets a baseline gate, that gate is this step. A dry run stops before it.
+- Before running it, add to `PREREG.md`: the baseline and its source (paper row or leaderboard entry), the code
+  revision or release, the data version and split (hashes, seed), the metric as the source defines it (scoring
+  unit, aggregation, variant), the expected score and the tolerance (the criterion's own, if it sets one).
+- Save in `baseline/` the exact command, its captured output, and the reproduced score copied from that output next
+  to the expected one, and report that score next to yours. For a `commit-only` target all of this goes in
+  `private/<target-id>/`, and reports refer to it by path and sha256 (step 2).
+- If it fails to run, cannot finish within the budget or misses the tolerance, the comparison is **unresolved**:
+  claim no improvement against it, find out why if the budget allows, and say so in the report (a suspected flaw in
+  the criterion goes under "Needs you", `kit/RULES.md` rule 14). The lenses still run (`kit/RULES.md` rule 2), and
+  that diagnosis can be their work. Never change the criterion, widen the tolerance, or weaken or retune the
+  baseline to make it land.
+- If no baseline has published code or released predictions, write that in `PREREG.md` and in `baseline/`; the
+  report and any package then say that no baseline was reproduced.
+
+An explicit object checked by a deterministic checker against a table value needs none of this.
 
 ## Step 4. Attack with several lenses
 
@@ -171,6 +196,8 @@ files relative to `claim/` and never contain absolute paths. For a commit-only t
 lives in `private/<target-id>/claim/` and the panel files go in `private/<target-id>/panel/`; the run folder's
 `panel/` then holds only `gate.md`, and the CRITERION skeptic writes its `confirmed_scope` without the key,
 plaintext or any crib (for example "the key in claim/key.txt (sha256 ...) re-encrypts the message exactly").
+For an empirical benchmark, `claim/` also holds the `baseline/` record of step 3c, and the CRITERION instruction
+adds: "Check the `baseline/` record: same data, split and metric as the claim."
 
 - **REPRODUCE.** "Before reading the author's code, write your own checker from the definition (quote it). Verify
   every property and the claimed value from the saved files; re-derive every proof step. For an exhaustive search,
@@ -205,7 +232,8 @@ You, the run's main session, read all three panel files and the verdict yourself
 hedging panelist; a reproduction mismatch; a value not strictly better than the live table; a stretched criterion
 or hidden quantifier; a scope wider than what was reproduced; a sample presented as complete; a capped search used
 as an exclusion; a probable prime used as a proof; any table value obtained by evasion; several objects bundled as
-one claim. If the panel's table fetch is more than 6 hours old, fetch once more. Final status:
+one claim; an unresolved benchmark baseline (step 3c). If the panel's table fetch is more than 6 hours old, fetch
+once more. Final status:
 `CONFIRMED_SOLUTION`, `CONFIRMED_PARTIAL`, `PROMISING` (survived, not fully confirmed), or `NOTHING`. Write
 `panel/gate.md` with the lines `status: <final status>` and `confirmed_scope: <the CRITERION panelist's sentence,
 exactly>`, then run `python3 <WORKDIR>/repo/kit/check_run.py <WORKDIR>`. A `CONFIRMED_*` status stands only if it

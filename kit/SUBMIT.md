@@ -22,7 +22,8 @@ verify-it-yourself/  a standalone checker written from the definition (prefer th
                      run_checks.sh (run from the package folder: `sh verify-it-yourself/run_checks.sh`) whose last
                      output line is PASS or FAIL, and RECEIPTS.md (its real output)
 how-we-built-it/     the code that found the object, with the exact commands (pinned requirements if not stdlib),
-                     plus the run's PREREG.md and, when it required one, null_test.md
+                     plus the run's PREREG.md and, when it required one, null_test.md; for a benchmark score,
+                     also the run's baseline/ record (kit/RUN.md step 3c)
 HOW_WE_FOUND_IT.md   a short plain account (the brief, what failed, what worked), marked "contributor text, unverified"
 the-record-we-beat/  the table snapshot: URL, UTC fetch time, HTTP status, selected headers, sha256 of the page, and
                      the extracted cell you compared against. Never the page itself.

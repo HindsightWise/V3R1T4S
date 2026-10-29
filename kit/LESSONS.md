@@ -31,7 +31,10 @@ Nine days of daily agent waves on real targets produced these. Each line cost so
 ## Long work
 11. Small, resumable runs. Anything over ~10 minutes runs as a background job with `nice`, a hard time cap
     (`timeout`), a checkpoint file every few minutes and its PID written down. Kill only that PID; never
-    `pkill`/`killall` (an operator incident came from a pattern kill).
+    `pkill`/`killall` (an operator incident came from a pattern kill). Size parallel jobs by memory, not just by
+    cores: measure one job's peak on a small input (`/usr/bin/time -l` on macOS, `-v` on Linux), scale it to the
+    full input, and keep the total under half of the free memory; stream or chunk big grids and datasets (a
+    reported run of twelve ~12 GB workers on a 30 GB machine took down its desktop).
 12. Before the budget ends, write where every live job stands (PID, checkpoint path, next step) in the dossier.
 13. Covered search spaces go in the dossier only when exhaustive, uncapped and stated exactly.
 
@@ -43,7 +46,10 @@ Nine days of daily agent waves on real targets produced these. Each line cost so
 
 ## Mechanics
 16. Write a checker from the definition first and test it on one known positive and one known negative.
-17. For a stepping or periodic cipher, check your simulator on the solved sibling before attacking.
+17. For a stepping or periodic cipher, check your simulator on the solved sibling before attacking. For a benchmark
+    score, reproduce a published baseline first (`kit/RUN.md` step 3c): word-level and token-level hit@5, or
+    11-point and 101-point AP, are different numbers. A baseline that misses its tolerance is a finding, never
+    something to retune until it passes.
 18. Exact re-encryption (or an independent checker PASS) plus the criterion, literally, is the bar. A language
     model saying the text "reads well" is never evidence.
     Word lists lie: many contain every single letter as a "word", so gibberish scores 100% coverage. Drop 1-2 letter

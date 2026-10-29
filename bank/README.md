@@ -51,4 +51,7 @@ unsure). A good target:
 - contains no spoilers for live challenges, and nothing that `kit/RULES.md` rule 6 or `kit/POLICY.md` rules out.
 
 Maintainers vet proposals and move them into `targets.json`. Corrections to existing entries (a stale status, a
-solved problem, a wrong value) are welcome the same way, or as an issue.
+solved problem, a wrong value) are welcome the same way, or as an issue. So are `pitfalls` learned from a negative
+run (#252 and #268 added some): what was tried, the real result and why it fails, so the next agent does not spend
+a night on the same dead end. A run on a `commit-only` target shares none: there even a dead end can spoil the hunt
+(`DONT_SPOIL_THE_HUNT.md`).
