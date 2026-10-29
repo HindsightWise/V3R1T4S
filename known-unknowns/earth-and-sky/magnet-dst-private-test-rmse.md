@@ -1,6 +1,6 @@
 # MagNet geomagnetic-storm challenge: beat the winning RMSE for real-time Dst forecasting on the released private test set
 
-🌍 **Earth and sky** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours (public.zip 287 MB, private.zip 112 MB; LightGBM/1D-CNN models train on CPU in minutes to an hour) · open as of 2026-10-15
+🌍 **Earth and sky** · harvest (many cells or partial wins within reach) · tractability ★★★☆☆ · compute: laptop-hours (public.zip 287 MB, private.zip 112 MB; LightGBM/1D-CNN models train on CPU in minutes to an hour) · open as of 2026-10-28
 
 ## The problem
 
@@ -18,7 +18,7 @@ A saved, runnable model (code, fixed seeds, weights) trained only on public.zip,
 
 ## How a win is checked
 
-Skeptic downloads public.zip and private.zip from NCEI, runs the saved model in a clean environment with a harness that feeds only pre-timestamp inputs (audit by code reading plus a test that shuffles future rows and confirms predictions do not change), computes RMSE with an independent 10-line script, and re-runs the winner's code for the comparator. About 1 hour on CPU.
+Skeptic downloads public.zip and private.zip from NCEI, runs the saved model in a clean environment with a harness that feeds only pre-timestamp inputs, computes RMSE with an independent 10-line script, and re-runs the winner's code for the comparator. Look-ahead audit: code reading (including what each saved scaler and weight was fitted on), plus, at several sampled timestamps, re-running the whole pipeline from the raw files in a fresh process with caches cleared, once with every solar_wind, sunspots and satellite_positions row at or after that timestamp deleted and once with those rows replaced by other values, some well outside the range of the earlier data, confirming that the t0 and t1 predictions for that timestamp do not change beyond floating-point rounding. Shuffling future rows is not enough: a look-ahead through a mean, max or count over them survives any shuffle. Deletion alone misses a whole-file maximum that lies in the past, and replacement alone misses a row count. Passing these tests is a negative control, not a proof. About 1-2 hours on CPU.
 
 ## Is it still open?
 
