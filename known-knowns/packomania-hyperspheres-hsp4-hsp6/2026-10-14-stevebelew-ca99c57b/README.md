@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28): not a best-known packing.** Before this package was filed, Moki & Julio published N = 66 at radius 0.264976590666122, 2.23e-7 above this packing (github.com/Hashirama1337s/moki-julio-circle-packing, `certificates/hsp4.zip` and `MANIFEST.csv`, public since their release v2.5 of 2026-09-26; Zenodo 10.5281/zenodo.22981305, current version 10.5281/zenodo.22986800). Our own 50-digit check of their certificate gives that radius; the novelty search in `panel/novelty.md` missed it. Their collection is public, unlike the submission queued at Packomania, so it counts whether or not Packomania lists it. "Compared to" still holds: the live table still lists 0.264968466676 (radius.txt re-fetched 2026-10-28). The object, checker and panel files are unchanged; the packing stays here as a time-stamped bound. Reported by the contributor in issue #286; see READ_BEFORE_CITING.md, Corrections.
+
 In d=4 with N=66, the 66 centres in hsp4-66-candidate.txt have feasible radius r* = 0.264976367513876 (mpmath, 50 digits, container-bound) in the unit ball centred at the origin, exceeding the snapshot table value 0.264968466676 by 7.90e-6 and non-isometric to the posted packing (all 2145 sorted pairwise distances differ by more than 1e-8), subject to the live history/queue re-fetch and the unresolved 'Moki & Julio *many* 4666 candidates' bundle caveat.
 
 ## Check it yourself

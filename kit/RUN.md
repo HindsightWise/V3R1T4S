@@ -176,8 +176,12 @@ plaintext or any crib (for example "the key in claim/key.txt (sha256 ...) re-enc
   every property and the claimed value from the saved files; re-derive every proof step. For an exhaustive search,
   a sample is a spot check and cannot pass. Fail on any mismatch, missing object or non-determinism."
 - **NOVELTY.** "Fetch the primary table or status page once, honestly (no retries; a block means fail), and quote
-  URL, value and time. Search the last 24 months of literature, this repo's TROPHY_CASE.md and open pull requests.
-  Pass only if the result strictly beats everything known. A tie is not a record."
+  URL, value and time. Search the last 24 months of literature and code (release assets too: a repository's tree
+  can lag its releases), this repo's TROPHY_CASE.md, known-knowns/ and its open and closed pull requests. Compare
+  the object with the published ones for its cell and the neighbouring cells: one that trivial edits of a
+  published object give (deletion, restriction, a valid propagation rule, relabelling, symmetry, a local
+  numerical polish, alone or combined) is not new, and one seeded from a published object must name it and beat
+  what those edits alone give. Pass only if the result strictly beats everything known. A tie is not a record."
 - **CRITERION.** "Decide literally whether the result meets the full success criterion or one named enumerated
   partial win. Hunt hidden quantifiers and stretched definitions; check null models. Write `confirmed_scope`: one
   exact sentence, no wider than the evidence. Pass only for a genuine, non-subsumed win."
