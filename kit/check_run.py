@@ -504,27 +504,27 @@ def norm(t):
 
 
 def secret_windows(workdir, public_texts, bank=None):
-    """16-char windows of commit-only secrets in private/<target-id>/ (non-code files), minus public data."""
+    """16-char windows of commit-only secrets in private/<target-id>/ (non-code files), minus public data.
+
+    panel/, claim/ and baseline/ (the step-3c baseline record: commands, hashes and scores that PREREG.md
+    repeats) are not secret sources."""
     W = 16
     secrets = {}
     priv = os.path.join(workdir, "private")
     if not os.path.isdir(priv):
         return secrets
-    public = set()
+    public_texts = list(public_texts)  # read twice below; callers may pass a generator
     # Short exclusions require an exact complete line, never normalized substrings.
     # LF is the line boundary; Unicode separators are ordinary text. read() already
     # folds CRLF. Replacement characters cannot establish exact decoded identity.
     public_lines = set()
     for t in public_texts:
         public_lines.update(line for line in t.split("\n") if "\ufffd" not in line)
-        n = norm(t)
-        for i in range(0, max(0, len(n) - W + 1)):
-            public.add(n[i:i + W])
     for tid in sorted(os.listdir(priv)):
         d = os.path.join(priv, tid)
         if not os.path.isdir(d) or (bank and tid in bank and bank[tid].get("disclosure") != "commit-only"):
             continue
-        for p in walk(d, skip_dirs=("panel", "claim")):
+        for p in walk(d, skip_dirs=("panel", "claim", "baseline")):
             if os.path.splitext(p)[1].lower() in CODE_EXT or not is_text(p):
                 continue
             text = read(p, 200_000)
@@ -542,8 +542,18 @@ def secret_windows(workdir, public_texts, bank=None):
                 continue
             for i in range(0, len(n) - W + 1, 4):
                 w = n[i:i + W]
-                if w not in public and len(set(w)) > 3:
+                if len(set(w)) > 3:
                     secrets.setdefault(w, (tid, rel(p, workdir)))
+    # Drop every window that public data also contains, at any offset (short keys are never W long, so they are
+    # untouched). Scanning the public texts against the candidates keeps memory small for a bank of several MB.
+    for t in public_texts:
+        if not secrets:
+            break
+        n = norm(t)
+        for i in range(0, max(0, len(n) - W + 1)):
+            w = n[i:i + W]
+            if w in secrets:
+                del secrets[w]
     return secrets
 
 
@@ -842,7 +852,11 @@ def check_workspace(c, workdir, run=None, setup_only=False, execute=True, timeou
     for root in [bank_dir] + [os.path.join(workdir, "runs", r, "data") for r in (os.listdir(os.path.join(workdir, "runs")) if os.path.isdir(os.path.join(workdir, "runs")) else [])]:
         if root and os.path.isdir(root):
             for p in walk(root):
-                if is_text(p) and os.path.getsize(p) < MAX_SCAN:
+                if not is_text(p):
+                    continue
+                if root == bank_dir and p == os.path.join(bank_dir, "targets.json"):
+                    public_texts.append(read(p, None))  # the bank is public text however large it grows
+                elif os.path.getsize(p) < MAX_SCAN:
                     public_texts.append(read(p))
     secrets = secret_windows(workdir, public_texts, bank)
     if secrets:

@@ -14,7 +14,7 @@ Lemma B (3 does not divide N).  All prime factors are >= 5, so N/phi(N) <= produ
 
 So for X = 10^50 the exhaustive search only has to cover N - 1 = 2 phi(N) with all prime factors >= 5.
 Expected output for E = 50: Lemma A omega_max 27, ratio 2.928933... < 4; Lemma B omega_max 30, ratio 2.949927... < 3.
-Both lemmas keep holding up to E = 56 and Lemma B fails at E = 58 (ratio 3.013 > 3); the shipped search is for E = 50.
+Both lemmas keep holding up to E = 56 and Lemma B fails from E = 57 (ratio 3.013 > 3); the shipped search is for E = 50.
 """
 import json
 import sys

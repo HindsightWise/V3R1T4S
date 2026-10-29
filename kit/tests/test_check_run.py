@@ -480,6 +480,51 @@ class WindowsTextMode(GoodFixtures, WindowsPortability):
         self.assertEqual(text.encode("utf-8"), check_run.rbytes(p))
 
 
+class CommitOnlyBaseline(Base):
+    """kit/RUN.md step 3c on a commit-only benchmark: PREREG.md and target.md carry the baseline's public facts (the
+    criterion's files, a pinned commit, hashes, the expected score), and so does the baseline record kept in
+    private/<target-id>/baseline/. Neither that record nor bank text may be reported as a commit-only leak, whatever
+    the bank's size, while a real secret elsewhere in private/<target-id>/ still is."""
+
+    REV = "db623be7c0a1f4e98b2d5c7a1e3f9b0d4c6a8e21"
+    WEIGHTS = hashlib.sha256(b"toy baseline weights").hexdigest()
+    CRITERION = ("Score toy_holdout_inklabels.png with score_toy_f05.py from github.com/example/toy-bench-baseline "
+                 "at commit %s; the baseline must reproduce 0.6120 within 0.0100." % REV)
+
+    def setUp(self):
+        super().setUp()
+        bank = json.loads(json.dumps(BANK))
+        bank["targets"].append({"id": "toy-bench", "category": "herculaneum-scrolls", "disclosure": "commit-only",
+                                "success_criterion": self.CRITERION})
+        bank["filler"] = ". " * (check_run.MAX_SCAN // 2 + 1)  # a bank larger than MAX_SCAN, as the real one is
+        w(os.path.join(self.W, "repo", "bank", "targets.json"), json.dumps(bank))
+        w(os.path.join(self.W, "charter.md"), "# Research charter v1\n## Quarries\n- id: toy-bench\n## Lenses\n- plain\n")
+        w(os.path.join(self.R, "target.md"), "id: toy-bench\ncriterion (verbatim): %s\n" % self.CRITERION)
+        self.attack(null="not needed because the criterion's own scorer decides")
+        w(os.path.join(self.R, "PREREG.md"),
+          "frozen: 2026-10-12T03:01:00Z\nnull_test: not needed because the criterion's own scorer decides\n"
+          "criterion (verbatim): %s\nbaseline: github.com/example/toy-bench-baseline at commit %s, weights sha256 %s\n"
+          "expected score: 0.6120, tolerance 0.0100\n" % (self.CRITERION, self.REV, self.WEIGHTS))
+        B = os.path.join(self.W, "private", "toy-bench", "baseline")
+        w(os.path.join(B, "command.txt"), "git clone https://github.com/example/toy-bench-baseline\n"
+          "git -C toy-bench-baseline checkout %s\npython3 score_toy_f05.py --labels toy_holdout_inklabels.png\n" % self.REV)
+        w(os.path.join(B, "output.log"), "loaded weights sha256 %s\nF0.5 on toy_holdout_inklabels.png: 0.6104\n"
+          % self.WEIGHTS)
+        w(os.path.join(B, "score.md"), "expected score: 0.6120, tolerance 0.0100\nreproduced: 0.6104\n")
+
+    def test_baseline_record_repeating_prereg_passes(self):
+        self.assertPass(self.W)
+
+    def test_bank_text_in_a_private_note_is_public(self):
+        w(os.path.join(self.W, "private", "toy-bench", "notes.md"), "criterion: %s\n" % self.CRITERION)
+        self.assertPass(self.W)
+
+    def test_real_secret_outside_baseline_still_fails(self):
+        w(os.path.join(self.W, "private", "toy-bench", "holdout_reading.md"), "unpublished reading: " + PLAINTEXT + "\n")
+        w(os.path.join(self.W, "REPORT.md"), "# Report\nNothing claimed; the reading began %s\n" % PLAINTEXT[:40].lower())
+        self.assertFail("commit-only secrets stay in private/toy-bench", self.W)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)
 

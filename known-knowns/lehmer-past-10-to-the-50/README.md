@@ -47,7 +47,10 @@ another prime factor q (otherwise p | φ(N) | N − 1 and p | N); also N/φ(N) =
    which is 2.949927… < 3, so k = 2: **N − 1 = 2 φ(N)** with all prime factors ≥ 5.
    `verify-it-yourself/closures.py` recomputes both lemmas in exact rational arithmetic with its own prime table (both still hold
    at 10^56; Lemma B fails from about 2.49·10^56, the product of the 33 primes 5, 7, …, 149, over which ∏ p/(p−1) is
-   3.013375… > 3, and that is where a k = 3 search would become necessary).
+   3.013375… > 3). Past that point the self-contained Lemma B no longer excludes k = 3, but no k = 3 search is
+   needed: Hagis (1988) proved that N − 1 = 3φ(N) forces ω(N) ≥ 1991 and N > 10^8171 (as reported by Yamada,
+   arXiv:2303.16853), and Wójtowicz and Skonieczna (2008), citing Hagis, give N ≥ 10^8170 + 1 for 3 ≤ k ≤ 7.
+   This is the result behind the 10^8171 in the update above.
 3. **Exhaustive search of N − 1 = 2 φ(N), primes ≥ 5, N ≤ 10^50.** A branch-and-bound over prime prefixes
    π = (p_1 < … < p_j): write P = ∏p_i, Φ = ∏(p_i − 1); a prefix is viable only if P < 2Φ (admissibility and the
    deficit A = 2Φ − P > 0 bound the remaining primes), and the remaining cofactor Q must satisfy the congruence
@@ -156,6 +159,7 @@ how-we-built-it/
 - P. Hagis Jr., *On the equation M·φ(n) = n − 1*, Nieuw Arch. Wisk. (4) 6 (1988) 255–261.
 - J. Renze, *Computational evidence for Lehmer's totient conjecture* (Mathematica notebook, 2004), as cited by Yamada.
 - R. G. E. Pinch, *A note on Lehmer's totient problem*, poster, ANTS VII (2006).
+- M. Wójtowicz, M. Skonieczna, *The structure of the set of numbers with the Lehmer property*, C. R. Acad. Sci. Paris, Ser. I 346 (2008) 727–728, doi:10.1016/j.crma.2008.05.002.
 - P. Burcsi, S. Czirbusz, G. Farkas, *Computational investigation of Lehmer's totient problem*, Ann. Univ. Sci. Budapest. Sect. Comput. 35 (2011) 43–49.
 - T. Yamada, arXiv:2303.16853 (v3, 2023).
 - Mandal, Bhattacharjee, Bhattacharya, Zenodo doi:10.5281/zenodo.23244062 (2026).

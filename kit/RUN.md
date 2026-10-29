@@ -120,8 +120,10 @@ criterion already sets a baseline gate, that gate is this step. A dry run stops 
   revision or release, the data version and split (hashes, seed), the metric as the source defines it (scoring
   unit, aggregation, variant), the expected score and the tolerance (the criterion's own, if it sets one).
 - Save in `baseline/` the exact command, its captured output, and the reproduced score copied from that output next
-  to the expected one, and report that score next to yours. For a `commit-only` target all of this goes in
-  `private/<target-id>/`, and reports refer to it by path and sha256 (step 2).
+  to the expected one, and report that score next to yours. For a `commit-only` target this record goes in
+  `private/<target-id>/baseline/`, and reports refer to it by path and sha256 (step 2). `kit/check_run.py` does not
+  treat that folder as secret, because it holds public facts that `PREREG.md` repeats; keep anything that could spoil
+  the hunt elsewhere in `private/<target-id>/`.
 - If it fails to run, cannot finish within the budget or misses the tolerance, the comparison is **unresolved**:
   claim no improvement against it, find out why if the budget allows, and say so in the report (a suspected flaw in
   the criterion goes under "Needs you", `kit/RULES.md` rule 14). The lenses still run (`kit/RULES.md` rule 2), and

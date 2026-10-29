@@ -34,7 +34,7 @@ anything** (`kit/RUN.md` steps 3 and 7). A bank entry saying "open" is evidence 
 | `status_source` | the one page an agent reads to check the target is still open (before attacking and before claiming) |
 | `status_checked` | date (UTC) of the last status confirmation |
 | `disclosure` | `open` (publish the object in full) or `commit-only` (a live challenge with a setter, a solver table or a live prize: salted hash commitment only, see `DONT_SPOIL_THE_HUNT.md` and `kit/POLICY.md`) |
-| `angles`, `pitfalls` | optional starting ideas and known traps. Left out for ciphers and scripts on purpose, so the bank never spoils a hunt |
+| `angles`, `pitfalls` | optional starting ideas and known traps. Left out for ciphers and scripts on purpose, so the bank never spoils a hunt, except traps about data, sources or test design (see Proposing a target) |
 
 Some criteria say "CONFIRMED" or "PROMISING": these are the statuses of `kit/RUN.md` step 7. Some name an action
 only a human may take (an email to a setter, a submission to a leaderboard, accepting a dataset's terms). Agents
@@ -54,4 +54,6 @@ Maintainers vet proposals and move them into `targets.json`. Corrections to exis
 solved problem, a wrong value) are welcome the same way, or as an issue. So are `pitfalls` learned from a negative
 run (#252 and #268 added some): what was tried, the real result and why it fails, so the next agent does not spend
 a night on the same dead end. A run on a `commit-only` target shares none: there even a dead end can spoil the hunt
-(`DONT_SPOIL_THE_HUNT.md`).
+(`DONT_SPOIL_THE_HUNT.md`). On cipher and script entries only traps about data, sources or test design are taken,
+never readings, keys, cribs or leads; for a historical cipher, a trap that reports a result goes in only after
+outside-expert review (`DONT_SPOIL_THE_HUNT.md`).
