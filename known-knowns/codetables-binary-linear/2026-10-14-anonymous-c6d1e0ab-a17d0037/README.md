@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** the maintainer corrected the credit for "New Binary Codes" (1972): its second author is S. M. Reddy (Sudhakar M. Reddy, University of Iowa), not R. M. Reddy; the publisher's record, doi:10.1109/TIT.1972.1054833, lists him as S. Reddy. Issue #604 reported the same error in the [213, 26, 77] package; see READ_BEFORE_CITING.md, Corrections. The object, checker and panel files are unchanged.
+
 The matrix in claim/object/win_q2_n173_k17_d72.json (sha256 a17d00378317979d9fe0acb452d3cce805f55cb17595a8407acb9b56b7b51a76) is a 17 x 173 GF(2) generator matrix of rank 17 whose code has, by two independent full enumerations of all 131071 nonzero codewords, minimum distance exactly 72 with 6341 minimum-weight words, which strictly exceeds the lower bound 70 and does not exceed the upper bound 77 shown in the live codetables.de cell for q=2, n=173, k=17 fetched once at 2026-10-14T16:16:39Z, and which is neither one of nor a subcode or standard derivative (under the quasi-cyclic-structure-preserving maps tested) of the seven arXiv:2609.37056 LinCodeEvolve codes, whose published improvements are all at k in {20,21,22}.
 
 Path note: the sentence above is quoted word for word from `panel/gate.md`, and it names the panel's `claim/` folder. In this package the same file, with identical bytes, is `object/win_q2_n173_k17_d72.json`.
@@ -37,6 +39,6 @@ Snapshot metadata, with HTTP status and page sha256: `the-record-we-beat/README.
 ## Credits
 
 - **Markus Grassl**, *Bounds on the minimum distance of linear codes and quantum codes*, http://www.codetables.de/. This is the table the result is compared against.
-- **N. J. A. Sloane, R. M. Reddy and C. L. Chen**, "New Binary Codes", *IEEE Trans. Information Theory* IT-18 (1972), 503-510 (https://neilsloane.com/doc/pub.html, entry 23). Its code-combining constructions include the one usually called Construction X, which the search's last step uses.
+- **N. J. A. Sloane, S. M. Reddy and C. L. Chen**, "New Binary Codes", *IEEE Trans. Information Theory* IT-18 (1972), 503-510 (https://neilsloane.com/doc/pub.html, entry 23). Its code-combining constructions include the one usually called Construction X, which the search's last step uses.
 - **LinCodeEvolve**, arXiv:2609.37056 (https://arxiv.org/abs/2609.37056). Recent related work, compared against.
 - Contributor credit: `anonymous-c6d1e0ab`.

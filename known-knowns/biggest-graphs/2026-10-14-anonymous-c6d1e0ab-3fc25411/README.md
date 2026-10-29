@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28): overtaken.** The live Comellas table (re-fetched 2026-10-28, page Last-Modified 28 Oct 2026) now lists 1141 for (14, 3): Com_1141, obtained by Francesc Comellas on 23 October 2026 from mizopl's 1118-vertex graph, which the D = 3 description page lists as the former result (19 October 2026). The same order was claimed here by mizopl in pull request #457, closed on 2026-10-25 because the table had moved past it. This package was filed on 2026-10-14, when the table listed 1116, so 1117 was new when filed. The object, checker and panel files are unchanged; the graph stays here as a time-stamped bound. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections.
+
 claim/object/G_14_3_N1117.edges (sha256 3fc25411941fa666946464317bc9672386a4923bcb01a24e2c42ec7239b8c3a4) is a simple undirected graph on 1117 vertices with maximum degree 14 (68 vertices of degree 13, 1049 of degree 14), connected with exact diameter 3 by independent all-pairs BFS, of order at most the Moore bound 2563, and its order 1117 strictly exceeds the non-boldface (14,3) entry 1116 of the live Comellas general-graph table as fetched once at 2026-10-14T16:16:12Z (page sha256 aa4e747b76562bc78a8b2a38946d35a2266ef5352cca59e623c3ea77c8720d35, Last-Modified 2026-10-14 13:17:04 GMT).
 
 Path note: the sentence above is quoted word for word from `panel/gate.md`, and it names the panel's `claim/` folder. In this package the same file, with identical bytes, is `object/G_14_3_N1117.edges`.

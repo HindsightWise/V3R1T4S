@@ -25,6 +25,14 @@ Lean-formalised lemmas and state no magnitude bound. Yamada (arXiv:2303.16853) s
 So 10^50 is 20 orders of magnitude beyond the claimed 10^30 and 24 beyond the certified 10^26, as far as we could find
 (arXiv, Zenodo, MathOverflow, OEIS and Wikipedia were searched on 2026-10-08).
 
+**Update 2026-10-28.** That search missed one preprint. M. Norman, *A group-theoretical approach to Lehmer's totient
+problem*, arXiv:2106.11781 (2021; arXiv lists no journal version), claims k ≥ 3, and hence N > 10^8171 and ω(N) ≥ 1991,
+which would make the k = 2 search below unnecessary. We do not count it. Its Lemma 2.1 (for a noncyclic nilpotent group
+G of order 4n with n odd and squarefree, ψ(G)/|G|² > φ(n)/(2n), where ψ(G) is the sum of the element orders) fails for
+every such n prime to 3: for n = 5 the only such group, C2 × C2 × C5, has ψ(G)/|G|² = 147/400 < φ(5)/10 = 2/5. Its
+proof that k ≥ 3 when 3 ∤ N uses that lemma at every step. In the same review the point where Lemma B stops holding
+(item 2 below) was corrected; it said 10^58. Reported in issue #606.
+
 ## What is being verified, and by what
 
 Write N − 1 = k·φ(N). Standard facts: N is odd and squarefree, k ≥ 2, and no prime factor p of N divides q − 1 for
@@ -38,7 +46,8 @@ another prime factor q (otherwise p | φ(N) | N − 1 and p | N); also N/φ(N) =
 2. **Lemma B (k = 2).** If 3 ∤ N all prime factors are ≥ 5 and N/φ(N) ≤ ∏ p/(p−1) over 5, 7, 11, …, 131 (30 primes),
    which is 2.949927… < 3, so k = 2: **N − 1 = 2 φ(N)** with all prime factors ≥ 5.
    `verify-it-yourself/closures.py` recomputes both lemmas in exact rational arithmetic with its own prime table (both still hold
-   at 10^56; Lemma B fails at 10^58, which is where a k = 3 search would become necessary).
+   at 10^56; Lemma B fails from about 2.49·10^56, the product of the 33 primes 5, 7, …, 149, over which ∏ p/(p−1) is
+   3.013375… > 3, and that is where a k = 3 search would become necessary).
 3. **Exhaustive search of N − 1 = 2 φ(N), primes ≥ 5, N ≤ 10^50.** A branch-and-bound over prime prefixes
    π = (p_1 < … < p_j): write P = ∏p_i, Φ = ∏(p_i − 1); a prefix is viable only if P < 2Φ (admissibility and the
    deficit A = 2Φ − P > 0 bound the remaining primes), and the remaining cofactor Q must satisfy the congruence

@@ -9,7 +9,7 @@ Selected headers were not stored by our single honest fetch; recorded below: URL
 | Deeter | https://deetour.net/oppp/thomson/ | 2026-10-14T14:23:27Z | 200 | cf138c88fc00c5e0f2ef4dcec5fac4b18b1b7dd16f3c415c5dc088fde34ee647 | no row for N = 745 |
 | CCD Thomson | https://www-wales.ch.cam.ac.uk/~wales/CCD/Thomson/table.html | 2026-10-14T14:23:28Z | 200 | 5466173175b10a81d19e20763dffa64589f3ce5b92b09e827de14eb1fbb583e2 | no row for N = 745 |
 | Wikipedia | https://en.wikipedia.org/wiki/Thomson_problem | 2026-10-14T14:23:32Z | 200 | 45b2be68631dafbfe27b89e013ece2c3c31c06e70376d73d6cbab57258bc5185 | no row for N = 745 |
-| arXiv 2610.08122 (literature) | https://arxiv.org/html/2610.08122 | 2026-10-14T14:23:32Z | 200 | 24ff8b310f1a00c9d283f6fe2eb21426c3ef0bc6afbcd6af5f19201a38b1efbe | no row for N = 745 |
+| arXiv 2610.08122 (literature) | https://arxiv.org/html/2610.08122 | 2026-10-14T14:23:32Z | 200 | 24ff8b310f1a00c9d283f6fe2eb21426c3ef0bc6afbcd6af5f19201a38b1efbe | Table 3: 266280.73119190 (ref. [75]) and 266280.25892291 (this work), both above the claim (corrected by the maintainer, 2026-10-28) |
 
 Posted point file polished for the distinct-basin test:
 

@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** the N = 881 check in `panel/n881/` that the claim is not isometric to the posted scu881.txt was decided by size alone: the posted file then held only 880 centres (sha256 a44e8bdd…, the Packomania export defect). The maintainer re-checked object/scu881.txt against the current 881-centre file (https://packomania.com/scu/txt/scu881.txt, sha256 083fd8729e279cde124397d409b77be8461478a933c2a95c8ca5395ee301c7c4, fetched 2026-10-28; radius 0.055610202148, as in the live radius.txt). The two are not isometric: their minimum distances differ, and their sorted pairwise distances differ by up to 0.0162. `RUN_IT_YOURSELF.md` now dates its remark that the posted file lists 880 centres. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections. The objects, checker and panel files are unchanged.
+
 The 884 centres in object/scu884.txt (sha256 below) have feasible radius r* = 0.05564391090930143058 in the cube [-1/2,1/2]^3. That exceeds the live Packomania scu radius.txt value 0.055518673263 for N=884 (re-fetched 2026-10-16T16:20:40Z, unchanged) by 1.25e-4, and the configuration is not isometric to the posted scu884.txt. This holds subject to a re-check once the category-unspecified Moki & Julio 4666-candidate bundle leaves the pending list.
 
 ## Check it yourself

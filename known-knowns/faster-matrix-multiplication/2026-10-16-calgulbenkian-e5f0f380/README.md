@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** (1) Credit: the rank-51 line in Credits named only "the Lille catalogue entry". The Lille page (https://fmm.univ-lille.fr/2x4x8.html, re-fetched 2026-10-28) takes the rank-51 scheme from Novikov et al., AlphaEvolve (Google DeepMind, May 2025); Credits now names them. (2) Status: Perminov's `addition_reduced_ZT` directory has since added `2x4x8_m51_cr181_cn354_ZT_reduced.json` (181, a different program on the same 51 products; commit 048b6498, 2026-10-19) and `2x4x8_m51_cr180_cn436_ZT_reduced.json` (180; commit 7badae2d, 2026-10-22). The maintainer's own counter and exact check confirm both. The first is a later tie, which does not affect this filing of 2026-10-16 (kit/POLICY.md, fast matrix multiplication, rule 2); the second is lower, so 181 is no longer the lowest known count for this format and rank. The object, checker and panel files are unchanged; the program stays here as a time-stamped bound. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections.
+
 claim/object/2x4x8_m51_cr181_ZT_reduced.json (sha256 e5f0f3807baaa5f00a76f606bd33199db83dfd83ef82c21abbcb0fbc79c02d95) is a ternary straight-line program that exactly computes the full 2x4 times 4x8 product over Z with Perminov's own 51 products, using 181 additions under the reduced convention (U 37, V 67, W 77), against 188 for his only live 2x4x8 file, with no lower addition count on the Lille page, in reduced_known.json, or in COVERAGE.md, as fetched on 2026-10-15.
 
 Path note: the sentence above is quoted word for word from `panel/gate.md`, and it names the panel's `claim/` folder. In this package the same file, with identical bytes, is `object/2x4x8_m51_cr181_ZT_reduced.json`.
@@ -43,7 +45,7 @@ Snapshot metadata, with HTTP status and page sha256: `the-record-we-beat/README.
 ## Credits
 
 - **A. I. Perminov**, FastMatrixMultiplication (https://github.com/dronperminov/FastMatrixMultiplication), arXiv:2512.13365 and arXiv:2511.20317: the rank-51 ternary scheme and its 188-addition program, the reduced-scheme JSON layout, the counting convention, and the table value compared against.
-- **the Lille catalogue entry for rank 51**, cited by the Lille catalogue (https://fmm.univ-lille.fr/2x4x8.html) for the rank.
+- **Novikov et al., AlphaEvolve (Google DeepMind, May 2025), arXiv:2506.13131 (rank 51)**, cited by the Lille catalogue (https://fmm.univ-lille.fr/2x4x8.html) for the rank.
 - **J. Boyar and R. Peralta**, "A new combinational logic minimization technique with applications to cryptology", SEA 2010: the distance-guided heuristic our search extends.
 - **E. Martensson and P. Stankovski Wagner**, IACR ePrint 2026/849 (and ACDA25): addition reduction without change of basis, compared against.
 - **A. Bostan, G. Lecerf and E. Schost**, "Tellegen's principle into practice", ISSAC 2003: the transposition principle used for the W map.

@@ -7972,7 +7972,7 @@
     "https://arxiv.org/pdf/2303.16853"
    ],
    "status_source": "https://en.wikipedia.org/wiki/Lehmer%27s_totient_problem",
-   "status_checked": "2026-10-03",
+   "status_checked": "2026-10-28",
    "disclosure": "open",
    "angles": [
     "Branch-and-bound over increasing prime tuples in the style of Cohen-Hagis/Renze (N odd, squarefree, p_i not dividing p_j - 1, exact-rational bounds on prod p/(p-1)), parallelized on the 10 cores, aiming at a reproducible full branch log for omega = 15 -> 16.",
@@ -7984,7 +7984,8 @@
     "Floating-point products of p/(p-1) in branch bounds; use exact rationals.",
     "Confusing Lehmer's totient problem with Lehmer's Mahler-measure problem.",
     "ω ≥ 15 / N > 10^26 is already known (Renze), and Pinch claims N > 10^30.",
-    "arXiv 2003.13055 (Agama) is not a usable branch-and-bound method. Do not build on it."
+    "arXiv 2003.13055 (Agama) is not a usable branch-and-bound method. Do not build on it.",
+    "arXiv 2106.11781 (Norman, 2021) claims k >= 3 in N - 1 = k phi(N), hence N > 10^8171, but its Lemma 2.1 fails for every odd squarefree n prime to 3 (n = 5: C2 x C2 x C5 has psi(G)/|G|^2 = 147/400 < phi(5)/10 = 2/5), and its proof of k >= 3 rests on it. Do not count it as a bound or build on it."
    ]
   },
   {

@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** at n = 30 the numerator in `object/values.txt` has 151 digits and the denominator 152, as `panel/criterion.md` records; `INDEX.csv` and the "Compared to" table below said 152 for both. The maintainer corrected both. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections. The object, certificates and checkers are unchanged.
+
 For each n = 16, ..., 30, the reduced fraction given for n in values.txt and claim.md is P(0,0,0) of object/nK.json with K = n, which lists a value and an action at every one of the n^2(n+1)/2 non-terminal positions and satisfies the criterion's equations exactly in rational arithmetic (P = 1 when a + b >= n, forced toss at a = 0, P = max(continue, stop) for a >= 1 with the listed action attaining the max and no exact ties), so by the proof note's uniqueness argument (checked sound) it is the starting player's win probability from (0, 0, 0) under optimal play in the game of Sections 1-4 of arXiv:2603.01002, and the same solver, re-run, regenerates all 30 certificates byte-for-byte with its n = 1..15 values equal to the A387261/A387262 terms in the package's OEIS snapshot (data/), n = 1..6 also equal to the values printed in the paper.
 
 (Panel status: see `panel/gate.md`. The panel's `claim/values.txt`, `claim/object/n16.json ... n30.json` and `claim/calibration/n1.json ... n15.json`
@@ -30,7 +32,7 @@ terms; second verifier agrees`). About 30 seconds on a laptop, Python 3 standard
 |---|---|---|---|
 | published terms of A387261/A387262 | n = 1..15 only; last term n = 15: 14364898791782224577113184680141626682/27711032758513212360715995025634765625 | https://oeis.org/A387261 and https://oeis.org/A387262 (b-files; page sha256 ee962761…) | 2026-10-15T03:16:19Z (re-fetched 2026-10-15T09:31:05Z, unchanged) |
 | published optimal strategies | A394776 / Table 1 of arXiv:2603.01002: toss counts for points needed up to 20 | https://oeis.org/A394776 | 2026-10-15T03:16:22Z |
-| this object | **15 new exact terms, n = 16..30** (152-digit numerator and denominator at n = 30), each proved by its certificate; the derived toss counts agree with all 400 published A394776 terms | `object/` | — |
+| this object | **15 new exact terms, n = 16..30** (151-digit numerator and 152-digit denominator at n = 30), each proved by its certificate; the derived toss counts agree with all 400 published A394776 terms | `object/` | — |
 
 Full snapshot with hashes: `the-record-we-beat/RECORD.md`. The panel's own fetches: `panel/novelty.md`.
 

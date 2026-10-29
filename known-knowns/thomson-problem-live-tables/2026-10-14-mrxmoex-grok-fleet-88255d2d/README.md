@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** the arXiv 2610.08122 row of `the-record-we-beat/SNAPSHOT.md` said "no row for N = 777", but Table 2 of that paper (Amore and Wales, version 1 of 6 Oct 2026, the only version) lists N = 777 at 289902.13212320 (ref. [30]) and 289900.80824298 (this work), as `panel/novelty.md` recorded; the maintainer corrected the row. The lowest published value is therefore 289900.80824298, equal to the CCD Riesz s=1 cell to its printed digits, and the claim's energy (289900.7785339097, recomputed by the maintainer) is 2.97e-2 below it, so the comparison stands. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections. The object, checker and panel files are unchanged.
+
 For N=777, 743, and 745, the claimed unit-sphere configurations have mpmath energies 289900.7785339097, 264837.5287041150, and 266280.2015165257 — each ≥2.97e-2 below the sole live-table value (CCD Riesz s=1), with tangent gradient <1e-20, all 2N−3 non-rotational Hessian eigenvalues numerically positive (float64 + Weyl bound), and a basin distinct from the only posted point file (Riesz) — and, separately, N=534, 548, and 542 improve that same Riesz table by ≥6.6e-2 under the same cert (p3) but fail full success because live CCD Thomson xyz/534.xyz and xyz/548.xyz match E* within <1e-6 and xyz/542.xyz lies 6.26e-2 below the claim.
 
 Note: this package contains **one object only** — the N = 777 configuration. The other N values named in the panel scope (743, 745, 777 full wins; 534, 548, 542 as p3) are separate packages or stay unpackaged.

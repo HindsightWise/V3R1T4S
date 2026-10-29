@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28): overtaken.** Perminov's `addition_reduced_ZT` directory has since added `4x6x7_m123_cr468_cn1586_ZT_reduced.json` (468; commit 048b6498, 2026-10-19) and `4x6x7_m123_cr463_cn1562_ZT_reduced.json` (463; commit 1781ca39, 2026-10-22), both below this program's 469 at the same rank. The maintainer's own counter and exact check confirm both. This package was filed on 2026-10-15, before either, so 469 was new when filed; it is no longer the lowest known count for this format and rank. The object, checker and panel files are unchanged; the program stays here as a time-stamped bound. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections.
+
 claim/object/4x6x7_m123_cr469_ZT_reduced.json (sha256 ade76c2eef28cca082e6f87f2ca0294f6a6e5bcdce1e1cb9356fe068bab0dd65) is a ternary straight-line program that, by my exact integer expansion, computes the 4x6x7 product with 123 products (the same products as Perminov's cr517 file, equal to the fmm_sota.json rank) using 469 reduced additions (U 114, V 140, W 215), below the sole live addition_reduced_ZT count of 517, with no Lille operation count and only a naive 1586 count in COVERAGE.md to beat.
 
 Path note: the sentence above is quoted word for word from `panel/gate.md`, and it names the panel's `claim/` folder. In this package the same file, with identical bytes, is `object/4x6x7_m123_cr469_ZT_reduced.json`.

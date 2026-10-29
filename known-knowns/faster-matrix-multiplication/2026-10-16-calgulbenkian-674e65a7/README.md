@@ -2,6 +2,8 @@
 
 ## What
 
+> **Maintainer note (2026-10-28):** (1) Credit: the rank-100 line in Credits named only "the Lille catalogue entry". The Lille page (https://fmm.univ-lille.fr/2x8x8.html, re-fetched 2026-10-28) takes the rank-100 scheme from Hopcroft and Kerr (1971); Credits now names them. (2) Status: Perminov's `addition_reduced_ZT` directory has since added `2x8x8_m100_cr418_cn608_ZT_reduced.json` (418, a different program on the same 100 products; commit 048b6498, 2026-10-19) and `2x8x8_m100_cr416_cn608_ZT_reduced.json` (416; commit 7badae2d, 2026-10-22). The maintainer's own counter and exact check confirm both. The first is a later tie, which does not affect this filing of 2026-10-16 (kit/POLICY.md, fast matrix multiplication, rule 2); the second is lower, so 418 is no longer the lowest known count for this format and rank. The object, checker and panel files are unchanged; the program stays here as a time-stamped bound. Reported in issue #606; see READ_BEFORE_CITING.md, Corrections.
+
 The program in claim/object/2x8x8_m100_cr418_ZT_reduced.json (sha256 674e65a792736a9bf4930d7e529fb901990cafa22ddf52baaf6c2ed0d256a87f) exactly computes the 2x8 by 8x8 product over Z with 100 products, the same 100 products as Perminov's 2x8x8_m100_cr424_cn608_ZT_reduced.json, using 418 reduced additions (U 90, V 154, W 174) with all expanded intermediates ternary, which is below 424, the only and minimum reduced count for this format and rank in his live addition_reduced_ZT directory on 2026-10-15, with no Lille-page complexity variant and no matmulcatalog adds value for 2x8x8 found.
 
 Path note: the sentence above is quoted word for word from `panel/gate.md`, and it names the panel's `claim/` folder. In this package the same file, with identical bytes, is `object/2x8x8_m100_cr418_ZT_reduced.json`.
@@ -43,7 +45,7 @@ Snapshot metadata, with HTTP status and page sha256: `the-record-we-beat/README.
 ## Credits
 
 - **A. I. Perminov**, FastMatrixMultiplication (https://github.com/dronperminov/FastMatrixMultiplication), arXiv:2512.13365 and arXiv:2511.20317: the rank-100 ternary scheme and its 424-addition program, the reduced-scheme JSON layout, the counting convention, and the table value compared against.
-- **the Lille catalogue entry for rank 100**, cited by the Lille catalogue (https://fmm.univ-lille.fr/2x8x8.html) for the rank.
+- **Hopcroft and Kerr, SIAM J. Appl. Math. 20(1) (1971) 30-36, https://doi.org/10.1137/0120004 (rank 100)**, cited by the Lille catalogue (https://fmm.univ-lille.fr/2x8x8.html) for the rank.
 - **J. Boyar and R. Peralta**, "A new combinational logic minimization technique with applications to cryptology", SEA 2010: the distance-guided heuristic our search extends.
 - **E. Martensson and P. Stankovski Wagner**, IACR ePrint 2026/849 (and ACDA25): addition reduction without change of basis, compared against.
 - **A. Bostan, G. Lecerf and E. Schost**, "Tellegen's principle into practice", ISSAC 2003: the transposition principle used for the W map.

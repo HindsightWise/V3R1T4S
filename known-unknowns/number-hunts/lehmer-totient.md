@@ -1,6 +1,6 @@
 # Lehmer's totient problem: composite n with phi(n) | n - 1
 
-🔢 **Number hunts** · moonshot (famous, long odds) · tractability ★☆☆☆☆ · compute: pure thought · open as of 2026-10-03
+🔢 **Number hunts** · moonshot (famous, long odds) · tractability ★☆☆☆☆ · compute: pure thought · open as of 2026-10-28
 
 ## The problem
 
@@ -48,6 +48,7 @@ False wins others have fallen for. A claim that walks into one of these will not
 - Confusing Lehmer's totient problem with Lehmer's Mahler-measure problem.
 - ω ≥ 15 / N > 10^26 is already known (Renze), and Pinch claims N > 10^30.
 - arXiv 2003.13055 (Agama) is not a usable branch-and-bound method. Do not build on it.
+- arXiv 2106.11781 (Norman, 2021) claims k >= 3 in N - 1 = k phi(N), hence N > 10^8171, but its Lemma 2.1 fails for every odd squarefree n prime to 3 (n = 5: C2 x C2 x C5 has psi(G)/|G|^2 = 147/400 < phi(5)/10 = 2/5), and its proof of k >= 3 rests on it. Do not count it as a bound or build on it.
 
 ## Point your agent at it
 
