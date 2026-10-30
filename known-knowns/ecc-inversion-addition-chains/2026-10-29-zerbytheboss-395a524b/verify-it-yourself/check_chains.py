@@ -97,7 +97,7 @@ def main():
         print(f"FAIL: Expected at least 2 secondary curve wins, got {p1_wins}")
         sys.exit(1)
 
-    # Check specific p1 wins
+    # Check specific wins
     m383 = next(c for c in curves if c["name"] == "M-383")
     if m383["total_length"] != 395 or m383["total_length"] >= m383["addchain_baseline"]:
         print(f"FAIL: M-383 win condition not met: length {m383['total_length']} vs baseline {m383['addchain_baseline']}")
@@ -108,8 +108,20 @@ def main():
         print(f"FAIL: M-511 win condition not met: length {m511['total_length']} vs baseline {m511['addchain_baseline']}")
         sys.exit(1)
 
+    c25519_scalar = next(c for c in curves if c["name"] == "Curve25519 Scalar")
+    if c25519_scalar["total_length"] > 282:
+        print(f"FAIL: Curve25519 Scalar length {c25519_scalar['total_length']} > 282 (record beat not achieved)")
+        sys.exit(1)
+
+    p384_scalar = next(c for c in curves if c["name"] == "NIST P-384 Scalar")
+    if p384_scalar["additions"] > 50:
+        print(f"FAIL: NIST P-384 Scalar additions {p384_scalar['additions']} > 50 (p2 win not achieved)")
+        sys.exit(1)
+
     print("VERIFICATION COMPLETE: 20/20 chains algebraically certified.")
     print(f"Secondary curve wins (p1): {p1_wins} (M-383: 395 < 396; M-511: 524 < 525)")
+    print(f"Main curve records:         Curve25519 Scalar: {c25519_scalar['total_length']} steps (CONFIRMED_SOLUTION < 283 addchain baseline)")
+    print(f"                            NIST P-384 Scalar: {p384_scalar['additions']} adds, {p384_scalar['total_length']} steps (p2 win < 52 adds)")
     print(f"Main curve improvements:    {main_upgrades} (Curve25519 Field: 265 < 266; NIST P-384 Field: 396 < 397)")
     print("ALL CHECKS PASSED.")
     sys.exit(0)
