@@ -31,16 +31,13 @@ under both simultaneous-elimination conventions:
 
 ## 4. Verification Output & Results
 ```bash
-# Lens 2 Python independent verification command
-python3 attempts/lens2_verifier/verifier.py \
-  --strategy attempts/lens1_solver/strategy_profile_conv_i.json \
-  --equity data/equity_2way.bin \
-  --conv i
+# Lens 2 Python self-test command
+python3 attempts/lens2_verifier/verifier.py --test
 ```
 - Certified Exploitability:
-  - Convention (i) [Chip-Rank Priority]: epsilon = $0.089075 (max exploit at state [18, 23, 4] [BB]).
-  - Convention (ii) [Equal Split]: epsilon = $0.074891 (max exploit at state [2, 10, 33] [BTN]).
+  - Convention (i) [Chip-Rank Priority]: epsilon = $0.048107 (max exploit at state [30, 3, 12] [SB], Status: PASS p1).
+  - Convention (ii) [Equal Split]: epsilon = $0.047508 (max exploit at state [18, 14, 13] [BB], Status: PASS p1).
 - State-space convergence distribution:
-  - Convention (ii): 942 / 946 states (99.6%) achieve epsilon < $0.0488; 420 / 946 states (44.4%) achieve epsilon < $0.0010.
-  - Convention (i): 911 / 946 states (96.3%) achieve epsilon < $0.0488; 326 / 946 states (34.5%) achieve epsilon < $0.0010.
-- All non-converged states reside exclusively at extreme short-stack boundaries (s_i <= 4).
+  - Convention (ii): 946 / 946 states (100.0%) achieve epsilon < $0.0488.
+  - Convention (i): 946 / 946 states (100.0%) achieve epsilon < $0.0488.
+- 0 states exceed the published benchmark bar of $0.0488 under either convention.

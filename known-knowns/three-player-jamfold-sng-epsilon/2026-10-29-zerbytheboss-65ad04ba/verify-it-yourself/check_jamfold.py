@@ -15,15 +15,15 @@ def main():
     assert os.path.isfile(summary_p), "Missing summary.json"
     with open(summary_p, "rb") as f:
         sh = hashlib.sha256(f.read()).hexdigest()
-    if sh != "13b23911698f8d192eafec4e201d0467f3a4451f0a93c0f1fac35c935d90110d":
+    if sh != "2e08e5c3084603004b8d8ff53ca3c6e8418e4b4d81be0fd61fba9feae526bf84":
         print("Summary object hash mismatch: corrupted object rejected.")
         return 1
 
     with open(summary_p, "r", encoding="utf-8") as f:
         sdata = json.load(f)
     assert sdata["num_states"] == 946
-    assert sdata["convention_ii_exploitability"] <= 0.074891
-    assert sdata["convention_i_exploitability"] <= 0.089075
+    assert sdata["convention_ii_exploitability"] <= 0.0488
+    assert sdata["convention_i_exploitability"] <= 0.0488
 
     # 1. Verify preflop 2-way equity table
     eq_path = os.path.join(obj_dir, "equity_2way.bin")
@@ -48,7 +48,7 @@ def main():
 
     assert len(prof_ii["strategies"]) == 946, f"Expected 946 strategies, got {len(prof_ii['strategies'])}"
     assert len(prof_ii["values"]) == 2838, f"Expected 2838 values, got {len(prof_ii['values'])}"
-    assert prof_ii["exploitability"] <= 0.074891, "Certified epsilon exceeds claimed bound"
+    assert prof_ii["exploitability"] <= 0.0488, "Certified epsilon exceeds claimed bound"
     print(f"Convention (ii) strategy profile verified: 946 states, epsilon = ${prof_ii['exploitability']:.6f}.")
 
     # 3. Verify Convention (i) Strategy Profile
@@ -59,7 +59,7 @@ def main():
 
     assert len(prof_i["strategies"]) == 946
     assert len(prof_i["values"]) == 2838
-    assert prof_i["exploitability"] <= 0.089075
+    assert prof_i["exploitability"] <= 0.0488
     print(f"Convention (i) strategy profile verified: 946 states, epsilon = ${prof_i['exploitability']:.6f}.")
 
     print("ALL THREE-PLAYER JAM/FOLD ARTIFACTS VERIFIED: PASS")

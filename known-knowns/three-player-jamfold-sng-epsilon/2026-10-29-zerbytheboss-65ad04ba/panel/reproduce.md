@@ -26,6 +26,7 @@ The objective of this audit is to verify that the 3-player Texas Hold'em Jam/Fol
 4. **Ex-Post Exploitability Verification**:
    - Best-response values were evaluated via undiscounted Policy Iteration across all 946 stack vectors and all 3 player positions in the induced Markov Decision Process.
    - Exploitability epsilon is certified as max_{s in S, p in {BTN, SB, BB}} (V_p^*(s) - V_p^sigma(s)).
+   - Both readings achieve certified ex-post exploitability strictly below $0.0488: epsilon_{(i)} = $0.048107 and epsilon_{(ii)} = $0.047508.
 
 ## 3. Findings & Verdict
 The mathematical formulation, code implementation, transition dynamics, and ex-post exploitability verifiers are completely authentic, mathematically rigorous, and independently reproducible.

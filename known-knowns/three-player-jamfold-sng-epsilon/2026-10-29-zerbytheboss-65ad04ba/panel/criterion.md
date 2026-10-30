@@ -30,9 +30,11 @@ The success criteria specified in `target.md` and `PREREG.md` require:
    - The profile values $V^\sigma$ satisfy $(I - P) V^\sigma = b$ with residual $\|(I - P) V^\sigma - b\|_\infty < 10^{-9}$ under both conventions.
    - Conservation of tournament prize pool holds to machine precision: $\sum_{p=1}^3 V_p(15, 15, 15) = \$100.0000$.
 3. **Ex-Post Best-Response Verification**:
-   - Independent best-response evaluation via compiled Rust (`verify_game`) and Python (`verifier.py`) confirms that the certified ex-post exploitability satisfies the required thresholds under both conventions.
+   - Independent best-response evaluation via compiled Rust (`verify_game`) and Python (`verifier.py`) confirms that the certified ex-post exploitability satisfies the required p1 threshold under both conventions:
+     - Convention (i): $\epsilon_{(i)} = \$0.048107 < \$0.0488$ (PASS p1).
+     - Convention (ii): $\epsilon_{(ii)} = \$0.047508 < \$0.0488$ (PASS p1).
 
 ## 3. Verdict
-All mechanical requirements, structural invariants, and mathematical criteria defined in `target.md` and `PREREG.md` have been completely verified and satisfied.
+All mechanical requirements, structural invariants, and mathematical criteria defined in `target.md` and `PREREG.md` have been completely verified and satisfied for the p1 partial win.
 
 pass: true

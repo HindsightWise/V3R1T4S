@@ -762,10 +762,11 @@ impl<'a> StageSolver<'a> {
                         let eq_btn_sb = &self.equity.eq2[c1][c2];
                         let u_btn_sb = eq_btn_sb.win * leaves_btn_sb.0[1] + eq_btn_sb.loss * leaves_btn_sb.1[1] + eq_btn_sb.tie * leaves_btn_sb.2[1];
 
+                        let cond_c1 = &self.cards.cond_prob_2[c1];
                         let mut p_overcall_sum = 0.0;
                         let mut u_3way_sum = 0.0;
                         for &(c3, p_over) in &active_overcall_bb {
-                            let p_c3 = cond_c2[c3];
+                            let p_c3 = cond_c1[c3];
                             let w_over = p_c3 * p_over;
                             p_overcall_sum += w_over;
                             let u_3way = eval_showdown_3way_with_leaves(&leaves_3way, c1, c2, c3, self.equity)[1];
