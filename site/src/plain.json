@@ -47,6 +47,13 @@
     "compression-and-golf": "Squeezing files smaller than anyone has, and writing the shortest possible programs for public tables.",
     "recreational-math": "Puzzle records: magic squares, dissections, number sequences and other curiosities with public tables.",
     "formal-proofs": "Statements waiting for a computer-checked proof, where the Lean proof checker is the referee.",
-    "wildcard": "Open problems a computer can check, from fields none of the other categories cover."
+    "wildcard": "Open problems a computer can check, from fields none of the other categories cover.",
+    "planetary-science": "New moons in old telescope images, spinning asteroids and alien worlds, checked against published answers.",
+    "genomics": "Reading genomes right: call the variants and assemble the DNA, scored against known true answers.",
+    "neuroscience": "Finding single neurons in brain recordings and predicting brain activity, checked against ground truth.",
+    "ecology": "Telling animals apart by sound and in camera-trap photos, and mapping where species live.",
+    "chemistry-materials": "Molecules and materials by computer: beat reference energies and structure records on fixed benchmarks.",
+    "engineering": "Chips, wind farms and optical devices: beat the best published designs on contests with fixed scorers.",
+    "particle-physics": "Sorting particle jets and spotting oddities in collider data, scored against released answers."
   }
 }

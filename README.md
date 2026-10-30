@@ -79,33 +79,40 @@ F. Comellas' degree–diameter page describes itself as AI-free. These graphs ar
 
 ## 🗺 Known unknowns
 
-The hills nobody has climbed yet: **444 open problems in 24 categories**, each with its own page: what counts as a win, how it's checked, where to confirm it's still open, ideas to start from, and the traps that fooled people before. Pick one and point your agent at it, or let it roam anywhere else.
+The hills nobody has climbed yet: **1104 open problems in 31 categories**, each with its own page: what counts as a win, how it's checked, where to confirm it's still open, ideas to start from, and the traps that fooled people before. Pick one and point your agent at it, or let it roam anywhere else.
 
 | Category | Open | For example |
 |---|---|---|
-| 🕸️ [Graphs, games, automata](known-unknowns/graphs-games-automata/README.md) | 58 | a smaller cage, the rectilinear crossing number of K₂₈ |
-| 🧬 [Disease research](known-unknowns/disease-research/README.md) | 51 | cancer drug-response prediction, gene expression from tumour histology, epidemic forecasts |
-| 📊 [Record tables](known-unknowns/record-tables/README.md) | 44 | binary linear codes above codetables.de |
-| 🔢 [Number hunts](known-unknowns/number-hunts/README.md) | 30 | the last unresolved Busy Beaver BB(6) machines |
-| 🦠 [Biology](known-unknowns/biology/README.md) | 29 | protein and RNA fitness benchmarks, RNA design, single-cell analysis |
-| ⚛️ [Physics](known-unknowns/physics/README.md) | 28 | lattice constants to record precision, quantum codes and SIC-POVMs, materials leaderboards |
-| 🚚 [Optimization benchmarks](known-unknowns/optimization-benchmarks/README.md) | 23 | best-known routes in CVRPLIB, open MIPLIB instances, hospital timetabling |
-| ✏️ [Erdős problems and proofs](known-unknowns/erdos-and-proofs/README.md) | 23 | open Erdős problems with a computable edge |
+| 🕸️ [Graphs, games, automata](known-unknowns/graphs-games-automata/README.md) | 157 | a smaller cage, the rectilinear crossing number of K₂₈ |
+| 📊 [Record tables](known-unknowns/record-tables/README.md) | 132 | binary linear codes above codetables.de |
+| 🔢 [Number hunts](known-unknowns/number-hunts/README.md) | 123 | the last unresolved Busy Beaver BB(6) machines |
+| ✏️ [Erdős problems and proofs](known-unknowns/erdos-and-proofs/README.md) | 68 | open Erdős problems with a computable edge |
+| ⚛️ [Physics](known-unknowns/physics/README.md) | 61 | lattice constants to record precision, quantum codes and SIC-POVMs, materials leaderboards |
+| 🚚 [Optimization benchmarks](known-unknowns/optimization-benchmarks/README.md) | 56 | best-known routes in CVRPLIB, open MIPLIB instances, hospital timetabling |
+| 🧬 [Disease research](known-unknowns/disease-research/README.md) | 55 | cancer drug-response prediction, gene expression from tumour histology, epidemic forecasts |
+| 🎲 [Recreational math](known-unknowns/recreational-math/README.md) | 48 | smaller multiplicative magic squares, better prime-gap merits, dissections with fewer pieces |
+| 🦠 [Biology](known-unknowns/biology/README.md) | 47 | protein and RNA fitness benchmarks, RNA design, single-cell analysis |
+| 🃏 [Wildcard](known-unknowns/wildcard/README.md) | 37 | unknotting numbers and smooth 4-genera KnotInfo still lists as intervals |
+| ⚪ [Packings and physics](known-unknowns/packings-physics/README.md) | 36 | sphere packings in a cube or a 4D ball, metal-cluster energy minima |
+| 🌍 [Earth and sky](known-unknowns/earth-and-sky/README.md) | 33 | missed marsquakes, bolides and tsunamis in open archives, solar-flare forecasts |
+| 🔭 [Sky archives](known-unknowns/sky-archives/README.md) | 29 | variable stars and transits hiding in public survey data |
+| ⚡ [Algorithms](known-unknowns/algorithms/README.md) | 27 | fewer additions for fast matrix multiplication |
+| 🤖 [Machine learning](known-unknowns/machine-learning/README.md) | 27 | the smallest network with 99 % on MNIST, time-series classification records |
 | 🔐 [Unbroken ciphers](known-unknowns/unbroken-ciphers/README.md) | 20 | the remaining unbroken 1941 German Army Enigma messages |
-| ⚪ [Packings and physics](known-unknowns/packings-physics/README.md) | 19 | sphere packings in a cube or a 4D ball, metal-cluster energy minima |
-| 🌍 [Earth and sky](known-unknowns/earth-and-sky/README.md) | 18 | missed marsquakes, bolides and tsunamis in open archives, solar-flare forecasts |
+| ✅ [Formal proofs](known-unknowns/formal-proofs/README.md) | 18 | open TPTP problems, the last finite magmas of the Equational Theories Project |
 | 📜 [Undeciphered scripts](known-unknowns/undeciphered-scripts/README.md) | 17 | Linear A, the Indus script, unplaced cuneiform fragments |
-| 🔭 [Sky archives](known-unknowns/sky-archives/README.md) | 16 | variable stars and transits hiding in public survey data |
-| ⚡ [Algorithms](known-unknowns/algorithms/README.md) | 13 | fewer additions for fast matrix multiplication |
-| 💊 [Drug discovery](known-unknowns/drug-discovery/README.md) | 13 | ADMET, activity-cliff and docking leaderboards |
-| 🛡️ [ML robustness](known-unknowns/ml-robustness/README.md) | 8 | stronger attacks on RobustBench models |
-| 🤖 [Machine learning](known-unknowns/machine-learning/README.md) | 7 | the smallest network with 99 % on MNIST, time-series classification records |
-| 🎲 [Recreational math](known-unknowns/recreational-math/README.md) | 6 | smaller multiplicative magic squares, better prime-gap merits, dissections with fewer pieces |
-| ✅ [Formal proofs](known-unknowns/formal-proofs/README.md) | 6 | open TPTP problems, the last finite magmas of the Equational Theories Project |
-| 🏺 [Ancient texts](known-unknowns/ancient-texts/README.md) | 4 | restoring damaged Akkadian signs |
-| 🌋 [Herculaneum scrolls](known-unknowns/herculaneum-scrolls/README.md) | 4 | ink detection on carbonized papyrus |
-| 🗜️ [Compression and code golf](known-unknowns/compression-and-golf/README.md) | 4 | shorter Brainfuck constants, new LODA programs for OEIS sequences |
-| 🃏 [Wildcard](known-unknowns/wildcard/README.md) | 2 | unknotting numbers and smooth 4-genera KnotInfo still lists as intervals |
+| 🏺 [Ancient texts](known-unknowns/ancient-texts/README.md) | 16 | restoring damaged Akkadian signs |
+| 💊 [Drug discovery](known-unknowns/drug-discovery/README.md) | 14 | ADMET, activity-cliff and docking leaderboards |
+| 🛡️ [ML robustness](known-unknowns/ml-robustness/README.md) | 12 | stronger attacks on RobustBench models |
+| 🪐 [Planets and moons](known-unknowns/planetary-science/README.md) | 10 | new moons in archival images, asteroid spin and shape gaps, microlensing planet recovery |
+| 🧫 [Genomes](known-unknowns/genomics/README.md) | 10 | variant calling against GIAB truth sets, CAMI metagenome binning |
+| 🐦 [Ecology and bioacoustics](known-unknowns/ecology/README.md) | 9 | animal sounds, camera traps, species distribution models |
+| 🌋 [Herculaneum scrolls](known-unknowns/herculaneum-scrolls/README.md) | 8 | ink detection on carbonized papyrus |
+| ⚗️ [Chemistry and materials](known-unknowns/chemistry-materials/README.md) | 8 | quantum-chemistry benchmark sets, lowest-energy structures |
+| 🛠️ [Engineering and chips](known-unknowns/engineering/README.md) | 8 | chip placement and routing contests, wind-farm layouts, photonic inverse design |
+| 🧠 [Neuroscience](known-unknowns/neuroscience/README.md) | 7 | spike sorting with ground truth, whole-brain activity forecasting |
+| 🗜️ [Compression and code golf](known-unknowns/compression-and-golf/README.md) | 5 | shorter Brainfuck constants, new LODA programs for OEIS sequences |
+| 💥 [Particle physics](known-unknowns/particle-physics/README.md) | 5 | jet tagging and anomaly detection against released truth |
 | 🗝️ [Crypto math](known-unknowns/crypto-math/README.md) | 1 | a new APN function in dimension 9 or 10 |
 
 Browse them all → [known-unknowns/](known-unknowns/README.md). To aim your agent at one:

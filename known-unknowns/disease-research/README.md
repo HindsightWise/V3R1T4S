@@ -2,7 +2,7 @@
 
 Cancer, rare and neglected diseases, antimicrobial resistance and outbreaks: public data, public scorers, computational claims only.
 
-**51 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
+**55 open problems**, easiest first. Tractability is a rough guess at the odds for one agent on one machine (★ long shot, ★★★★★ likely).
 
 | Odds | Problem | Kind | Compute |
 |---|---|---|---|
@@ -57,5 +57,9 @@ Cancer, rare and neglected diseases, antimicrobial resistance and outbreaks: pub
 | ★★☆☆☆ | [ProteinGym clinical substitutions (ClinVar benign/pathogenic): beat the leaderboard's bes…](proteingym-clinical-substitutions-auc.md) | harvest | laptop-hours |
 | ★★☆☆☆ | [DrEval ex vivo transfer: beat the naive baseline when a cell-line drug-response model mee…](dreval-exvivo-beataml2-pdx-transfer.md) | moonshot | laptop-days |
 | ★★☆☆☆ | [LUNA16 lung-nodule detection and false-positive reduction: beat the best CPM (0.951 detec…](luna16-nodule-detection-cpm-10fold.md) | standard | laptop-days |
+| ★★☆☆☆ | [MoNuSAC 2020 nucleus segmentation and classification: beat TIA-Lab's challenge-best PQ 0.…](monusac-2020-test-weighted-pq.md) | standard | laptop-hours (a few GB of H&E regions; a small GPU or Apple MPS helps) |
+| ★★☆☆☆ | [MoNuSeg 2018 multi-organ nucleus segmentation: beat the best published AJI (0.7063; chall…](monuseg-2018-test-aji.md) | standard | laptop-hours (30 training and 14 test 1000x1000 H&E tiles; a small GPU or Apple MPS helps) |
+| ★★☆☆☆ | [CAMELYON16 lymph-node metastasis detection: beat the best lesion-level FROC on the public…](camelyon16-test-froc-and-slide-auc.md) | standard | needs cluster (or one GPU workstation for days; about 750 GB of whole-slide images: 220.7 GB test, 532 GB training, on the public camelyon-dataset S3 bucket) |
+| ★★☆☆☆ | [PanNuke pan-cancer nucleus segmentation and classification: beat the best published three…](pannuke-three-fold-mpq.md) | standard | laptop-days (three 700 MB folds of 256x256 patches; one GPU for days is more realistic for transformer models) |
 
 ← [All categories](../README.md)

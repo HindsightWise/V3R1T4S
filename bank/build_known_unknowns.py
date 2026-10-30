@@ -21,6 +21,7 @@ ICONS = {
     "ml-robustness": "🛡️", "disease-research": "🧬", "drug-discovery": "💊", "biology": "🦠", "physics": "⚛️", "earth-and-sky": "🌍",
     "machine-learning": "🤖", "crypto-math": "🗝️", "compression-and-golf": "🗜️", "recreational-math": "🎲",
     "formal-proofs": "✅", "wildcard": "🃏",
+    "planetary-science": "🪐", "genomics": "🧫", "neuroscience": "🧠", "ecology": "🐦", "chemistry-materials": "⚗️", "engineering": "🛠️", "particle-physics": "💥",
 }
 KIND = {"harvest": "harvest (many cells or partial wins within reach)", "standard": "standard",
         "moonshot": "moonshot (famous, long odds)"}
