@@ -53,7 +53,7 @@ Using Python `urllib.request.urlopen` (single request per URL, zero retries) at 
 
 ## 3. Strict Improvement Verification Across All 11 Structures
 
-- **Artifact**: `object/fs_mo_fe_11_records_and_196_audit.json` (SHA-256 `011a6b6bd79ee686cedcd9d4eef145e192be7b2a51491cc3f28321862740b312`, matching all 11 rows of `INDEX.csv`).
+- **Artifact**: `object/fs_mo_fe_11_records_and_196_audit.json` (SHA-256 `215c879357f5bbbcc335e6dece2dc7ad12248abd428ef6b1c5ff9a4ba23af249`, matching all 11 rows of `INDEX.csv`).
 - **Per-Cluster Strict Margins (all strictly beating the live CCD table and polished CCD coordinates by `-0.027627 eV` to `-0.424275 eV`, well beyond the `1e-4 eV` threshold)**:
   1. **`Mo_75` (`N = 75`)**: `E* = -439.5640256673 eV` vs CCD `-439.4197932305 eV`, change **`-0.144232 eV`** (`-0.1442324368 eV`, `1442x` the `1e-4 eV` threshold; float64 `||grad E||_2 = 1.23e-13`, Decimal50 `||grad E||_2 = 9.18e-28`).
   2. **`Mo_90` (`N = 90`)**: `E* = -533.2142178271 eV` vs CCD `-532.7899433214 eV`, change **`-0.424275 eV`** (`-0.4242745057 eV`, `4242x` the `1e-4 eV` threshold; float64 `||grad E||_2 = 1.26e-13`, Decimal50 `||grad E||_2 = 1.20e-27`).

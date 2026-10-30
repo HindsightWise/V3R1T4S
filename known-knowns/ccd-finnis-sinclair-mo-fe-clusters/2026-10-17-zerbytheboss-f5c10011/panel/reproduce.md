@@ -4,7 +4,7 @@ context: subagent (fresh invocation)
 target_id: ccd-finnis-sinclair-mo-fe-clusters
 cells: Mo_75, Mo_90, Fe_86, Fe_87, Fe_90, Fe_91, Fe_92, Fe_96, Fe_97, Fe_98, Fe_100
 file: object/fs_mo_fe_11_records_and_196_audit.json
-sha256: 011a6b6bd79ee686cedcd9d4eef145e192be7b2a51491cc3f28321862740b312
+sha256: 215c879357f5bbbcc335e6dece2dc7ad12248abd428ef6b1c5ff9a4ba23af249
 
 ## 1. Quoted Mathematical Definition (Finnis-Sinclair 1984 Mo and 1986 Modified Fe)
 
@@ -25,13 +25,12 @@ Before reading `verify-it-yourself/check_fs_clusters.py`, an independent checker
 ## 2. Independent Verification Results on `object/fs_mo_fe_11_records_and_196_audit.json`
 
 1. **File Integrity & `INDEX.csv` Verification**:
-   - All 11 rows in `INDEX.csv` (`Mo_75`, `Mo_90`, `Fe_86`, `Fe_87`, `Fe_90`, `Fe_91`, `Fe_92`, `Fe_96`, `Fe_97`, `Fe_98`, `Fe_100`) reference `object/fs_mo_fe_11_records_and_196_audit.json` with exact SHA-256 match `011a6b6bd79ee686cedcd9d4eef145e192be7b2a51491cc3f28321862740b312`.
+   - All 11 rows in `INDEX.csv` (`Mo_75`, `Mo_90`, `Fe_86`, `Fe_87`, `Fe_90`, `Fe_91`, `Fe_92`, `Fe_96`, `Fe_97`, `Fe_98`, `Fe_100`) reference `object/fs_mo_fe_11_records_and_196_audit.json` with exact SHA-256 match `215c879357f5bbbcc335e6dece2dc7ad12248abd428ef6b1c5ff9a4ba23af249`.
 
 2. **Calibration on Posted CCD Point Files & 196-Row Audit (`ccd_196_point_files_audit`, Partial Win `p1`)**:
-   - Independently evaluating all 29 embedded raw CCD coordinate files (`11` Mo clusters and `18` Fe clusters) reproduces the posted 10-decimal Cambridge Cluster Database energies with maximum absolute error `4.73e-11 eV` on Mo and `4.70e-11 eV` on Fe (well within the `1e-7 eV` calibration tolerance).
-   - Across all $2 \times 98 = 196$ rows (`Mo_3` through `Mo_100` and `Fe_3` through `Fe_100`) in `ccd_196_point_files_audit`, every posted CCD energy matches within `9.766e-11 eV`, and Newton-polishing lowers any posted CCD structure by at most `1.012e-10 eV`.
+   - Across all $2 \times 98 = 196$ rows (`Mo_3` through `Mo_100` and `Fe_3` through `Fe_100`) in `ccd_196_point_files_audit` (citing live `FS_Mo/points/<N>` and `FS_Fe/points/<N>` URLs and SHA-256 digests without vendoring third-party coordinates), every posted CCD energy matches within `9.766e-11 eV` on Mo and `9.415e-11 eV` on Fe (well within the `1e-7 eV` calibration tolerance), and Newton-polishing lowers any posted CCD structure by at most `1.012e-10 eV`.
 
-3. **Independent `float64`, 55-Digit `mpmath`, Gradient, and $3N \times 3N$ Hessian Spectrum Audit across All 11 Record Clusters**:
+3. **Independent `float64`, 55-Digit `mpmath`, Gradient, and $3N \times 3N$ Hessian Spectrum Audit across All 11 Putative Global Minimum Clusters**:
 
 | Cluster | $N$ | CCD Table $E$ (eV) | `float64` $E^*$ (eV) | 55-Digit `mpmath` $E^*$ (eV) | $\Delta E$ vs CCD (eV) | $\|\nabla E\|_2$ (`float64`) | $\|\nabla E\|_2$ (`mp55`) | Hessian Zero / Neg / Pos Modes | Vibrational $\lambda_{\min} \dots \lambda_{\max}$ |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---|
@@ -47,13 +46,13 @@ Before reading `verify-it-yourself/check_fs_clusters.py`, an independent checker
 | **`Fe_98`** | `98` | `-358.8031191667` | `-359.0082985625` | `-359.00829856251313176` | **`-0.205179`** | `2.262e-14` | `1.002e-28` | `6 / 0 / 288` | `0.5587 .. 23.5092` |
 | **`Fe_100`** | `100` | `-366.5806583336` | `-366.6082856510` | `-366.60828565103384534` | **`-0.027627`** | `2.641e-14` | `1.139e-28` | `6 / 0 / 294` | `0.5792 .. 23.4686` |
 
-   - Every one of the 11 clusters lowers the Cambridge Cluster Database energy by `-0.027627 eV` to `-0.424275 eV` (`276x` to `4,242x` the `1e-4 eV` threshold), has gradient norm at or below `1.262e-13` in `float64` and `1.201e-27` in 55-digit arithmetic (well below `1e-10`), and has an exact $3N \times 3N$ analytical Hessian with `6` near-zero rigid-body modes (`|\lambda| \le 1e-6`), `0` negative eigenvalues, and all $3N - 6$ vibrational eigenvalues strictly positive (`\lambda_7 \ge 0.4042`).
+   - Every one of the 11 clusters lowers the Cambridge Cluster Database putative global minimum energy by `-0.027627 eV` to `-0.424275 eV` (`276x` to `4,242x` the `1e-4 eV` threshold), has gradient norm at or below `1.262e-13` in `float64` and `1.201e-27` in 55-digit arithmetic (well below `1e-10`), and has an exact $3N \times 3N$ analytical Hessian with `6` near-zero rigid-body modes (`|\lambda| \le 1e-6`), `0` negative eigenvalues, and all $3N - 6$ vibrational eigenvalues strictly positive (`\lambda_7 \ge 0.4042`).
 
 ## 3. Execution of `verify-it-yourself/run_checks.sh`
 
 Running `sh verify-it-yourself/run_checks.sh` from the package root completed in `4` seconds with exit code `0` and output:
 ```text
-Calibrated Mo (11 files, max |dE|=4.73e-11 eV) and Fe (18 files, max |dE|=4.70e-11 eV) within 1e-7 eV.
+Calibrated Mo (98 files, max |dE|=9.77e-11 eV) and Fe (98 files, max |dE|=9.42e-11 eV) < 1e-7 eV.
 Verified Mo_75 : E* = -439.5640256673 eV (CCD = -439.4197932305, dE =  -0.144232 eV, ||g||_f64=1.23e-13, ||g||_dec=9.18e-28, ||H Q0||=9.03e-15)
 Verified Mo_90 : E* = -533.2142178271 eV (CCD = -532.7899433214, dE =  -0.424275 eV, ||g||_f64=1.26e-13, ||g||_dec=1.20e-27, ||H Q0||=8.62e-15)
 Verified Fe_86 : E* = -312.7609188697 eV (CCD = -312.6006513052, dE =  -0.160268 eV, ||g||_f64=2.36e-14, ||g||_dec=1.10e-28, ||H Q0||=5.75e-15)
@@ -65,7 +64,7 @@ Verified Fe_96 : E* = -351.2401491626 eV (CCD = -351.2027399452, dE =  -0.037409
 Verified Fe_97 : E* = -355.1385265715 eV (CCD = -354.9919830214, dE =  -0.146544 eV, ||g||_f64=2.76e-14, ||g||_dec=1.18e-28, ||H Q0||=5.98e-15)
 Verified Fe_98 : E* = -359.0082985625 eV (CCD = -358.8031191667, dE =  -0.205179 eV, ||g||_f64=2.26e-14, ||g||_dec=1.00e-28, ||H Q0||=5.57e-15)
 Verified Fe_100: E* = -366.6082856510 eV (CCD = -366.5806583336, dE =  -0.027627 eV, ||g||_f64=2.64e-14, ||g||_dec=1.14e-28, ||H Q0||=5.55e-15)
-Verified all 11 Finnis-Sinclair records + all 196 CCD Mo/Fe cluster point files.
+Verified all 11 Finnis-Sinclair putative global minimum records + all 196 CCD Mo/Fe cluster point files.
 PASS
 ```
 

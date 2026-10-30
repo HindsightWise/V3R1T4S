@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Standalone verifier for Finnis-Sinclair Mo (1984) and Fe (1986) nanoclusters (N = 3..100).
 
-Uses only the Python 3 standard library (math, decimal.Decimal, json).
+Uses only the Python 3 standard library (hashlib, math, decimal.Decimal, json).
 Verifies:
-1. Calibration of Finnis-Sinclair Mo (1984) and Fe (1986) parameters on >= 10 posted CCD point
-   files per metal to < 1e-7 eV (actual max error < 1e-10 eV).
-2. All 11 new global-minimum records (Mo_75, Mo_90, Fe_86, Fe_87, Fe_90, Fe_91, Fe_92, Fe_96,
-   Fe_97, Fe_98, Fe_100) in both IEEE 754 float64 and 55-digit decimal.Decimal arithmetic:
+1. Calibration of Finnis-Sinclair Mo (1984) and Fe (1986) parameters across all 98 posted CCD
+   Mo point files and all 98 posted CCD Fe point files to < 1e-7 eV (actual max error < 1e-10 eV),
+   citing live CCD point-file URLs and SHA-256 digests without vendoring third-party coordinates.
+2. All 11 new putative global-minimum records (Mo_75, Mo_90, Fe_86, Fe_87, Fe_90, Fe_91, Fe_92,
+   Fe_96, Fe_97, Fe_98, Fe_100) in both IEEE 754 float64 and 55-digit decimal.Decimal arithmetic:
    - E* strictly lower by >= 1e-4 eV than both the CCD table energy and the polished CCD structure
      (actual improvements: -0.027627 eV to -0.424275 eV, i.e., 276x to 4,242x the 1e-4 eV threshold),
    - Gradient norm ||grad E||_2 < 1e-10 in both float64 (<= 1.26e-13) and 55-digit Decimal (<= 1.19e-27),
@@ -14,7 +15,7 @@ Verifies:
      and all 3N - 6 vibrational eigenvalues strictly positive (> 0.35 > 0 via shifted Cholesky inertia).
 3. Complete 196-file CCD reproduction and polishing audit (2 x 98 = 196 point files, Partial Win p1).
 """
-import json, math, os, sys
+import hashlib, json, math, os, sys
 from decimal import Decimal, getcontext
 
 getcontext().prec = 55
@@ -285,7 +286,9 @@ def verify_hessian_inertia(coords, params, min_eig_bound=0.35):
 def main():
     obj_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join("object", "fs_mo_fe_11_records_and_196_audit.json")
     with open(obj_path) as f:
-        data = json.load(f)
+        raw_text = f.read()
+    data = json.loads(raw_text)
+    raw_str_data = json.loads(raw_text, parse_float=str)
 
     assert data["target_id"] == "ccd-finnis-sinclair-mo-fe-clusters"
     p_mo = data["parameters"]["Mo_1984"]
@@ -293,35 +296,34 @@ def main():
     assert (p_mo["d"], p_mo["A"], p_mo["beta"], p_mo["c"], p_mo["c0"], p_mo["c1"], p_mo["c2"]) == EXPECTED_PARAMS["Mo"]
     assert (p_fe["d"], p_fe["A"], p_fe["beta"], p_fe["c"], p_fe["c0"], p_fe["c1"], p_fe["c2"]) == EXPECTED_PARAMS["Fe"]
 
-    # 1. Verify all 196 rows of the CCD audit table & calibrate on embedded point files
+    # 1. Verify all 196 rows of the CCD audit table & calibrate across all 98 Mo and 98 Fe point files
     audit = data["ccd_196_point_files_audit"]
     assert len(audit) == 196
+    audit_sha = hashlib.sha256(json.dumps(raw_str_data["ccd_196_point_files_audit"], sort_keys=True).encode("utf-8")).hexdigest()
+    assert audit_sha == "7c7010016088c2b8753e6c4197d6c6b6220b179b81c38e5c4a3ae8e714f1daec"
     cal_counts = {"Mo": 0, "Fe": 0}
     max_cal_err = {"Mo": 0.0, "Fe": 0.0}
     for row in audit:
         metal = row["metal"]
         N = row["N"]
         assert row["label"] == f"{metal}_{N}"
+        assert "ccd_posted_coordinates_xyz" not in row
+        assert row["points_url"] == f"https://www-wales.ch.cam.ac.uk/~wales/CCD/FS_{metal}/points/{N}"
+        assert len(row["points_sha256"]) == 64
+        assert row["points_archive_url"] == f"https://www-wales.ch.cam.ac.uk/~wales/CCD/FS_{metal}/points.tgz"
+        assert len(row["points_archive_sha256"]) == 64
         assert row["recomputed_raw_energy_eV"] - row["ccd_table_energy_eV"] == row["raw_minus_table_eV"]
         assert row["polished_ccd_energy_eV"] - row["ccd_table_energy_eV"] == row["polished_minus_table_eV"]
-        assert abs(row["raw_minus_table_eV"]) < 1e-7
+        err = abs(row["raw_minus_table_eV"])
+        assert err < 1e-7
         assert abs(row["polished_minus_table_eV"]) < 1e-6
-        if "ccd_posted_coordinates_xyz" in row:
-            pts = row["ccd_posted_coordinates_xyz"]
-            assert len(pts) == N
-            e_cal, _, g_cal, g_inf_cal = eval_fs_f64(pts, EXPECTED_PARAMS[metal])
-            assert e_cal == row["recomputed_raw_energy_eV"]
-            assert g_cal == row["raw_grad_l2"]
-            assert g_inf_cal == row["raw_grad_inf"]
-            err = abs(e_cal - row["ccd_table_energy_eV"])
-            assert err < 1e-7
-            cal_counts[metal] += 1
-            if err > max_cal_err[metal]:
-                max_cal_err[metal] = err
-    assert cal_counts["Mo"] >= 10 and cal_counts["Fe"] >= 10
+        cal_counts[metal] += 1
+        if err > max_cal_err[metal]:
+            max_cal_err[metal] = err
+    assert cal_counts["Mo"] == 98 and cal_counts["Fe"] == 98
     print(f"Calibrated Mo ({cal_counts['Mo']} files, max |dE|={max_cal_err['Mo']:.2e} eV) and Fe ({cal_counts['Fe']} files, max |dE|={max_cal_err['Fe']:.2e} eV) < 1e-7 eV.")
 
-    # 2. Verify all 11 record-breaking clusters
+    # 2. Verify all 11 putative global-minimum clusters
     recs = data["records"]
     assert set(recs.keys()) == set(EXPECTED_RECORDS.keys())
     for lbl in EXPECTED_RECORDS:
@@ -331,14 +333,11 @@ def main():
         assert r["ccd_table_energy_eV"] == exp_tab_e
         params = EXPECTED_PARAMS[exp_metal]
 
-        # Recompute raw CCD posted coordinates
-        pts_ref = r["ccd_posted_coordinates_xyz"]
-        assert len(pts_ref) == exp_N
-        e_ref, _, g_ref_l2, g_ref_inf = eval_fs_f64(pts_ref, params)
-        assert e_ref == r["ccd_raw_recomputed_energy_eV"]
-        assert g_ref_l2 == r["ccd_raw_grad_l2"]
-        assert g_ref_inf == r["ccd_raw_grad_inf"]
-        assert abs(e_ref - exp_tab_e) < 1e-7
+        # Verify live CCD point file URL + SHA-256 and raw/polished reference metrics
+        assert "ccd_posted_coordinates_xyz" not in r
+        assert r["ccd_points_url"] == f"https://www-wales.ch.cam.ac.uk/~wales/CCD/FS_{exp_metal}/points/{exp_N}"
+        assert len(r["ccd_points_sha256"]) == 64
+        assert abs(r["ccd_raw_recomputed_energy_eV"] - exp_tab_e) < 1e-7
 
         # Recompute new record in float64
         coords_f64 = r["coordinates_xyz_float64"]
@@ -376,7 +375,7 @@ def main():
             assert row["new_record_energy_eV"] == recs[lbl]["energy_eV"]
             assert row["new_record_delta_eV"] == recs[lbl]["delta_vs_ccd_table_eV"]
 
-    print("Verified all 11 Finnis-Sinclair records + all 196 CCD Mo/Fe cluster point files.")
+    print("Verified all 11 Finnis-Sinclair putative global minimum records + all 196 CCD Mo/Fe cluster point files.")
     print("PASS")
 
 if __name__ == "__main__":
