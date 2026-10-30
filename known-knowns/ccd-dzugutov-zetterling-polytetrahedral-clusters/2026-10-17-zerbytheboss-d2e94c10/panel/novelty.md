@@ -62,7 +62,7 @@ Using Python `urllib.request.urlopen` (single request per URL, zero retries) at 
 
 ## 3. Strict Improvement Verification Across All 20 Claimed Structures
 
-- **Artifact**: `object/dzugutov_zetterling_20_records_and_502_audit.json` (SHA-256 `fa681bfd7a3252d03c7c74a9729d0e8bd16ee2f0cb6a29d94db101bc2ed75e04`, verified via `verify-it-yourself/run_checks.sh`).
+- **Artifact**: `object/dzugutov_zetterling_20_records_and_502_audit.json` (SHA-256 `3797a33831b0b1ff9bfd5e14964e32ec0ce2d2b39b5f5f42d7909f59a5900b96`, verified via `verify-it-yourself/run_checks.sh`).
 - **All 20 Claimed Minima Strictly Beat Live CCD Table Values and Polished Posted Point Files by at least `1e-4` (up to `-0.411479`)**:
   1. **`mDzugutov_74` (`N = 74`)**: `E* = -180.9875532166` vs CCD `-180.982763` (polished: `-180.9827625507`), change **`-0.004790`** (`47.9x` the `1e-4` threshold).
   2. **`mDzugutov_134` (`N = 134`, `p1`)**: `E* = -343.3900404390` vs CCD `-343.386067` (polished: `-343.3860669382`), change **`-0.003973`** (`39.7x` the `1e-4` threshold).

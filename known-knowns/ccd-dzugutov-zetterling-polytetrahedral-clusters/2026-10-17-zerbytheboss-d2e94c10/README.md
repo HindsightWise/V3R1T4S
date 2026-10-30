@@ -10,13 +10,13 @@ Run from this package directory:
 ```sh
 sh verify-it-yourself/run_checks.sh
 ```
-Expected last output line: `PASS: ccd-dzugutov-zetterling-polytetrahedral-clusters verification complete.` (runs in ~10 seconds using only the Python 3 standard library `math`, `decimal.Decimal`, and `json`).
+Expected last output line: `PASS: ccd-dzugutov-zetterling-polytetrahedral-clusters verification complete.` (runs in ~10 seconds using only the Python 3 standard library `hashlib`, `math`, `decimal.Decimal`, and `json`).
 
 ## Compared To
 
 All comparisons are against the Cambridge Cluster Database polytetrahedral tables of J. P. K. Doye, D. J. Wales, S. I. Simdyankin, F. H. M. Zetterling, and M. Dzugutov (*Faraday Discuss.* 118, 159, 2001; *Physical Review Letters* 86, 5719, 2001; *Journal of Chemical Physics* 118, 2792, 2003; `https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Dzugutov/table.html`, `https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/mDzugutov/table.html`, and `https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Zetterling/table.html`, fetched on `2026-10-18T05:10:18Z` and recorded in `the-record-we-beat/snapshot_2026-10-17.md`):
 
-| # | Cluster | Potential | $N$ | New Energy $E^*$ (float64 / 55-digit) | CCD Table Energy | Polished CCD Point File | Improvement $\Delta E$ vs Table | $\|\nabla E\|_2$ (float64) | $\|\nabla E\|_2$ (55-digit) | $\lambda_7(H)$ | Discovery Operator |
+| # | Cluster | Potential | $N$ | New Putative Global Minimum $E^*$ (float64 / 55-digit) | CCD Table Energy | Polished CCD Point File | Improvement $\Delta E$ vs Table | $\|\nabla E\|_2$ (float64) | $\|\nabla E\|_2$ (55-digit) | $\lambda_7(H)$ | Discovery Operator |
 |---:|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|:---|
 | 1 | `mDzugutov_74` | `mDzugutov` | 74 | `-180.9875532166` | `-180.982763` | `-180.9827634219` | **`-0.004790`** | `1.09e-13` | `5.43e-34` | `7.8832` | Downward 1-atom peripheral etch from `mDzugutov_75` |
 | 2 | `mDzugutov_134` | `mDzugutov` | 134 | `-343.3900404390` | `-343.386067` | `-343.3860669414` | **`-0.003973`** (`p1`) | `1.84e-13` | `7.74e-34` | `4.6422` | Downward 1-atom peripheral etch from `mDzugutov_135` |
@@ -41,6 +41,8 @@ All comparisons are against the Cambridge Cluster Database polytetrahedral table
 
 ### Summary of the 502-Cluster Calibration & `p2` Audit
 
+No third-party CCD coordinates are vendored in `object/dzugutov_zetterling_20_records_and_502_audit.json`; every calibration, audit, and record entry cites its live `https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/{Dzugutov/points,mDzugutov/points,Zetterling/Z1points,Zetterling/Z2points}/<N>` URL and SHA-256 digest:
+
 1. **Exact Calibration Across All 4 Potentials (502/502 Point Files within $< 10^{-6}$)**:
    - **`Dzugutov` ($N = 3 \dots 100$, 98 files)**: $V(r) = A(r^{-m} - B)\exp(c/(r-a))\Theta(a-r) + B\exp(d/(r-b))\Theta(b-r)$ with $A=5.82, B=1.280, a=1.87, b=1.94, c=1.10, d=0.27, m=16$. Maximum absolute difference against the live CCD table across all 98 clusters is `4.938e-7 < 1e-6`.
    - **`mDzugutov` ($N = 3 \dots 250$, 248 files)**: Same functional form with $A=3.00, B=2.109, a=1.65, b=1.94, c=0.52, d=0.55, m=4$. Maximum absolute difference against the live CCD table across all 248 clusters is `9.953e-7 < 1e-6`.
@@ -48,8 +50,8 @@ All comparisons are against the Cambridge Cluster Database polytetrahedral table
    - **`Z2` ($N = 3 \dots 80$, 78 files)**: Same functional form with $a=1.04, \alpha=0.33, k_F=4.139, b=4.2\times 10^6, \sigma=0.348, n=14.5$, and third-minimum cutoff $r_c = 2.644877841213031, V_0 = 0.133915425377427$.
 2. **`p2` Finding 1 — 10x Typographical Error in Table I of Doye et al., *J. Chem. Phys.* 118, 2792 (2003) for `Z2`**:
    - Table I of *J. Chem. Phys.* 118, 2792 (2003) prints $b = 4.2 \times 10^7$ for `Z2`, alongside $V_0 = 0.13391543$ and $r_{\text{cutoff}} = 2.64488$. However, evaluating the bare potential at $r_c = 2.644877841213031$ with $b = 4.2 \times 10^7$ yields $-V_{\text{bare}}(r_c) = 0.1335224$, whereas $b = 4.2 \times 10^6$ yields the exact printed shift $V_0 = 0.133915425377427$ and reproduces all 78 posted `Z2` CCD point files within `4.828e-7 < 1e-6`.
-3. **`p2` Finding 2 — Five Corrupted Central-Atom Coordinates in the Live CCD Archive (`Z1_13`, `Z1_25`, `Z1_33`, `Z1_37`, `Z2_25`)**:
-   - Five posted coordinate files in `Z1.tar.gz` and `Z2.tar.gz` on the Cambridge Cluster Database contain a single coordinate on the central atom near $(0,0,0)$ where a Fortran/script formatter stripped the leading `0.000000` prefix, leaving a raw 4-digit integer (`-1466`, `0197`, `-2335`, `6593`, `-1168`):
+3. **`p2` Finding 2 — Five Corrupted Central-Atom Coordinates in the Live CCD Point Files (`Z1_13`, `Z1_25`, `Z1_33`, `Z1_37`, `Z2_25`)**:
+   - Five posted coordinate files under `https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Zetterling/Z1points/` and `Z2points/` on the Cambridge Cluster Database contain a single coordinate on the central atom near $(0,0,0)$ where a Fortran/script formatter stripped the leading `0.000000` prefix, leaving a raw 4-digit integer (`-1466`, `0197`, `-2335`, `6593`, `-1168`):
      - `Z1_13` (atom 13, $y = -1466 \to -1.466\times 10^{-7}$): raw error `+7.060461` $\to$ restored error `-3.285e-7`
      - `Z1_25` (atom 23, $x = 0197 \to +1.970\times 10^{-8}$): raw error `+7.204198` $\to$ restored error `-1.751e-7`
      - `Z1_33` (atom 33, $x = -2335 \to -2.335\times 10^{-7}$): raw error `+7.669487` $\to$ restored error `+1.838e-7`

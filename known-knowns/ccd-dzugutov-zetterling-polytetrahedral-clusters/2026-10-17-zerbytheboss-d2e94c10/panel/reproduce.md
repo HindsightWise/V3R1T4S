@@ -4,7 +4,7 @@ context: subagent (fresh invocation)
 target_id: ccd-dzugutov-zetterling-polytetrahedral-clusters
 cells: mDzugutov_74, mDzugutov_134, mDzugutov_177, mDzugutov_241, Z1_38, Z1_42, Z1_44, Z1_54, Z1_65, Z1_67, Z1_68, Z1_74, Z1_75, Z1_76, Z2_35, Z2_43, Z2_56, Z2_59, Z2_69, Z2_80
 file: object/dzugutov_zetterling_20_records_and_502_audit.json
-sha256: fa681bfd7a3252d03c7c74a9729d0e8bd16ee2f0cb6a29d94db101bc2ed75e04
+sha256: 3797a33831b0b1ff9bfd5e14964e32ec0ce2d2b39b5f5f42d7909f59a5900b96
 
 ## 1. Quoted Mathematical Definitions (Dzugutov, Modified-Dzugutov, and Zetterling-Dzugutov Z1/Z2 Pair Potentials)
 
@@ -30,11 +30,11 @@ Before reading `verify-it-yourself/check_dzugutov_clusters.py`, an independent c
 
 ## 2. Independent Verification Results on `object/dzugutov_zetterling_20_records_and_502_audit.json`
 
-1. **Calibration on 48 Embedded Point Files & 502-Cluster CCD Audit (`ccd_502_point_files_audit`, Partial Win `p2`)**:
-   - Independently evaluating all 48 embedded calibration cluster coordinate sets (`12` per potential across `Dzugutov`, `mDzugutov`, `Z1`, and `Z2`) reproduces the live 6-decimal Cambridge Cluster Database table energies with maximum absolute difference `4.587e-7` (`Dzugutov`), `4.797e-7` (`mDzugutov`), `4.761e-7` (`Z1`), and `4.669e-7` (`Z2`), all well within `1e-6`.
+1. **Calibration on 48 Point Files & 502-Cluster CCD Audit (`ccd_502_point_files_audit`, Partial Win `p2`)**:
+   - Independently evaluating all 48 calibration cluster entries (`12` per potential across `Dzugutov`, `mDzugutov`, `Z1`, and `Z2`, citing live CCD point-file URLs and SHA-256 digests without vendoring third-party coordinates) reproduces the live 6-decimal Cambridge Cluster Database table energies with maximum absolute difference `4.587e-7` (`Dzugutov`), `4.797e-7` (`mDzugutov`), `4.761e-7` (`Z1`), and `4.669e-7` (`Z2`), all well within `1e-6`.
    - Across all 502 posted point files (`98` `Dzugutov` $N = 3 \dots 100$, `248` `mDzugutov` $N = 3 \dots 250$, `78` `Z1` $N = 3 \dots 80$, and `78` `Z2` $N = 3 \dots 80$) in `ccd_502_point_files_audit`, restoring the 5 truncated origin tokens (`Z1_13`, `Z1_25`, `Z1_33`, `Z1_37`, `Z2_25`) leaves `0` unreproduced rows and maximum deviation `9.953e-7` (under `1e-6`).
 
-2. **Independent `float64`, 55-Digit `mpmath`, Distinct-Basin, Gradient, and $3N \times 3N$ Hessian Spectrum Audit across All 20 Record Clusters**:
+2. **Independent `float64`, 55-Digit `mpmath`, Distinct-Basin, Gradient, and $3N \times 3N$ Hessian Spectrum Audit across All 20 Putative Global Minimum Clusters**:
 
 | # | Cluster | Potential | $N$ | CCD Table $E$ | Polished CCD $E$ | `float64` / 55-Digit $E^*$ | $\Delta E$ vs Table | $\|\nabla E\|_2$ (`float64`) | $\|\nabla E\|_2$ (`mp55`) | Hessian Zero / Neg / Pos Modes | Vibrational $\lambda_7 \dots \lambda_{\max}$ |
 |---:|:---|:---|---:|---:|---:|---:|---:|---:|---:|---|---|

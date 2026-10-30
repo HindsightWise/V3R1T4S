@@ -8,7 +8,7 @@ confirmed_scope: Twenty 3D polytetrahedral cluster configurations in object/dzug
 
 1. **Per-Potential Calibration Across All Four Tables (`1e-6` Requirement)**:
    - The target requires calibrating the exact potential parameters used for each table by reproducing at least ten posted point-file energies to within `1e-6`.
-   - The verifier calibrates `12` embedded point files per potential across `Dzugutov`, `mDzugutov`, `Z1`, and `Z2`, and audits all `502` posted point files (`98` `Dzugutov`, `248` `mDzugutov`, `78` `Z1`, and `78` `Z2`), reproducing every single table energy (after restoring the 5 formatted-stripped central-atom coordinates on `Z1`/`Z2`) within `9.953e-7` (strictly below `1e-6`).
+   - The verifier calibrates `12` point files per potential across `Dzugutov`, `mDzugutov`, `Z1`, and `Z2` (citing live CCD point-file URLs and SHA-256 digests without vendoring third-party coordinates), and audits all `502` posted point files (`98` `Dzugutov`, `248` `mDzugutov`, `78` `Z1`, and `78` `Z2`), reproducing every single table energy (after restoring the 5 formatted-stripped central-atom coordinates on `Z1`/`Z2`) within `9.953e-7` (strictly below `1e-6`).
 
 2. **Full Success Criterion — 20 New Putative Global Minima (`E*` Lower by at Least `1e-4`)**:
    - Across `mDzugutov` (`4` clusters), `Z1` (`10` clusters), and `Z2` (`6` clusters), all `20` reported 3D cluster configurations achieve energies strictly lower by at least `1e-4` than the live Cambridge Cluster Database tables and the literature:
