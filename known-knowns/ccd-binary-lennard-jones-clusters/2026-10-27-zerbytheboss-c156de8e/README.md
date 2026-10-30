@@ -29,11 +29,10 @@ All comparisons are against the authoritative Cambridge Cluster Database (CCD) s
 | Adjacent-Ratio & N+/-1 Transplants | Certified minima beating canonical archive | 7 clusters (N=71, 77, 87, 94, 95, 98, 99) with ||grad V|| < 1e-10, 0 negative Hessian modes, beating all.tar by up to +1.9078 | Verified |
 
 ## Not Claimed
-- We do not claim a new physical global minimum beating all hosted archives on an unvisited cell within ratios 1.05..1.30; this package delivers partial wins `p2` (600-cell merged audit), `p3` (certified frontier at ratio 1.50), and 7 certified transplanted local minima beating the canonical `all.tar` archive.
-- In accordance with the user's standing instructions, Draft PR #799 remains in `DRAFT` status pending any potential future global minimum solution claim.
+- We do not claim a new putative global minimum beating all hosted archives on an unvisited cell within ratios 1.05..1.30; this package delivers partial wins `p2` (600-cell merged audit), `p3` (certified frontier at ratio 1.50), and 7 certified transplanted local minima beating the canonical `all.tar` archive.
 
 ## Credits
-- Contributor: `HindsightWise`.
+- Contributor: `Zerbytheboss` (GitHub account `HindsightWise` is operated by `Zerbytheboss`).
 - Jonathan Doye and Lars Meyer (PRL 2005) for the original binary Lennard-Jones cluster benchmark.
 - David Wales and the Cambridge Cluster Database team (https://www-wales.ch.cam.ac.uk/CCD.html) for hosting the data archives.
 - Huang Wenqi, Ye Tao, Istvan Kolossvary, Andrea Cassioli, Marco Locatelli, Fabio Schoen, Wayne Pullan, Stephan Mohr, and Stefan Goedecker for published cluster structures.
