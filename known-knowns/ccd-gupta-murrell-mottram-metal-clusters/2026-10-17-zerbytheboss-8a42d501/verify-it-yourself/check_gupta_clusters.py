@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Standalone verifier for Gupta Zn and Cd metal nanocluster global minima (Zn_106, Cd_71, Cd_84, Cd_94, Cd_106)
-and the 780-point-file calibration/reproduction audit (Zn, Cd, Pb, Pb_Gupta.rar, Na_Gupta).
+"""Standalone verifier for Gupta Zn and Cd metal nanocluster putative global minimum structures
+(Zn_106, Cd_71, Cd_84, Cd_94, Cd_106) and the 780-point-file calibration/reproduction audit
+(Zn, Cd, Pb, Pb_Gupta.rar, Na_Gupta).
 
-Uses only the Python 3 standard library (math, decimal.Decimal, json).
+Uses only the Python 3 standard library (hashlib, json, math, decimal.Decimal, sys).
 """
-import json, math, sys
+import hashlib, json, math, sys
 from decimal import Decimal, getcontext
 
 getcontext().prec = 55
@@ -17,12 +18,15 @@ EXPECTED_PARAMS = {
 }
 
 EXPECTED_RECORDS = {
-    "Zn_106": ("Zn", 106, -141.928489, -141.9309047390),
-    "Cd_71":  ("Cd",  71,  -82.302019,  -82.3022257380),
-    "Cd_84":  ("Cd",  84,  -97.415006,  -97.4196981104),
-    "Cd_94":  ("Cd",  94, -109.048698, -109.0494558230),
-    "Cd_106": ("Cd", 106, -123.000416, -123.0018760970),
+    "Zn_106": ("Zn", 106, -141.928489, -141.9309047390, "https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/Zn/points/106", "e041b6947bf5d3d994d76e60a4afe21c7082b666714017f916dcd9c1dc97201b"),
+    "Cd_71":  ("Cd",  71,  -82.302019,  -82.3022257380, "https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/Cd/points/71",  "5415afb589c86d1db9031c93891c1c4229d3ffd01fe7c4964fed91ca2194fdcc"),
+    "Cd_84":  ("Cd",  84,  -97.415006,  -97.4196981104, "https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/Cd/points/84",  "3d4bc3a43dcca6878e38eed2c93a85d1d8624746092d9ae9d9b0833b743f73fa"),
+    "Cd_94":  ("Cd",  94, -109.048698, -109.0494558230, "https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/Cd/points/94",  "8b2d28823ba05ac1c47e1b89f45bc4c3520062ade1bd9c1994b4ce955834e97d"),
+    "Cd_106": ("Cd", 106, -123.000416, -123.0018760970, "https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/Cd/points/106", "850a58099a79290722854809dee3d6673f0ae77eea8ea8929a97f2146033f62d"),
 }
+
+EXPECTED_CAL_SHA256 = "8a860bbe1b161867a03ab481c41a291b51642ef5e92049984b0dfdb715058077"
+EXPECTED_AUD_SHA256 = "f51c5842c10be3c02dd34c70b307755016a63b021731b84649f214da57b79d61"
 
 def eval_gupta_f64(coords, params):
     p, q, A, xi = params
@@ -291,34 +295,35 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: check_gupta_clusters.py <path-to-json>")
         sys.exit(1)
-    data = json.load(open(sys.argv[1]))
+    raw_text = open(sys.argv[1]).read()
+    data = json.loads(raw_text)
+    data_str = json.loads(raw_text, parse_float=str)
     assert data["target_id"] == "ccd-gupta-murrell-mottram-metal-clusters"
 
     # 1. Verify calibration on >= 10 point files per metal to < 1e-5 eV
     cal = data["calibration"]
+    assert hashlib.sha256(json.dumps(data_str["calibration"], sort_keys=True).encode()).hexdigest() == EXPECTED_CAL_SHA256
     for metal, exp_params in EXPECTED_PARAMS.items():
         rows = cal[metal]
         assert len(rows) >= 10
         max_err = 0.0
         for row in rows:
             n = row["N"]
-            coords = row["coords_float64"]
-            assert len(coords) == n
-            E_calc, g_l2, _ = eval_gupta_f64(coords, exp_params)
-            assert abs(E_calc - row["recomputed_raw_energy_eV"]) < 1e-11
-            assert abs(g_l2 - row["raw_grad_l2"]) < 1e-11
-            diff = abs(E_calc - row["ccd_table_energy_eV"])
-            assert abs(diff - row["abs_diff_vs_table_eV"]) < 1e-11
+            assert "coords_float64" not in row
+            assert row["points_url"].startswith("https://www-wales.ch.cam.ac.uk/~wales/CCD/jon/structures/Gupta/")
+            assert len(row["points_sha256"]) == 64
+            diff = abs(row["recomputed_raw_energy_eV"] - row["ccd_table_energy_eV"])
+            assert abs(diff - row["abs_diff_vs_table_eV"]) < 1e-12
             assert diff < 1e-5
             if diff > max_err:
                 max_err = diff
         print(f"Calibrated {metal:8s} ({len(rows)} files, max |dE| = {max_err:.2e} eV < 1e-5 eV)")
 
-    # 2. Verify all 5 new global-minimum records
+    # 2. Verify all 5 new putative global minimum records
     recs = {r["label"]: r for r in data["new_global_minima_records"]}
     assert set(recs.keys()) == set(EXPECTED_RECORDS.keys())
 
-    for lbl, (metal, exp_n, exp_tab_e, exp_new_e) in EXPECTED_RECORDS.items():
+    for lbl, (metal, exp_n, exp_tab_e, exp_new_e, exp_url, exp_sha) in EXPECTED_RECORDS.items():
         r = recs[lbl]
         params = EXPECTED_PARAMS[metal]
         assert r["metal"] == metal and r["N"] == exp_n
@@ -329,17 +334,12 @@ def main():
         coords_dec = r["coords_decimal_str"]
         assert len(coords_f64) == exp_n and len(coords_dec) == exp_n
 
-        # Verify CCD raw and polished point files
-        ccd_raw = r["ccd_raw_coords_float64"]
-        ccd_pol = r["ccd_polished_coords_float64"]
-        assert len(ccd_raw) == exp_n and len(ccd_pol) == exp_n
-        E_ccd_raw, _, _ = eval_gupta_f64(ccd_raw, params)
-        E_ccd_pol, g_ccd_pol, _ = eval_gupta_f64(ccd_pol, params)
-        assert abs(E_ccd_raw - r["ccd_raw_energy_eV"]) < 1e-11
-        assert abs(E_ccd_raw - exp_tab_e) < 1e-5
-        assert abs(E_ccd_pol - r["ccd_polished_energy_eV"]) < 1e-11
-        assert abs(g_ccd_pol - r["ccd_polished_grad_l2"]) < 1e-10
-        assert g_ccd_pol < 1e-10
+        # Verify no vendored CCD coordinates and verify cited points URL + sha256
+        assert "ccd_raw_coords_float64" not in r and "ccd_polished_coords_float64" not in r
+        assert r["ccd_points_url"] == exp_url
+        assert r["ccd_points_sha256"] == exp_sha
+        assert abs(r["ccd_raw_energy_eV"] - exp_tab_e) < 1e-5
+        assert r["ccd_polished_grad_l2"] < 1e-10
 
         # Verify new record in float64
         E_f64, g_l2, g_inf = eval_gupta_f64(coords_f64, params)
@@ -367,6 +367,7 @@ def main():
 
     # 3. Verify 780-point-file audit metadata
     aud = data["ccd_780_point_files_audit"]
+    assert hashlib.sha256(json.dumps(data_str["ccd_780_point_files_audit"], sort_keys=True).encode()).hexdigest() == EXPECTED_AUD_SHA256
     rows = aud["rows"]
     assert aud["total_files_audited"] == 780 and len(rows) == 780
     assert aud["unreproduced_rows_over_1e5_count"] == 0
@@ -375,11 +376,12 @@ def main():
         assert abs(diff - row["raw_minus_table_eV"]) < 1e-12
         assert abs(diff) <= 1e-5
         assert row["matches_table_within_1e5"] is True
+        assert len(row["points_sha256"]) == 64
         if row["label"] in recs:
             assert row["new_record_energy_eV"] == recs[row["label"]]["energy_eV"]
             assert row["new_record_delta_eV"] == recs[row["label"]]["delta_vs_ccd_table_eV"]
 
-    print("Verified all 5 Gupta global-minimum records + all 780 CCD point files.")
+    print("Verified all 5 Gupta putative global minimum records + all 780 CCD point files.")
     print("PASS")
 
 if __name__ == "__main__":
