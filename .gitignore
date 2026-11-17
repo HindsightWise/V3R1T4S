@@ -67,3 +67,6 @@ oauth_creds.json
 *credentials*.json
 *.pem
 *.key
+
+# --- Sovereign Auto-Save Sieve (Auto-Managed) ---
+.lake/
